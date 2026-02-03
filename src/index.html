@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Workouts</a></li>
+                <li><a href="#contact">exercise plans</a></li>
+            </ul>
+    </header>
+
+<section id="generate-workout" class="card">
+  <h2 class="section-heading">Generate Workout</h2>
+  <p class="section-subtitle">
+    Select a muscle group and generate a random workout
+  </p>
+
+  <section class="generate-controls">
+    <input
+      type="text"
+      id="workout-input"
+      placeholder="Example: Legs"
+    />
+    <button class="btn-accent" id="generate-btn">
+      Generate
+    </button>
+</section>
+
+  <ul id="workout-list">
+    <p class="workout-title">EXAMPLE WORKOUT</p>
+    <li class="workout-item">Squats</li>
+    <li class="workout-item">Lunges</li>
+    <li class="workout-item">Leg Press</li>
+  </ul>
+</section>
+</body>
+</html>
