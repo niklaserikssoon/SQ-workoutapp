@@ -1,0 +1,415 @@
+[
+  {
+    "id": 1,
+    "name": "Bench Press",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 2,
+    "name": "Incline Dumbbell Press",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 3,
+    "name": "Cable Flyes",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "cable",
+    "level": "beginner"
+  },
+  {
+    "id": 4,
+    "name": "Push-Ups",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "bodyweight",
+    "level": "beginner"
+  },
+
+  {
+    "id": 5,
+    "name": "Squats",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 6,
+    "name": "Leg Press",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "machine",
+    "level": "beginner"
+  },
+  {
+    "id": 7,
+    "name": "Lunges",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "bodyweight",
+    "level": "beginner"
+  },
+  {
+    "id": 8,
+    "name": "Romanian Deadlift",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "barbell",
+    "level": "advanced"
+  },
+
+  {
+    "id": 9,
+    "name": "Deadlift",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "advanced"
+  },
+  {
+    "id": 10,
+    "name": "Lat Pulldown",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "machine",
+    "level": "beginner"
+  },
+  {
+    "id": 11,
+    "name": "Pull-Ups",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "bodyweight",
+    "level": "intermediate"
+  },
+  {
+    "id": 12,
+    "name": "Barbell Row",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+
+  {
+    "id": 13,
+    "name": "Shoulder Press",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 14,
+    "name": "Lateral Raises",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 15,
+    "name": "Front Raises",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+
+  {
+    "id": 16,
+    "name": "Bicep Curls",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 17,
+    "name": "Hammer Curls",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 18,
+    "name": "Tricep Dips",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "bodyweight",
+    "level": "intermediate"
+  },
+  {
+    "id": 19,
+    "name": "Tricep Pushdown",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "cable",
+    "level": "beginner"
+  },
+
+  {
+    "id": 20,
+    "name": "Plank",
+    "category": "core",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "level": "beginner"
+  },
+  {
+    "id": 21,
+    "name": "Hanging Leg Raises",
+    "category": "core",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "level": "advanced"
+  },
+  {
+    "id": 22,
+    "name": "Russian Twists",
+    "category": "core",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "level": "beginner"
+  },
+  {
+    "id": 23,
+    "name": "Chest Dips",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "bodyweight",
+    "level": "intermediate"
+  },
+  {
+    "id": 24,
+    "name": "Pec Deck Machine",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "machine",
+    "level": "beginner"
+  },
+  {
+    "id": 25,
+    "name": "Decline Bench Press",
+    "category": "chest",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "advanced"
+  },
+
+  {
+    "id": 26,
+    "name": "Bulgarian Split Squats",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "bodyweight",
+    "level": "intermediate"
+  },
+  {
+    "id": 27,
+    "name": "Leg Curls",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "machine",
+    "level": "beginner"
+  },
+  {
+    "id": 28,
+    "name": "Leg Extensions",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "machine",
+    "level": "beginner"
+  },
+  {
+    "id": 29,
+    "name": "Calf Raises",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "bodyweight",
+    "level": "beginner"
+  },
+
+  {
+    "id": 30,
+    "name": "Seated Cable Row",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "cable",
+    "level": "beginner"
+  },
+  {
+    "id": 31,
+    "name": "T-Bar Row",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "advanced"
+  },
+  {
+    "id": 32,
+    "name": "Single Arm Dumbbell Row",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 33,
+    "name": "Face Pulls",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "cable",
+    "level": "beginner"
+  },
+
+  {
+    "id": 34,
+    "name": "Arnold Press",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 35,
+    "name": "Rear Delt Flyes",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 36,
+    "name": "Upright Row",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+
+  {
+    "id": 37,
+    "name": "EZ-Bar Curls",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "beginner"
+  },
+  {
+    "id": 38,
+    "name": "Concentration Curls",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 39,
+    "name": "Skull Crushers",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 40,
+    "name": "Overhead Tricep Extension",
+    "category": "arms",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+
+  {
+    "id": 41,
+    "name": "Cable Crunches",
+    "category": "core",
+    "muscleGroup": "core",
+    "equipment": "cable",
+    "level": "intermediate"
+  },
+  {
+    "id": 42,
+    "name": "Ab Wheel Rollouts",
+    "category": "core",
+    "muscleGroup": "core",
+    "equipment": "ab wheel",
+    "level": "advanced"
+  },
+  {
+    "id": 43,
+    "name": "Mountain Climbers",
+    "category": "core",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "level": "beginner"
+  },
+  {
+    "id": 44,
+    "name": "Hip Thrusts",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 45,
+    "name": "Glute Kickbacks",
+    "category": "legs",
+    "muscleGroup": "lower body",
+    "equipment": "cable",
+    "level": "beginner"
+  },
+  {
+    "id": 46,
+    "name": "Chest Supported Dumbbell Row",
+    "category": "back",
+    "muscleGroup": "upper body",
+    "equipment": "dumbbell",
+    "level": "beginner"
+  },
+  {
+    "id": 47,
+    "name": "Landmine Press",
+    "category": "shoulders",
+    "muscleGroup": "upper body",
+    "equipment": "barbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 48,
+    "name": "Farmer’s Walk",
+    "category": "full body",
+    "muscleGroup": "full body",
+    "equipment": "dumbbell",
+    "level": "intermediate"
+  },
+  {
+    "id": 49,
+    "name": "Burpees",
+    "category": "full body",
+    "muscleGroup": "full body",
+    "equipment": "bodyweight",
+    "level": "advanced"
+  },
+  {
+    "id": 50,
+    "name": "Kettlebell Swings",
+    "category": "full body",
+    "muscleGroup": "full body",
+    "equipment": "kettlebell",
+    "level": "intermediate"
+  }
+]
+
+
+
