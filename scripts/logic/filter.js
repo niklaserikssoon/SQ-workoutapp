@@ -1,3 +1,5 @@
+// logic/filter.js
+
 /* search and filter items function */
 
 export function filterExercises(exercises, searchTerm, category){

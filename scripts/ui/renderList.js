@@ -1,3 +1,4 @@
+// ui/renderList.js
 import { getItems } from './items.js'
 
 export function renderList() {

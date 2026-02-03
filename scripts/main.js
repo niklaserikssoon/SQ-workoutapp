@@ -1,40 +1,44 @@
-import { renderList } from './renderList.js'
+// UI rendering modules
+import { renderList } from './ui/renderList.js';
+import { renderExercises } from './ui/renderExercises.js'
 
-// TEMPORARY: Loading component into the page for testing
+// Storage actions
+import { addTestItem } from './storage/itemsStorage.js';
+
+/**
+ * Loads the HTML component into #app-root
+ * Initializes UI event listeners
+ */
 async function loadComponent() {
-  const response = await fetch('./items-list.html')
-  const html = await response.text()
+  const response = await fetch('./items-list.html');
+  const html = await response.text();
 
-  const root = document.getElementById('app-root')
-  if (root) {
-    root.innerHTML = html
-    renderList()
+  const root = document.getElementById('app-root');
+  if (!root) return; 
+
+  root.innerHTML = html;
+
+  // Button for testing
+  const button = document.getElementById('add-test-item');
+  if (button) {
+    button.addEventListener('click', () => {
+      addTestItem('Workout ' + Math.floor(Math.random() * 100));
+    });
   }
+
+  renderList();
+  renderExercises();
 }
 
-document.addEventListener('DOMContentLoaded', loadComponent)
+// Component is loaded when page is ready 
+document.addEventListener('DOMContentLoaded', loadComponent);
 
 // Auto-refresh when items change
-document.addEventListener('itemsUpdated', renderList)
-window.addEventListener('storage', renderList)
+document.addEventListener('itemsUpdated', renderList);
+document.addEventListener('exercisesUpdated', renderExercises);
 
-import { addTestItem } from './items.js'
-
-async function loadComponent() {
-  const response = await fetch('./items-list.html')
-  const html = await response.text()
-
-  const root = document.getElementById('app-root')
-  if (root) {
-    root.innerHTML = html
-
-    const btn = document.getElementById('add-test-item')
-    if (btn) {
-      btn.addEventListener('click', () => {
-        addTestItem('Workout ' + Math.floor(Math.random() * 100))
-      })
-    }
-
-    renderList()
-  }
-}
+// Sync across browser tabs
+window.addEventListener('storage', () =>{
+  renderList();
+  renderExercises();
+});
