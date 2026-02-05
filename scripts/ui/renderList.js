@@ -1,5 +1,8 @@
 // ui/renderList.js
-import { getItems } from './items.js'
+
+// Renders the list of items in the UI
+
+import { getItems } from '../storage/itemsStorage.js';
 
 export function renderList() {
   const container = document.getElementById('item-list')
