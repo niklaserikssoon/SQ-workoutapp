@@ -1,1 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
+  </head>
+  <body class="drawer-right">
+    <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
+      ☰
+    </button>
 
+    <nav id="side-panel" class="side-panel" aria-hidden="true">
+      <header class="side-panel-header">
+        <h2>Menu</h2>
+      </header>
+
+      <ul class="side-panel-list">
+        <li><button data-nav="list">Show Items</button></li>
+        <li><button data-nav="add">Add Items</button></li>
+        <li><button data-nav="search">Search Items</button></li>
+        <li><button data-nav="settings">Settings</button></li>
+      </ul>
+    </nav>
+
+    <!-- Backdrop for the sidebar -->
+    <section id="side-panel-backdrop"></section>
+
+    <header>
+      <h1>Welcome to My Website</h1>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">Workouts</a></li>
+          <li><a href="#contact">exercise plans</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="generate-workout" class="card">
+      <h2 class="section-heading">Generate Workout</h2>
+      <p class="section-subtitle">
+        Select a muscle group and generate a random workout
+      </p>
+
+      <section class="generate-controls">
+        <input type="text" id="workout-input" placeholder="Example: Legs" />
+        <button class="btn-accent" id="generate-btn">Generate</button>
+      </section>
+
+      <ul id="workout-list">
+        <p class="workout-title">EXAMPLE WORKOUT</p>
+        <li class="workout-item">Squats</li>
+        <li class="workout-item">Lunges</li>
+        <li class="workout-item">Leg Press</li>
+      </ul>
+    </section>
+    <script src="../scripts/side-panel.js"></script>
+  </body>
+</html>

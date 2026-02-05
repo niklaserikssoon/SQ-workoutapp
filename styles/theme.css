@@ -1,0 +1,18 @@
+:root {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f5f5;
+  --color-text: #000000;
+  --color-border: #dddddd;
+  --color-hover: #f0f0f0;
+  --color-overlay: rgba(0, 0, 0, 0.35);
+}
+
+/* Dark mode (not active yet) */
+body.dark-mode {
+  --color-bg: #1e1e1e;
+  --color-bg-alt: #2a2a2a;
+  --color-text: #ffffff;
+  --color-border: #444444;
+  --color-hover: #333333;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+}
