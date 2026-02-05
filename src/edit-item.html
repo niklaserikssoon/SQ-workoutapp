@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Träningsdagbok</title>
+    <title>Träningsapp</title>
     <meta name="description" content="En tillgänglig Träningsapp för att logga och redigera träningspass.">
     <link rel="stylesheet" href="../styles/edit-item.css">
 </head>
@@ -21,20 +21,19 @@
             <form id="workout-form">
                 <input type="hidden" id="workout-id" />
 
-                <div>
-                    <label for="name">Passnamn</label>
-                    <input id="name" type="text" required aria-required="true">
-                </div>
+                <label for="name">Passnamn</label>
+                <input id="name" type="text" required aria-required="true">
 
-                <div>
-                    <label for="duration">Tid (minuter)</label>
-                    <input id="duration" type="number" min="1" required aria-required="true">
-                </div>
+                <label for="name">Välj övning</label>
+                <select id="exercise" required>
+                    <option value="">Övningar</option>
+                </select>
 
-                <div>
-                    <label for="notes">Anteckningar</label>
-                    <textarea id="notes" rows="3"></textarea>
-                </div>
+                <label for="duration">Tid (minuter)</label>
+                <input id="duration" type="number" min="1" required aria-required="true">
+
+                <label for="notes">Anteckningar</label>
+                <textarea id="notes" rows="3"></textarea>
 
                 <button type="submit">Spara träningspass</button>
             </form>
@@ -50,6 +49,7 @@
         <p>&copy; 2026 Träningsapp</p>
     </footer>
 
+    <script src="../scripts/storage/exercisesStorage.js"></script>
     <script src="../scripts/storage/workoutStorage.js"></script>
     <script src="../scripts/ui/renderWorkouts.js"></script>
 </body>

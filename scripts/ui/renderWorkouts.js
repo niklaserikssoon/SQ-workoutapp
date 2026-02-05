@@ -1,8 +1,10 @@
+const { loadExercises, getExercises, deleteExercise} = window.exerciseService;
 const { getWorkouts, addWorkout, updateWorkout, getWorkoutById} = window.workoutService;
 
 const form = document.getElementById("workout-form");
 const list = document.getElementById("workout-list");
 const status = document.getElementById("status");
+const exerciseSelect = document.getElementById("exercise");
 
 const nameInput = document.getElementById("name");
 const durationInput = document.getElementById("duration");
@@ -10,56 +12,83 @@ const notesInput = document.getElementById("notes");
 const idInput = document.getElementById("workout-id");
 const submitBtn = form.querySelector("button");
 
-function renderWorkouts() {
-    list.innerHTML = "";
-
-    const workouts = getWorkouts();
-
-    if (workouts.length === 0) {
-        list.innerHTML = `<li role="status">Inga träningspass ännu</li>`;
-        return;
-    }
-
-    workouts.forEach((workout) => {
-        const li = document.createElement("li");
-        li.tabIndex = 0;
-
-        li.innerHTML = `
-<span>
-    <strong>${workout.name}</strong> – ${workout.duration} min
-</span>
-<button
-    class="edit-btn"
-    data-id="${workout.id}"
-    aria-label="Redigera ${workout.name}">
-    Redigera
-</button>
-`;
-
-        list.appendChild(li);
+async function renderExercises() {
+    await loadExercises();
+    // Clear dropdown
+    exerciseSelect.innerHTML = `<option value="">Välj övning</option>`;
+    getExercises().forEach((exercise) => {
+        const option = document.createElement("option");
+        option.value = exercise.id;
+        option.textContent = exercise.name;
+        exerciseSelect.appendChild(option);
     });
 }
 
+function renderWorkouts() {
+  list.innerHTML = "";
+
+  const workouts = getWorkouts();
+
+  if (workouts.length === 0) {
+    list.innerHTML = `<li role="status">Inga träningspass ännu</li>`;
+    return;
+  }
+
+  workouts.forEach((workout) => {
+    const li = document.createElement("li");
+    li.tabIndex = 0;
+
+    const exerciseId = workout.exercises?.[0]?.exerciseId;
+    const exercise = exerciseId ? getExerciseById(exerciseId) : null;
+
+    li.innerHTML = `
+      <span>
+        <strong>${workout.name}</strong> – ${workout.duration} min<br>
+        <em>${exercise?.name || "Ingen övning vald"}</em>
+      </span>
+      <button
+        class="edit-btn"
+        data-id="${workout.id}"
+        aria-label="Redigera ${workout.name}">
+        Redigera
+      </button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
 form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const workout = {
-        id: idInput.value || crypto.randomUUID(),
-        name: nameInput.value.trim(),
-        duration: Number(durationInput.value),
-        notes: notesInput.value.trim(),
-    };
+  if (!exerciseSelect.value) {
+    announce("Välj en övning");
+    exerciseSelect.focus();
+    return;
+  }
 
-    if (idInput.value) {
-        updateWorkout(workout);
-        announce("Träningspass uppdaterat");
-    } else {
-        addWorkout(workout);
-        announce("Träningspass sparat");
-    }
+  const workout = {
+    id: idInput.value || crypto.randomUUID(),
+    name: nameInput.value.trim(),
+    duration: Number(durationInput.value),
+    notes: notesInput.value.trim(),
+    exercises: [
+      {
+        exerciseId: Number(exerciseSelect.value),
+      },
+    ],
+  };
 
-    resetForm();
-    renderWorkouts();
+  if (idInput.value) {
+    updateWorkout(workout);
+    announce("Träningspass uppdaterat");
+  } else {
+    addWorkout(workout);
+    announce("Träningspass sparat");
+  }
+
+  resetForm();
+  renderWorkouts();
 });
 
 document.addEventListener("click", (e) => {
@@ -77,19 +106,28 @@ function fillForm(workout) {
     notesInput.value = workout.notes;
     idInput.value = workout.id;
 
+    if (workout.exercises?.length) {
+        exerciseSelect.value = workout.exercises[0].exerciseId;
+    }
+
     submitBtn.textContent = "Spara ändringar";
     nameInput.focus();
 }
 
 function resetForm() {
-    form.reset();
-    idInput.value = "";
-    submitBtn.textContent = "Spara träningspass";
+  form.reset();
+  idInput.value = "";
+  submitBtn.textContent = "Spara träningspass";
 }
 
 function announce(message) {
-    status.textContent = message;
+  status.textContent = message;
 }
 
-// Initial render
-renderWorkouts();
+(async function init() {
+    await renderExercises();
+    renderWorkouts();
+
+    // Update dropdown if exercises are deleted
+    document.addEventListener('exercisesUpdated', renderExercises);
+})();

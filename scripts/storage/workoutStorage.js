@@ -19,6 +19,10 @@
     }
 
     function addWorkout(workout) {
+        if (!workout.id) {
+            workout.id = crypto.randomUUID?.() || Date.now();
+        }
+
         const workouts = getWorkouts();
         saveWorkouts([workout, ...workouts]);
     }

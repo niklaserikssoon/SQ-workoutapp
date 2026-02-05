@@ -1,0 +1,13 @@
+[
+    {
+        "id": "workout-1",
+        "date": "2000-01-02",
+        "exercises": [
+            {
+                "exerciseId": 1,
+                "sets": 5,
+                "reps": 10
+            }
+        ]
+    }
+]
