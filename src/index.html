@@ -8,8 +8,15 @@
     <link rel="stylesheet" href="../styles/side-panel.css" />
   </head>
   <body class="drawer-right">
-    <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
-      ☰
+    <button
+      id="menu-toggle"
+      aria-label="Open menu"
+      class="menu-toggle"
+      aria-expanded="false"
+    >
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
     </button>
 
     <nav id="side-panel" class="side-panel" aria-hidden="true">
@@ -17,12 +24,17 @@
         <h2>Menu</h2>
       </header>
 
-      <ul class="side-panel-list">
-        <li><button data-nav="list">Show Items</button></li>
-        <li><button data-nav="add">Add Items</button></li>
-        <li><button data-nav="search">Search Items</button></li>
-        <li><button data-nav="settings">Settings</button></li>
-      </ul>
+      <div class="side-panel-content">
+        <ul class="side-panel-list">
+          <li><button data-nav="list">Show Items</button></li>
+          <li><button data-nav="add">Add Items</button></li>
+          <li><button data-nav="search">Search Items</button></li>
+          <li><button data-nav="settings">Settings</button></li>
+        </ul>
+        <button id="theme-toggle" class="theme-toggle-btn">
+          <span class="theme-icon"></span>
+        </button>
+      </div>
     </nav>
 
     <!-- Backdrop for the sidebar -->
@@ -58,5 +70,6 @@
       </ul>
     </section>
     <script src="../scripts/side-panel.js"></script>
+    <script src="../scripts/theme.js"></script>
   </body>
 </html>
