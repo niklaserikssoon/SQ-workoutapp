@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/side-panel.css" />
+    <link rel="stylesheet" href="../styles/exerciseBank.css" />
   </head>
   <body class="drawer-right">
     <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
@@ -32,40 +31,39 @@
       <h1>Welcome to My Website</h1>
       <nav>
         <ul>
-          <li><a href="#home">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="exerciseBank.html">Workouts</a></li>
           <li><a href="#contact">exercise plans</a></li>
         </ul>
       </nav>
     </header>
-
-    <section id="generate-workout" class="card">
-      <h2 class="section-heading">Generate Workout</h2>
-      <p class="section-subtitle">
-        Select a muscle group and generate a random workout
-      </p>
-
-      <section class="generate-controls">
-        <input type="text" id="workout-input" placeholder="Example: Legs" />
-        <button class="btn-accent" id="generate-btn">Generate</button>
-      </section>
-
-      <ul id="workout-list">
-        <p class="workout-title">EXAMPLE WORKOUT</p>
-        <li class="workout-item">Squats</li>
-        <li class="workout-item">Lunges</li>
-        <li class="workout-item">Leg Press</li>
-      </ul>
+    <!-- search bar for exercises -->
+    <section class="search-section">
+      <input
+        type="text"
+        id="exercise-search"
+        placeholder="Search for exercises..."
+      />
+      <button id="search-button">Search</button>
     </section>
 
-    <!-- App root (views will be injected here) -->
-    <main id="app-root"></main>
+    <!-- display worksouts from json -->
+    <section id="workout-display"></section>
+    <dialog id="exercise-modal">
+      <article class="exercise-modal-content">
+        <button id="modal-close">✕</button>
 
-    <!-- Sidebar (non-module) -->
-    <script src="../scripts/side-panel.js"></script>
+        <h2 id="modal-title"></h2>
 
-    <!-- App logic (module) -->
+        <img id="modal-image" alt="" />
+
+        <p id="modal-overview"></p>
+
+        <h4>Instructions</h4>
+        <ol id="modal-instructions"></ol>
+      </article>
+    </dialog>
+
     <script type="module" src="../scripts/main.js"></script>
-
   </body>
 </html>
