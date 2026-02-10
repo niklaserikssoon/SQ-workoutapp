@@ -1,6 +1,7 @@
 // UI rendering modules
 import { renderList } from './ui/renderList.js';
 import { renderExercises } from './ui/renderExercises.js'
+import {initSearch} from './logic/search.js';
 import { initCreateForm } from './createItem.js';
 
 // Storage actions
@@ -49,14 +50,25 @@ window.addEventListener('storage', () => {
 });
 
 // display all exercies from API
+let allExercises = [];
 
 async function loadExercises() {
   const response = await fetch(
     "https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json"
   );
-  const exercises = await response.json();
 
-  displayExercises(exercises);
+  allExercises = await response.json();
+
+  // visa alla från start
+  displayExercises(allExercises);
+
+  // koppla search
+  initSearch({
+    input: document.getElementById("exercise-search"),
+    button: document.getElementById("search-button"),
+    data: allExercises,
+    onResults: displayExercises
+  });
 }
 
 function displayExercises(exercises) {
