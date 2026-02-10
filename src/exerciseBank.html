@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/exerciseBank.css">
+</head>
+  <body class="drawer-right">
+    <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
+      ☰
+    </button>
+
+    <nav id="side-panel" class="side-panel" aria-hidden="true">
+      <header class="side-panel-header">
+        <h2>Menu</h2>
+      </header>
+
+      <ul class="side-panel-list">
+        <li><button data-nav="list">Show Items</button></li>
+        <li><button data-nav="add">Add Items</button></li>
+        <li><button data-nav="search">Search Items</button></li>
+        <li><button data-nav="settings">Settings</button></li>
+      </ul>
+    </nav>
+
+    <!-- Backdrop for the sidebar -->
+    <section id="side-panel-backdrop"></section>
+
+    <header>
+      <h1>Welcome to My Website</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="exerciseBank.html">Workouts</a></li>
+          <li><a href="#contact">exercise plans</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- display worksouts from json -->
+<section id="workout-display"></section>
+
+<script type="module" src="../scripts/main.js"></script>
+</body>
+</html>
