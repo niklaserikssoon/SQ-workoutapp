@@ -2,7 +2,9 @@ name: Deploy static site
 
 on:
   push:
-    branches: ['dev']
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -13,16 +15,18 @@ jobs:
   # JOB 1: BUILD / TEST
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node: [18.x, 20.x]
+        node-version: [18.x, 20.x]
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      
+      # Ladda upp hela repo-roten som artefakt
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           node-version: ${{ matrix.node }}
       
