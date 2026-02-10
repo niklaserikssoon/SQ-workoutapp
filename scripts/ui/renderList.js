@@ -6,6 +6,8 @@ import { getItems } from '../storage/itemsStorage.js';
 
 export function renderList() {
   const container = document.getElementById('item-list')
+  if (!container ) return;
+  
   const items = getItems()
 
   container.innerHTML = ''

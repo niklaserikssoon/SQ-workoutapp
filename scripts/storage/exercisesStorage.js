@@ -11,6 +11,24 @@ export function getExercises() {
 }
 
 /**
+ * Adds a new exercise to LocalStorage
+ * Saves the updated list and notifies the UI
+ */
+export function addExercise(newExercise) {
+  const exerciseList = getExercises();
+
+  exerciseList.push(newExercise);
+
+  localStorage.setItem('exercises', JSON.stringify(exerciseList));
+
+  // Notify UI
+  document.dispatchEvent(new Event('exercisesUpdated'));
+
+  return newExercise;
+}
+
+
+/**
  * Deletes an exercise from LocalStorage based on its ID
  * Shows a confirmation dialog before deleting
  * Saves the updated list in LocalStorage
