@@ -15,7 +15,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage",
+    "build": "mkdir -p dist && cp -r src scripts styles assets dist"
   },
   "repository": {
     "type": "git",
