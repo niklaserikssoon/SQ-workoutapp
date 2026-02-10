@@ -10,9 +10,10 @@ import { getExercises, deleteExercise } from '../storage/exercisesStorage.js';
  * Delete button for each of the exercises
  * exercisesUpdated is updated automatically when event is trigged
  */
-export function renderExercises() {
-    const list = document.getElementById('exerciseList');
-    if (!list) return;
+    export function renderExercises() {
+        const list = document.getElementById('exerciseList');
+        if (!list) return;
+        
 
     // Clear current list
     list.innerHTML = "";

@@ -1,6 +1,7 @@
 // UI rendering modules
 import { renderList } from './ui/renderList.js';
 import { renderExercises } from './ui/renderExercises.js'
+import { initCreateForm } from './createItem.js';
 
 // Storage actions
 import { addTestItem } from './storage/itemsStorage.js';
@@ -18,6 +19,9 @@ async function loadComponent() {
 
   root.innerHTML = html;
 
+  //init Create form after HTML is injected
+  initCreateForm();
+
   // Button for testing
   const button = document.getElementById('add-test-item');
   if (button) {
@@ -32,6 +36,9 @@ async function loadComponent() {
 
 // Component is loaded when page is ready 
 document.addEventListener('DOMContentLoaded', loadComponent);
+// Expose for side-panel navigation 
+window.loadComponent = loadComponent;
+
 
 // Auto-refresh when items change
 document.addEventListener('itemsUpdated', renderList);

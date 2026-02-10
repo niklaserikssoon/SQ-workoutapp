@@ -13,3 +13,4 @@ export function filterExercises(exercises, searchTerm, category){
             return matchesSearch && matchesCategory;
     });
 }
+export const searchExercises = filterExercises;
