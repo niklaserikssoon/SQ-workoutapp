@@ -3,7 +3,6 @@
 // Renders the list of exercises in the UI
 
 import { getExercises, deleteExercise } from '../storage/exercisesStorage.js';
-import { filterExercises, searchExercises } from '../logic/exerciseLogic.js';
 
 /**
  * Renders all exercises in the list 
