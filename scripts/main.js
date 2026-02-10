@@ -91,7 +91,7 @@ function displayExercises(exercises) {
   });
 }
 
-//---- App install ----//
+//---- Offline app installation ----//
 let deferredPrompt = null;
 const installBtn = document.getElementById("install-btn");
 
@@ -134,7 +134,6 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/scripts/workers/service-worker.js");
   });
 }
-
 
 // Load script
 loadExercises();
