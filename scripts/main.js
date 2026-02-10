@@ -15,7 +15,7 @@ async function loadComponent() {
   const html = await response.text();
 
   const root = document.getElementById('app-root');
-  if (!root) return; 
+  if (!root) return;
 
   root.innerHTML = html;
 
@@ -40,38 +40,27 @@ document.addEventListener('DOMContentLoaded', loadComponent);
 window.loadComponent = loadComponent;
 
 
-// Auto-refresh when items change
 document.addEventListener('itemsUpdated', renderList);
 document.addEventListener('exercisesUpdated', renderExercises);
 
-// Sync across browser tabs
-window.addEventListener('storage', () =>{
+window.addEventListener('storage', () => {
   renderList();
   renderExercises();
 });
 
-// display all exercies from json file
+// display all exercies from API
+
 async function loadExercises() {
-  console.log("loadExercises called");
-
-  const response = await fetch("../scripts/data/exercises.json");
+  const response = await fetch(
+    "https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json"
+  );
   const exercises = await response.json();
-
-  console.log("Exercises from JSON:", exercises);
 
   displayExercises(exercises);
 }
 
 function displayExercises(exercises) {
   const gallery = document.getElementById("workout-display");
-
-  console.log("gallery:", gallery);
-
-  if (!gallery) {
-    console.error("workout-display not found in DOM");
-    return;
-  }
-
   gallery.innerHTML = "";
 
   exercises.forEach(exercise => {
@@ -80,11 +69,20 @@ function displayExercises(exercises) {
 
     article.innerHTML = `
       <h3>${exercise.name}</h3>
+
       <p><strong>Category:</strong> ${exercise.category}</p>
-      <p><strong>Muscle group:</strong> ${exercise.muscleGroup}</p>
-      <p><strong>Equipment:</strong> ${exercise.equipment}</p>
       <p><strong>Level:</strong> ${exercise.level}</p>
-      <p><strong>Description:</strong> hur man gör</p>
+      <p><strong>Equipment:</strong> ${exercise.equipment ?? "None"}</p>
+
+      <p>
+        <strong>Primary muscles:</strong>
+        ${exercise.primaryMuscles.join(", ")}
+      </p>
+
+      <p>
+        <strong>Secondary muscles:</strong>
+        ${exercise.secondaryMuscles.join(", ")}
+      </p>
     `;
 
     gallery.appendChild(article);
