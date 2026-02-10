@@ -12,7 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  upload:
+  # JOB 1: BUILD / TEST
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,23 +21,38 @@ jobs:
         node-version: [18.x, 20.x]
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
       
       # Ladda upp hela repo-roten som artefakt
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: . # publicera allt i root
+          node-version: ${{ matrix.node }}
+      
+      - name: Install dependencies
+        run: npm ci
 
+      - name: Build site
+        run: npm run build
+
+  # JOB 2: DEPLOY (EN GÅNG)        
   deploy:
-    needs: upload
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
