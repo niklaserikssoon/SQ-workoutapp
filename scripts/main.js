@@ -54,7 +54,7 @@ window.addEventListener('storage', () =>{
 async function loadExercises() {
   console.log("loadExercises called");
 
-  const response = await fetch("../scripts/data/exercises.json");
+  const response = await fetch("/scripts/data/exercises.json");
   const exercises = await response.json();
 
   console.log("Exercises from JSON:", exercises);
@@ -91,4 +91,50 @@ function displayExercises(exercises) {
   });
 }
 
+//---- App install ----//
+let deferredPrompt = null;
+const installBtn = document.getElementById("install-btn");
+
+const INSTALL_KEY = "pwa-install-dismissed";
+
+// Listen for browser install availability
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+
+  // Don't show again if user dismissed
+  if (localStorage.getItem(INSTALL_KEY) === "true") return;
+
+  deferredPrompt = e;
+  installBtn.hidden = false;
+});
+
+// Handle install button click
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+
+  if (choice.outcome === "dismissed") {
+    localStorage.setItem(INSTALL_KEY, "true");
+  }
+
+  installBtn.hidden = true;
+  deferredPrompt = null;
+});
+
+// Detect successful install
+window.addEventListener("appinstalled", () => {
+  installBtn.hidden = true;
+  localStorage.setItem("pwa-installed", "true");
+});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/scripts/workers/service-worker.js");
+  });
+}
+
+
+// Load script
 loadExercises();

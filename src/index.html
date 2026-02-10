@@ -6,6 +6,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="../styles/style.css" />
     <link rel="stylesheet" href="../styles/side-panel.css" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a7cff">
   </head>
   <body class="drawer-right">
     <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
@@ -59,7 +61,9 @@
     </section>
 
     <!-- App root (views will be injected here) -->
-    <main id="app-root"></main>
+    <main id="app-root">
+      <button id="install-btn" hidden aria-label="Installera appen">Install app</button>
+    </main>
 
     <!-- Sidebar (non-module) -->
     <script src="../scripts/side-panel.js"></script>
