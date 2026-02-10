@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../styles/exerciseBank.css">
-</head>
+    <link rel="stylesheet" href="../styles/exerciseBank.css" />
+  </head>
   <body class="drawer-right">
     <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
       ☰
@@ -37,10 +37,33 @@
         </ul>
       </nav>
     </header>
+    <!-- search bar for exercises -->
+    <section class="search-section">
+      <input
+        type="text"
+        id="exercise-search"
+        placeholder="Search for exercises..."
+      />
+      <button id="search-button">Search</button>
+    </section>
 
     <!-- display worksouts from json -->
-<section id="workout-display"></section>
+    <section id="workout-display"></section>
+    <dialog id="exercise-modal">
+      <article class="exercise-modal-content">
+        <button id="modal-close">✕</button>
 
-<script type="module" src="../scripts/main.js"></script>
-</body>
+        <h2 id="modal-title"></h2>
+
+        <img id="modal-image" alt="" />
+
+        <p id="modal-overview"></p>
+
+        <h4>Instructions</h4>
+        <ol id="modal-instructions"></ol>
+      </article>
+    </dialog>
+
+    <script type="module" src="../scripts/main.js"></script>
+  </body>
 </html>
