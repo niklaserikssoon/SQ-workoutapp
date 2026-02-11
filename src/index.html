@@ -45,7 +45,7 @@
       <nav>
         <ul>
           <li><a href="#home">Home</a></li>
-          <li><a href="#about">Workouts</a></li>
+          <li><a href="exerciseBank.html">Workouts</a></li>
           <li><a href="#contact">exercise plans</a></li>
         </ul>
       </nav>
@@ -69,7 +69,17 @@
         <li class="workout-item">Leg Press</li>
       </ul>
     </section>
+
+    <!-- App root (views will be injected here) -->
+    <main id="app-root"></main>
+
+    <!-- Sidebar (non-module) -->
     <script src="../scripts/side-panel.js"></script>
+
+    <!-- Theme toggle -->
     <script src="../scripts/theme.js"></script>
+
+    <!-- App logic (module) -->
+    <script type="module" src="../scripts/main.js"></script>
   </body>
 </html>

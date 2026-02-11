@@ -1,4 +1,4 @@
-name: Deploy static site
+name: CI + Deploy static site
 
 on:
   push:
@@ -10,20 +10,50 @@ permissions:
   id-token: write
 
 jobs:
-  upload:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Ladda upp hela repo-roten som artefakt
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: . # publicera allt i root
+          path: dist
 
   deploy:
-    needs: upload
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
