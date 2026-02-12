@@ -9,8 +9,10 @@
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
+  will-change: transform;
   z-index: 1000;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .side-panel-content {
@@ -141,6 +143,7 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 900;
+  will-change: opacity;
 }
 
 #side-panel-backdrop.visible {
@@ -179,4 +182,8 @@ body.drawer-right .menu-toggle {
 .theme-toggle-btn {
   margin-top: auto;
   align-self: flex-end;
+}
+
+body {
+  overflow-x: hidden;
 }
