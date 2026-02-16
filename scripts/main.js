@@ -162,3 +162,40 @@ workout.forEach(ex => {
 
 workoutList.appendChild(table);
 });
+
+// UI navigation logic for workout generation and custom workout creation
+const startSection = document.getElementById("start-workout");
+const optionsSection = document.getElementById("workout-options");
+const generateSection = document.getElementById("generate-workout");
+const customSection = document.getElementById("custom-workout");
+
+document.getElementById("start-btn").addEventListener("click", () => {
+  startSection.hidden = true;
+  optionsSection.hidden = false;
+});
+
+document.getElementById("generate-option").addEventListener("click", () => {
+  optionsSection.hidden = true;
+  generateSection.hidden = false;
+});
+
+document.getElementById("custom-option").addEventListener("click", () => {
+  optionsSection.hidden = true;
+  customSection.hidden = false;
+});
+
+// Back buttons
+document.getElementById("options-back-btn").addEventListener("click", () => {
+  optionsSection.hidden = true;
+  startSection.hidden = false;
+});
+
+document.getElementById("generate-back-btn").addEventListener("click", () => {
+  generateSection.hidden = true;
+  optionsSection.hidden = false;
+});
+
+document.getElementById("custom-back-btn").addEventListener("click", () => {
+  customSection.hidden = true;
+  optionsSection.hidden = false;
+});
