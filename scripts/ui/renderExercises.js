@@ -2,43 +2,44 @@
 
 // Renders the list of exercises in the UI
 
-import { getExercises, deleteExercise } from '../storage/exercisesStorage.js';
+import { getExercises, deleteExercise } from '../storage/exercisesStorage.js'
 // import { filterExercises, searchExercises } from '../logic/exerciseLogic.js'; Lägg till vid implementation av dessa funktioner
 
 /**
- * Renders all exercises in the list 
+ * Renders all exercises in the list
  * Delete button for each of the exercises
  * exercisesUpdated is updated automatically when event is trigged
  */
-    export function renderExercises() {
-        const list = document.getElementById('exerciseList');
-        if (!list) return;
-        
+export function renderExercises() {
+  const list = document.getElementById('exerciseList')
+  if (!list) return
 
-    // Clear current list
-    list.innerHTML = "";
+  // Clear current list
+  list.style.minHeight = '240px'
+  list.replaceChildren()
 
-    // Fetch exercises
-    const exerciseList = getExercises();
+  // Fetch exercises
+  const exerciseList = getExercises()
+  const fragment = document.createDocumentFragment()
 
-    // Render each exercise
-    exerciseList.forEach(exercise => {
-      const li = document.createElement("li");
-      li.textContent = exercise.name;
+  // Render each exercise
+  exerciseList.forEach((exercise) => {
+    const li = document.createElement('li')
+    li.textContent = exercise.name
 
-      // Create delete button
-      const deleteButton = document.createElement('button');
-      deleteButton.textContent ="Delete";
+    // Create delete button
+    const deleteButton = document.createElement('button')
+    deleteButton.textContent = 'Delete'
 
-      // Delete event
-      deleteButton.addEventListener('click', () => {
-        deleteExercise(exercise.id);
-      });
+    // Delete event
+    deleteButton.addEventListener('click', () => {
+      deleteExercise(exercise.id)
+    })
 
-      // Add button to list item
-      li.appendChild(deleteButton);
+    // Add button to list item
+    li.appendChild(deleteButton)
 
-      // Add list item to UI
-      list.appendChild(li);
-    });
+    // Add list item to UI
+    list.appendChild(li)
+  })
 }

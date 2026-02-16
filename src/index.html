@@ -10,8 +10,15 @@
     <meta name="theme-color" content="#0a7cff"> <!-- Offline installation -->
   </head>
   <body class="drawer-right">
-    <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
-      ☰
+    <button
+      id="menu-toggle"
+      aria-label="Open menu"
+      class="menu-toggle"
+      aria-expanded="false"
+    >
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
     </button>
 
     <nav id="side-panel" class="side-panel" aria-hidden="true">
@@ -19,12 +26,17 @@
         <h2>Menu</h2>
       </header>
 
-      <ul class="side-panel-list">
-        <li><button data-nav="list">Show Items</button></li>
-        <li><button data-nav="add">Add Items</button></li>
-        <li><button data-nav="search">Search Items</button></li>
-        <li><button data-nav="settings">Settings</button></li>
-      </ul>
+      <div class="side-panel-content">
+        <ul class="side-panel-list">
+          <li><button data-nav="list">Show Items</button></li>
+          <li><button data-nav="add">Add Items</button></li>
+          <li><button data-nav="search">Search Items</button></li>
+          <li><button data-nav="settings">Settings</button></li>
+        </ul>
+        <button id="theme-toggle" class="theme-toggle-btn">
+          <span class="theme-icon"></span>
+        </button>
+      </div>
     </nav>
 
     <!-- Backdrop for the sidebar -->
@@ -41,35 +53,33 @@
       </nav>
     </header>
 
-    <section id="generate-workout" class="card">
-      <h2 class="section-heading">Generate Workout</h2>
-      <p class="section-subtitle">
-        Select a muscle group and generate a random workout
-      </p>
+<section id="generate-workout" class="card">
+  <h2 class="section-heading">Generate Workout</h2>
+  <p class="section-subtitle">
+    Select a muscle group and generate a random workout
+  </p>
 
-      <section class="generate-controls">
-        <input type="text" id="workout-input" placeholder="Example: Legs" />
-        <button class="btn-accent" id="generate-btn">Generate</button>
-      </section>
-
-      <ul id="workout-list">
-        <p class="workout-title">EXAMPLE WORKOUT</p>
-        <li class="workout-item">Squats</li>
-        <li class="workout-item">Lunges</li>
-        <li class="workout-item">Leg Press</li>
-      </ul>
-    </section>
+  <section class="generate-controls">
+    <input type="text" id="workout-input" placeholder="Example: Hamstrings" />
+    <button class="btn-accent" id="generate-btn">Generate</button>
+  </section>
+<!-- random generated workout -->
+  <ul id="workout-list"></ul>
+</section>
 
     <!-- App root (views will be injected here) -->
     <main id="app-root">
       <button id="install-btn" hidden aria-label="Install app">Install app</button> <!-- Offline installation -->
+      <section id="app-content" aria-busy="true"></section>
     </main>
 
     <!-- Sidebar (non-module) -->
     <script src="../scripts/side-panel.js"></script>
 
+    <!-- Theme toggle -->
+    <script src="../scripts/theme.js"></script>
+
     <!-- App logic (module) -->
     <script type="module" src="../scripts/main.js"></script>
-
   </body>
 </html>
