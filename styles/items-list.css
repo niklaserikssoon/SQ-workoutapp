@@ -15,9 +15,10 @@
   border-bottom: none;
 }
 
-@media (max-width: 480px) {
-  .items-list li {
-    padding: 16px;
-    font-size: 1.2rem;
-  }
+/* Enhance spacing and readability on larger screens*/
+  @media (min-width: 480px) {
+    .items-list li {
+      padding: 16px;
+      font-size: 1.2rem;
+    }
 }
