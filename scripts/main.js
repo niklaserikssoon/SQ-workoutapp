@@ -102,3 +102,54 @@ function displayExercises(exercises) {
 }
 
 loadExercises();
+
+
+// generate random workout from API exercise database
+import { generateWorkout } from "./ui/generateWorkout.js";
+
+const button = document.getElementById("generate-btn");
+const input = document.getElementById("workout-input");
+const workoutList = document.getElementById("workout-list");
+
+button.addEventListener("click", async () => {
+  const muscle = input.value.trim();
+
+  if (!muscle) {
+    alert("Please enter a muscle group");
+    return;
+  }
+
+  const workout = await generateWorkout(muscle, 5);
+
+workoutList.innerHTML = ""; 
+
+const table = document.createElement("table");
+table.classList.add("workout-table");
+
+table.innerHTML = `
+  <thead>
+    <tr>
+      <th>Exercise</th>
+      <th>Sets</th>
+      <th>Reps</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+`;
+
+const tbody = table.querySelector("tbody");
+
+workout.forEach(ex => {
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+    <td>🏋️ ${ex.name}</td>
+    <td> ${ex.sets}</td>
+    <td>${ex.reps}</td>
+  `;
+
+  tbody.appendChild(row);
+});
+
+workoutList.appendChild(table);
+});

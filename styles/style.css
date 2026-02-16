@@ -99,3 +99,24 @@ nav a:hover {
 #workout-input::placeholder {
   color: var(--text-secondary);
 }
+
+/* -------------- Generate workout -------------- */
+
+.workout-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  border: 3px solid var(--border-soft);
+}
+
+.workout-table th,
+.workout-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.workout-table th {
+  background: #111;
+  color: white;
+}
