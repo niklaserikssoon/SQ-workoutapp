@@ -1,9 +1,21 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+} /* */
+
 body {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
   background-color: var(--bg-main);
   color: var(--text-primary);
 }
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}/**/
+
 
 :root {
   --bg-main: #ffffff;
@@ -51,7 +63,8 @@ nav ul {
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem; /* better thumb spacing */
+  flex-wrap: wrap; /* move items to next line */
 }
 
 nav a {
@@ -110,6 +123,14 @@ nav a:hover {
   background-color: var(--accent-hover);
   transform: translateY(-1px);
 }
+
+/* Touch targets (mobile-first): minimum 44x44 */
+button,
+.btn-accent,
+nav a {
+  min-width: 44px;
+  min-height: 44px;
+}/**/
 
 #workout-input {
   flex: 1;
