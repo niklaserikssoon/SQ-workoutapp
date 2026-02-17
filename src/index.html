@@ -3,11 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Workout App</title>
+
     <link rel="stylesheet" href="../styles/style.css" />
     <link rel="stylesheet" href="../styles/side-panel.css" />
   </head>
+
   <body class="drawer-right">
+    <!-- Mobile menu toggle -->
     <button
       id="menu-toggle"
       aria-label="Open menu"
@@ -19,30 +22,29 @@
       <span class="bar bar-3"></span>
     </button>
 
+    <!-- Side navigation panel -->
     <nav id="side-panel" class="side-panel" aria-hidden="true">
-      <header class="side-panel-header">
-        <h2>Menu</h2>
-      </header>
+      <h2 class="visually-hidden">Side Navigation</h2>
+      >
 
-      <div class="side-panel-content">
-        <ul class="side-panel-list">
-          <li><button data-nav="list">Show Items</button></li>
-          <li><button data-nav="add">Add Items</button></li>
-          <li><button data-nav="search">Search Items</button></li>
-          <li><button data-nav="settings">Settings</button></li>
-        </ul>
-        <button id="theme-toggle" class="theme-toggle-btn">
-          <span class="theme-icon"></span>
-        </button>
-      </div>
+      <ul class="side-panel-list">
+        <li><button data-nav="list">Show Items</button></li>
+        <li><button data-nav="add">Add Items</button></li>
+        <li><button data-nav="search">Search Items</button></li>
+        <li><button data-nav="settings">Settings</button></li>
+      </ul>
+
+      <button id="theme-toggle" class="theme-toggle-btn">
+        <span class="theme-icon"></span>
+      </button>
     </nav>
 
     <!-- Backdrop for the sidebar -->
-    <section id="side-panel-backdrop"></section>
+    <div id="side-panel-backdrop"></div>
 
     <header>
       <h1>Welcome to My Website</h1>
-      <nav>
+      <nav aria-label="Primary navigation">
         <ul>
           <li><a href="#home">Home</a></li>
           <li><a href="exerciseBank.html">Workouts</a></li>
@@ -50,71 +52,104 @@
         </ul>
       </nav>
     </header>
-<section id="home" class="hero-section">
-  <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
+    <section id="home" class="hero-section">
+      <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
 
-  <!-- overlay-content på hero -->
-  <section class="hero-overlay" aria-label="Workout starter">
-    <header class="hero-header">
-      <h2 class="section-heading">Home</h2>
-      <p class="section-subtitle">
-        Welcome to the home page! Explore our workout generator and exercise bank.
-      </p>
-    </header>
+      <!-- overlay-content på hero -->
+      <section class="hero-overlay" aria-label="Workout starter">
+        <header class="hero-header">
+          <h2 class="section-heading">Home</h2>
+          <p class="section-subtitle">
+            Welcome to the home page! Explore our workout generator and exercise
+            bank.
+          </p>
+        </header>
 
-    <!-- panel/kort på bilden -->
-    <article class="hero-panel">
-      <!-- STEP 1 -->
-      <section id="start-workout" class="card">
-        <h2 class="section-heading">Start Workout</h2>
-        <p class="section-subtitle">Click start to choose how you want to train.</p>
-        <button class="btn-accent" id="start-btn">Start</button>
+        <!-- panel/kort på bilden -->
+        <article class="hero-panel">
+          <!-- STEP 1 -->
+          <section id="start-workout" class="card">
+            <h2 class="section-heading">Start Workout</h2>
+            <p class="section-subtitle">
+              Click start to choose how you want to train.
+            </p>
+            <button class="btn-accent" id="start-btn">Start</button>
+          </section>
+
+          <!-- STEP 2 -->
+          <section id="workout-options" class="card" hidden>
+            <h2 class="section-heading">Choose Option</h2>
+            <p class="section-subtitle">
+              Generate a workout or build your own.
+            </p>
+
+            <section class="generate-controls" aria-label="Workout options">
+              <button class="btn-accent" id="generate-option">
+                Generate Workout
+              </button>
+              <button class="btn-secondary" id="custom-option">
+                Create Your Own
+              </button>
+            </section>
+
+            <button class="btn-secondary" id="options-back-btn">⬅ Back</button>
+          </section>
+
+          <!-- STEP 3A -->
+          <section id="generate-workout" class="card" hidden>
+            <h2 class="section-heading">Generate Workout</h2>
+            <p class="section-subtitle">
+              Select a muscle group and generate a random workout
+            </p>
+
+            <section class="generate-controls" aria-label="Generator controls">
+              <label class="sr-only" for="workout-input">Muscle group</label>
+              <input
+                type="text"
+                id="workout-input"
+                placeholder="Example: Hamstrings"
+              />
+              <button class="btn-accent" id="generate-btn">Generate</button>
+            </section>
+
+            <ul id="workout-list" aria-label="Generated workout list"></ul>
+
+            <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
+          </section>
+
+          <!-- STEP 3B -->
+          <section id="custom-workout" class="card" hidden>
+            <h2 class="section-heading">Create Your Own Workout ✏️</h2>
+            <p class="section-subtitle">Create workout function</p>
+
+            <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
+          </section>
+        </article>
       </section>
-
-      <!-- STEP 2 -->
-      <section id="workout-options" class="card" hidden>
-        <h2 class="section-heading">Choose Option</h2>
-        <p class="section-subtitle">Generate a workout or build your own.</p>
-
-        <section class="generate-controls" aria-label="Workout options">
-          <button class="btn-accent" id="generate-option">Generate Workout</button>
-          <button class="btn-secondary" id="custom-option">Create Your Own</button>
-        </section>
-
-        <button class="btn-secondary" id="options-back-btn">⬅ Back</button>
-      </section>
-
-      <!-- STEP 3A -->
-      <section id="generate-workout" class="card" hidden>
-        <h2 class="section-heading">Generate Workout</h2>
-        <p class="section-subtitle">Select a muscle group and generate a random workout</p>
-
-        <section class="generate-controls" aria-label="Generator controls">
-          <label class="sr-only" for="workout-input">Muscle group</label>
-          <input type="text" id="workout-input" placeholder="Example: Hamstrings" />
-          <button class="btn-accent" id="generate-btn">Generate</button>
-        </section>
-
-        <ul id="workout-list" aria-label="Generated workout list"></ul>
-
-        <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
-      </section>
-
-      <!-- STEP 3B -->
-      <section id="custom-workout" class="card" hidden>
-        <h2 class="section-heading">Create Your Own Workout ✏️</h2>
-        <p class="section-subtitle">Create workout function</p>
-
-        <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
-      </section>
-    </article>
-  </section>
-</section>
-
-
+    </section>
 
     <!-- App root (views will be injected here) -->
     <main id="app-root">
+      <section id="generate-workout" class="card">
+        <h2 class="section-heading">Generate Workout</h2>
+        <p class="section-subtitle">
+          Select a muscle group and generate a random workout
+        </p>
+
+        <div class="generate-controls">
+          <label for="workout-input">Muscle group</label>
+          <input
+            type="text"
+            id="workout-input"
+            placeholder="Example: Hamstrings"
+          />
+          <button class="btn-accent" id="generate-btn">Generate</button>
+        </div>
+        <!-- random generated workout -->
+        <ul id="workout-list"></ul>
+      </section>
+
+      <!-- App root (views will be injected here) -->
       <section id="app-content" aria-busy="true"></section>
     </main>
 
