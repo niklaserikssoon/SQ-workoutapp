@@ -22,7 +22,7 @@ function randomSetsReps() {
   return { sets, reps };
 }
 
-export async function generateWorkout(muscle, count = 5) {
+async function generateWorkout(muscle, count = 5) {
   const exercises = await loadExercises();
 
   const filtered = exercises.filter(ex =>
@@ -38,3 +38,5 @@ export async function generateWorkout(muscle, count = 5) {
     ...randomSetsReps()
   }));
 }
+
+module.exports = { generateWorkout };
