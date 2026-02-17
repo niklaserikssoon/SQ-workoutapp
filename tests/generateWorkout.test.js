@@ -1,5 +1,5 @@
 // tests/generateWorkout.test.js
-const { generateWorkout } = require("../scripts/ui/generateWorkout.js");
+const { generateWorkout } = require("../scripts/ui/generateWorkout.node.cjs");
 
 
 const fakeExercises = [

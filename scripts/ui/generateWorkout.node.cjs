@@ -1,9 +1,11 @@
-// generate random workout from API exercise database
-const API_URL = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json";
+// generateWorkout.js copie for Node.js testing environment (since fetch isn't available in Jest by default)
+
+const API_URL =
+  "https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json";
 
 let cachedExercises = [];
 
-export async function loadExercises() {
+async function loadExercises() {
   if (cachedExercises.length) return cachedExercises;
 
   const res = await fetch(API_URL);
@@ -12,7 +14,7 @@ export async function loadExercises() {
 }
 
 function pickRandomUnique(arr, count) {
-  const shuffled = arr.sort(() => 0.5 - Math.random());
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, Math.min(count, arr.length));
 }
 
@@ -22,19 +24,19 @@ function randomSetsReps() {
   return { sets, reps };
 }
 
-export async function generateWorkout(muscle, count = 5) {
+async function generateWorkout(muscle, count = 5) {
   const exercises = await loadExercises();
 
   const filtered = exercises.filter(ex =>
-    ex.primaryMuscles
-      .map(m => m.toLowerCase())
-      .includes(muscle.toLowerCase())
+    ex.primaryMuscles.map(m => m.toLowerCase()).includes(muscle.toLowerCase())
   );
 
   const selected = pickRandomUnique(filtered, count);
 
   return selected.map(ex => ({
     ...ex,
-    ...randomSetsReps()
+    ...randomSetsReps(),
   }));
 }
+
+module.exports = { generateWorkout, loadExercises };
