@@ -71,8 +71,9 @@
       <p>&copy; 2026 Träningsapp</p>
     </footer>
 
-    <script src="../scripts/storage/exercisesStorage.js"></script>
-    <script src="../scripts/storage/workoutStorage.js"></script>
-    <script src="../scripts/ui/renderWorkouts.js"></script>
+    <!-- Added type="module" to all script tags so ES module exports/imports work correctly -->
+    <script type="module" src="../scripts/storage/exercisesStorage.js"></script>
+    <script type="module" src="../scripts/storage/workoutStorage.js"></script>
+    <script type="module" src="../scripts/ui/renderWorkouts.js"></script>
   </body>
 </html>
