@@ -199,6 +199,73 @@ button {
   transform: translateY(-1px);
 }
 
+/* ----------------------------------------------------------------   CONTAINER FEATURES-------------------- */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+
+  text-align: left;
+
+  display: grid;
+  gap: 1.25rem;
+}
+
+.section-heading {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  letter-spacing: 0.2px;
+}
+
+.section-subtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 65ch;
+}
+
+.subheading {
+  margin: 1rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.features-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  display: grid;
+  gap: 0.75rem;
+}
+
+.features-list li {
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.02);
+  line-height: 1.5;
+
+  display: grid;
+  grid-template-columns: 1.4rem 1fr;
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.features-list li::before {
+  content: "✓";
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+  margin-top: 0.1rem;
+}
 /* Touch targets (mobile-first): minimum 44x44 */
 button,
 .btn-accent,
@@ -297,13 +364,6 @@ header {
   padding: 1rem 2rem;
 }
 
-/* Main content wrapper */
-main,
-#generate-workout {
-  max-width: 1100px;
-  margin-inline: auto;
-  padding-inline: 1rem;
-}
 
 #app-root {
   min-height: 300px;
@@ -324,6 +384,33 @@ main,
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+/* ------------------------------------------------------ FOOTER --------------------- */
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  margin-top: 32px;
+}
+footer .footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+footer .footer-links a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+footer .footer-links a:hover {
+  text-decoration: underline;
+  color: var(--accent-hover);
 }
 
 /* Mobile: stack controls */
