@@ -58,35 +58,37 @@ window.addEventListener('storage', () => {
 })
 
 // display all exercies from API
-let allExercises = []
+let allExercises = [];
+let isLoaded = false;
 
 async function loadExercises() {
   const response = await fetch(
     'https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json'
-  )
+  );
 
-  allExercises = await response.json()
+  allExercises = await response.json();
+  isLoaded = true;
 
-  // visa alla från start
-  displayExercises(allExercises)
+  // OBS: Visa INTE något här
+  // displayExercises(allExercises)
 
-  // koppla search
+  // koppla search (men du kan också välja att disable:a search tills man klickar)
   initSearch({
     input: document.getElementById('exercise-search'),
     button: document.getElementById('search-button'),
     data: allExercises,
     onResults: displayExercises,
-  })
+  });
 }
 
 function displayExercises(exercises) {
-  const gallery = document.getElementById('workout-display')
+  const gallery = document.getElementById('workout-display');
   if(!gallery) return;
   gallery.innerHTML = ''
 
   exercises.forEach((exercise) => {
-    const article = document.createElement('article')
-    article.classList.add('card')
+    const article = document.createElement('article');
+    article.classList.add('card');
 
     article.innerHTML = `
       <h3>${exercise.name}</h3>
@@ -94,106 +96,75 @@ function displayExercises(exercises) {
       <p><strong>Category:</strong> ${exercise.category}</p>
       <p><strong>Level:</strong> ${exercise.level}</p>
       <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
+      <p><strong>Primary muscles:</strong> ${exercise.primaryMuscles.join(', ')}</p>
+      <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
+    `;
 
-      <p>
-        <strong>Primary muscles:</strong>
-        ${exercise.primaryMuscles.join(', ')}
-      </p>
-
-      <p>
-        <strong>Secondary muscles:</strong>
-        ${exercise.secondaryMuscles.join(', ')}
-      </p>
-    `
-
-    gallery.appendChild(article)
-  })
+    gallery.appendChild(article);
+  });
 }
 
-/* ----- GENERATE WORKOUT ----- */
+document.getElementById('show-exercises')?.addEventListener('click', () => {
+  if (!isLoaded) return;
+  displayExercises(allExercises);
+});
+
+loadExercises();
+
+document.getElementById('load-more')?.addEventListener('click', () => {
+  renderNextPage(false);
+});
+
+
+// generate random workout from API exercise database
 import { generateWorkout } from "./ui/generateWorkout.js";
 
 const button = document.getElementById("generate-btn");
-const generatedWorkoutCard = document.getElementById("generate-workout");
 const input = document.getElementById("workout-input");
 const workoutList = document.getElementById("workout-list");
 
-// Button for workout generation
 button.addEventListener("click", async () => {
   const muscle = input.value.trim();
-  if (!muscle) return alert("Please enter a muscle group");
+
+  if (!muscle) {
+    alert("Please enter a muscle group");
+    return;
+  }
 
   const workout = await generateWorkout(muscle, 5);
-  renderWorkoutList(workout);
-});
 
-// Pull-to-refresh gesture
-let startY = 0;
-let isPulling = false;
+workoutList.innerHTML = ""; 
 
-generatedWorkoutCard.addEventListener("pointerdown", (e) => {
-  startY = e.clientY;
-});
+const table = document.createElement("table");
+table.classList.add("workout-table");
 
-generatedWorkoutCard.addEventListener("pointermove", (e) => {
-  const delta = e.clientY - startY;
-  if (delta > 50) { // pull distance threshold
-    refreshIndicator.textContent = "Release to refresh...";
-    isPulling = true;
-  }
-});
+table.innerHTML = `
+  <thead>
+    <tr>
+      <th>Exercise</th>
+      <th>Sets</th>
+      <th>Reps</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+`;
 
-generatedWorkoutCard.addEventListener("pointerup", async () => {
-  if (isPulling) {
-    refreshIndicator.textContent = "Refreshing...";
-    isPulling = false;
+const tbody = table.querySelector("tbody");
 
-    const muscle = input.value.trim() || "Full Body"; // default if input empty
-    const workout = await generateWorkout(muscle, 5);
-    renderWorkoutList(workout);
+workout.forEach(ex => {
+  const row = document.createElement("tr");
 
-    // reset indicator
-    setTimeout(() => {
-      refreshIndicator.textContent = "Pull down to refresh";
-    }, 500);
-  }
-});
-
-// Render Workout List function
-function renderWorkoutList(workout) {
-  workoutList.innerHTML = "";
-
-  const table = document.createElement("table");
-  table.classList.add("workout-table");
-
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Exercise</th>
-        <th>Sets</th>
-        <th>Reps</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
+  row.innerHTML = `
+    <td>🏋️ ${ex.name}</td>
+    <td> ${ex.sets}</td>
+    <td>${ex.reps}</td>
   `;
 
-  const tbody = table.querySelector("tbody");
+  tbody.appendChild(row);
+});
 
-  workout.forEach(ex => {
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td>🏋️ ${ex.name}</td>
-      <td>${ex.sets}</td>
-      <td>${ex.reps}</td>
-    `;
-
-    tbody.appendChild(row);
-  });
-
-  workoutList.appendChild(table);
-}
-
+workoutList.appendChild(table);
+});
 
 // UI navigation logic for workout generation and custom workout creation
 const startSection = document.getElementById("start-workout");
