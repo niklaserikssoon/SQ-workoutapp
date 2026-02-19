@@ -1,6 +1,6 @@
 // tests/generateWorkout.test.js
-const { generateWorkout } = require("../scripts/ui/generateWorkout.node.cjs");
-
+import { generateWorkout } from "../scripts/ui/generateWorkout.node.cjs";
+import { jest } from '@jest/globals';
 
 const fakeExercises = [
   { name: "Push-up", primaryMuscles: ["chest", "triceps"] },
