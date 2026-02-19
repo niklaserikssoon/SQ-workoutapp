@@ -2,7 +2,7 @@ name: CI + Deploy static site
 
 on:
   push:
-    branches: ['dev']
+    branches: ['dev', 'feature/lighthouse-implementation']
 
 permissions:
   contents: read
