@@ -151,6 +151,8 @@ nav a:hover {
 
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4);
+
+  z-index: 999;          /* make sure it floats above other content */
 }
 
 .section-heading {
@@ -394,4 +396,10 @@ body {
 /* Utility classes */
 [hidden] {
   display: none !important;
+}
+
+/* Gesture pull refres indicator */
+.pull-indicator {
+  color: #666;
+  font-style: italic;
 }

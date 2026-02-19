@@ -16,19 +16,16 @@ async function loadComponent() {
   const html = await response.text()
 
   const root = document.getElementById('app-content')
-  if (!content) return
+  if (!root) return
 
-  // Mark as loading (accessibility + CLS clarity)
-  content.setAttribute('aria-busy', 'true')
-
-  // Replace only inner content, not the container
-  content.replaceChildren()
+  root.setAttribute('aria-busy', 'true')
+  root.replaceChildren()
 
   const template = document.createElement('template')
   template.innerHTML = html
 
-  content.appendChild(template.content)
-  content.setAttribute('aria-busy', 'false')
+  root.appendChild(template.content)
+  root.setAttribute('aria-busy', 'false')
 
   //init Create form after HTML is injected
   initCreateForm()
@@ -43,6 +40,8 @@ async function loadComponent() {
 
   renderList()
   renderExercises()
+
+  await loadExercises()
 }
 
 // Component is loaded when page is ready
@@ -82,6 +81,7 @@ async function loadExercises() {
 
 function displayExercises(exercises) {
   const gallery = document.getElementById('workout-display')
+  if(!gallery) return;
   gallery.innerHTML = ''
 
   exercises.forEach((exercise) => {
@@ -110,58 +110,90 @@ function displayExercises(exercises) {
   })
 }
 
-loadExercises();
-
-
-// generate random workout from API exercise database
+/* ----- GENERATE WORKOUT ----- */
 import { generateWorkout } from "./ui/generateWorkout.js";
 
 const button = document.getElementById("generate-btn");
+const generatedWorkoutCard = document.getElementById("generate-workout");
 const input = document.getElementById("workout-input");
 const workoutList = document.getElementById("workout-list");
 
+// Button for workout generation
 button.addEventListener("click", async () => {
   const muscle = input.value.trim();
-
-  if (!muscle) {
-    alert("Please enter a muscle group");
-    return;
-  }
+  if (!muscle) return alert("Please enter a muscle group");
 
   const workout = await generateWorkout(muscle, 5);
+  renderWorkoutList(workout);
+});
 
-workoutList.innerHTML = ""; 
+// Pull-to-refresh gesture
+let startY = 0;
+let isPulling = false;
 
-const table = document.createElement("table");
-table.classList.add("workout-table");
+generatedWorkoutCard.addEventListener("pointerdown", (e) => {
+  startY = e.clientY;
+});
 
-table.innerHTML = `
-  <thead>
-    <tr>
-      <th>Exercise</th>
-      <th>Sets</th>
-      <th>Reps</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-`;
+generatedWorkoutCard.addEventListener("pointermove", (e) => {
+  const delta = e.clientY - startY;
+  if (delta > 50) { // pull distance threshold
+    refreshIndicator.textContent = "Release to refresh...";
+    isPulling = true;
+  }
+});
 
-const tbody = table.querySelector("tbody");
+generatedWorkoutCard.addEventListener("pointerup", async () => {
+  if (isPulling) {
+    refreshIndicator.textContent = "Refreshing...";
+    isPulling = false;
 
-workout.forEach(ex => {
-  const row = document.createElement("tr");
+    const muscle = input.value.trim() || "Full Body"; // default if input empty
+    const workout = await generateWorkout(muscle, 5);
+    renderWorkoutList(workout);
 
-  row.innerHTML = `
-    <td>🏋️ ${ex.name}</td>
-    <td> ${ex.sets}</td>
-    <td>${ex.reps}</td>
+    // reset indicator
+    setTimeout(() => {
+      refreshIndicator.textContent = "Pull down to refresh";
+    }, 500);
+  }
+});
+
+// Render Workout List function
+function renderWorkoutList(workout) {
+  workoutList.innerHTML = "";
+
+  const table = document.createElement("table");
+  table.classList.add("workout-table");
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Exercise</th>
+        <th>Sets</th>
+        <th>Reps</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
   `;
 
-  tbody.appendChild(row);
-});
+  const tbody = table.querySelector("tbody");
 
-workoutList.appendChild(table);
-});
+  workout.forEach(ex => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>🏋️ ${ex.name}</td>
+      <td>${ex.sets}</td>
+      <td>${ex.reps}</td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  workoutList.appendChild(table);
+}
+
 
 // UI navigation logic for workout generation and custom workout creation
 const startSection = document.getElementById("start-workout");
