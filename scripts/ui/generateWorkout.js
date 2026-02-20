@@ -4,8 +4,8 @@ const API_URL =
 
 let cachedExercises = []
 
-async function loadExercises() {
-  if (cachedExercises.length) return cachedExercises
+export async function loadExercises() {
+  if (cachedExercises.length) return cachedExercises;
   try {
     const res = await fetch(API_URL)
     if (!res.ok) throw new Error(`Could not load exercises (${res.status})`)
@@ -14,7 +14,6 @@ async function loadExercises() {
   } catch (error) {
     console.error('generateWorkout loadExercises failed:', error)
     return []
-  }
 }
 
 function pickRandomUnique(arr, count) {
