@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Workout App</title>
 
-    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/layout.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
     <link rel="stylesheet" href="../styles/side-panel.css" />
   </head>
 
-  <body class="drawer-right">
+  <body class="drawer-right page-home">
     <!-- Mobile menu toggle -->
     <button
       id="menu-toggle"
@@ -24,19 +26,25 @@
 
     <!-- Side navigation panel -->
     <nav id="side-panel" class="side-panel" aria-hidden="true">
-      <h2 class="visually-hidden">Side Navigation</h2>
-      >
+      <!-- <h2 class="visually-hidden">Side Navigation</h2> -->
+      <div class="side-panel-header">
+        <h2>Side Navigation</h2>
+      </div>
 
-      <ul class="side-panel-list">
-        <li><button data-nav="list">Show Items</button></li>
-        <li><button data-nav="add">Add Items</button></li>
-        <li><button data-nav="search">Search Items</button></li>
-        <li><button data-nav="settings">Settings</button></li>
-      </ul>
+      <div class="side-panel-content">
+        <ul class="side-panel-list">
+          <li><button data-nav="list">Show Items</button></li>
+          <li><button data-nav="add">Add Items</button></li>
+          <li><button data-nav="search">Search Items</button></li>
+          <li><button data-nav="settings">Settings</button></li>
+        </ul>
 
-      <button id="theme-toggle" class="theme-toggle-btn">
-        <span class="theme-icon"></span>
-      </button>
+        <button
+          id="theme-toggle"
+          class="theme-toggle-btn"
+          aria-label="Toggle dark mode"
+        ></button>
+      </div>
     </nav>
 
     <!-- Backdrop for the sidebar -->
@@ -128,38 +136,25 @@
       </section>
     </section>
 
-    <!-- App root (views will be injected here) -->
-    <main id="app-root">
-      <section id="generate-workout" class="card">
-        <h2 class="section-heading">Generate Workout</h2>
-        <p class="section-subtitle">
-          Select a muscle group and generate a random workout
-        </p>
-
-        <div class="generate-controls">
-          <label for="workout-input">Muscle group</label>
-          <input
-            type="text"
-            id="workout-input"
-            placeholder="Example: Hamstrings"
-          />
-          <button class="btn-accent" id="generate-btn">Generate</button>
-        </div>
-        <!-- random generated workout -->
-        <ul id="workout-list"></ul>
-      </section>
-
-      <!-- App root (views will be injected here) -->
-      <section id="app-content" aria-busy="true"></section>
-    </main>
-
-    <!-- Sidebar (non-module) -->
+    <!-- Sidebar logic -->
     <script src="../scripts/side-panel.js"></script>
 
     <!-- Theme toggle -->
     <script src="../scripts/theme.js"></script>
 
-    <!-- App logic (module) -->
+    <!-- App logic -->
     <script type="module" src="../scripts/main.js"></script>
+
+    <!-- Register Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then(() => console.log('Service worker registered'))
+            .catch((err) => console.error('Service worker failed: ', err))
+        })
+      }
+    </script>
   </body>
 </html>
