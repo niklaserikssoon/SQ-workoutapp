@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workout App</title>
+  <meta name="description" content="Generate personalized workouts, track exercises, and start your fitness journey with our interactive workout app.">
 
   <link rel="stylesheet" href="../styles/style.css" />
   <link rel="stylesheet" href="../styles/side-panel.css" />
+
+  <title>Workout App</title>
 </head>
 
 <body class="drawer-right">
@@ -19,9 +21,8 @@
   </button>
 
   <!-- Side navigation panel -->
-  <nav id="side-panel" class="side-panel" aria-hidden="true">
+  <nav id="side-panel" class="side-panel">
     <h2 class="visually-hidden">Side Navigation</h2>
-    >
 
     <ul class="side-panel-list">
       <li><button data-nav="list">Show Items</button></li>
@@ -30,7 +31,7 @@
       <li><button data-nav="settings">Settings</button></li>
     </ul>
 
-    <button id="theme-toggle" class="theme-toggle-btn">
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Theme toggle button">
       <span class="theme-icon"></span>
     </button>
   </nav>
