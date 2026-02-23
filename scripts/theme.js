@@ -5,6 +5,7 @@ toggle.addEventListener('click', () => {
 
   const isDark = document.documentElement.classList.contains('dark')
   localStorage.setItem('theme', isDark ? 'dark' : 'light')
+  toggle.setAttribute('aria-pressed', String(isDark)) //Update aria-pressed on dark mode on/off
 })
 
 if (localStorage.getItem('theme') === 'dark') {
