@@ -59,58 +59,60 @@ window.addEventListener('storage', () => {
 })
 
 // display all exercies from API
-let allExercises = []
+let allExercises = [];
+let isLoaded = false;
 
 async function loadExercises() {
   const response = await fetch(
     'https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json'
-  )
+  );
 
-  allExercises = await response.json()
+  allExercises = await response.json();
+  isLoaded = true;
 
-  // visa alla från start
-  displayExercises(allExercises)
+  // OBS: Visa INTE något här
+  // displayExercises(allExercises)
 
-  // koppla search
+  // koppla search (men du kan också välja att disable:a search tills man klickar)
   initSearch({
     input: document.getElementById('exercise-search'),
     button: document.getElementById('search-button'),
     data: allExercises,
     onResults: displayExercises,
-  })
+  });
 }
 
 function displayExercises(exercises) {
-  const gallery = document.getElementById('workout-display')
-  gallery.innerHTML = ''
+  const gallery = document.getElementById('workout-display');
+  gallery.innerHTML = '';
 
   exercises.forEach((exercise) => {
-    const article = document.createElement('article')
-    article.classList.add('card')
+    const article = document.createElement('article');
+    article.classList.add('card');
 
     article.innerHTML = `
       <h3>${exercise.name}</h3>
-
       <p><strong>Category:</strong> ${exercise.category}</p>
       <p><strong>Level:</strong> ${exercise.level}</p>
       <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
+      <p><strong>Primary muscles:</strong> ${exercise.primaryMuscles.join(', ')}</p>
+      <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
+    `;
 
-      <p>
-        <strong>Primary muscles:</strong>
-        ${exercise.primaryMuscles.join(', ')}
-      </p>
-
-      <p>
-        <strong>Secondary muscles:</strong>
-        ${exercise.secondaryMuscles.join(', ')}
-      </p>
-    `
-
-    gallery.appendChild(article)
-  })
+    gallery.appendChild(article);
+  });
 }
 
+document.getElementById('show-exercises')?.addEventListener('click', () => {
+  if (!isLoaded) return;
+  displayExercises(allExercises);
+});
+
 loadExercises();
+
+document.getElementById('load-more')?.addEventListener('click', () => {
+  renderNextPage(false);
+});
 
 
 // generate random workout from API exercise database

@@ -1,63 +1,54 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Workout App</title>
 
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/side-panel.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workout App</title>
 
-  <body class="drawer-right">
-    <!-- Mobile menu toggle -->
-    <button
-      id="menu-toggle"
-      aria-label="Open menu"
-      class="menu-toggle"
-      aria-expanded="false"
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../styles/side-panel.css" />
+</head>
+
+<body class="drawer-right">
+  <!-- Mobile menu toggle -->
+  <button id="menu-toggle" aria-label="Open menu" class="menu-toggle" aria-expanded="false">
+    <span class="bar bar-1"></span>
+    <span class="bar bar-2"></span>
+    <span class="bar bar-3"></span>
+  </button>
+
+  <!-- Side navigation panel -->
+  <nav id="side-panel" class="side-panel" aria-hidden="true">
+    <h2 class="visually-hidden">Side Navigation</h2>
     >
-      <span class="bar bar-1"></span>
-      <span class="bar bar-2"></span>
-      <span class="bar bar-3"></span>
+
+    <ul class="side-panel-list">
+      <li><button data-nav="list">Show Items</button></li>
+      <li><button data-nav="add">Add Items</button></li>
+      <li><button data-nav="search">Search Items</button></li>
+      <li><button data-nav="settings">Settings</button></li>
+    </ul>
+
+    <button id="theme-toggle" class="theme-toggle-btn">
+      <span class="theme-icon"></span>
     </button>
+  </nav>
 
-    <!-- Side navigation panel -->
-    <nav id="side-panel" class="side-panel" aria-hidden="true">
-      <h2 class="visually-hidden">Side Navigation</h2>
-      >
+  <!-- Backdrop for the sidebar -->
+  <div id="side-panel-backdrop"></div>
 
-      <ul class="side-panel-list">
-        <li><button data-nav="list">Show Items</button></li>
-        <li><button data-nav="add">Add Items</button></li>
-        <li><button data-nav="search">Search Items</button></li>
-        <li><button data-nav="settings">Settings</button></li>
+  <header>
+    <h1>Welcome to My Website</h1>
+    <nav aria-label="Primary navigation">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="exerciseBank.html">Workouts</a></li>
+        <li><a href="#contact">exercise plans</a></li>
       </ul>
-
-      <!-- Added aria label -->
-      <button
-        id="theme-toggle"
-        class="theme-toggle-btn"
-        aria-label="Toggle dark mode"
-        aria-pressed="false"
-      >
-        <span class="theme-icon"></span>
-      </button>
     </nav>
-
-    <!-- Backdrop for the sidebar -->
-    <div id="side-panel-backdrop"></div>
-
-    <header>
-      <h1>Welcome to My Website</h1>
-      <nav aria-label="Primary navigation">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="exerciseBank.html">Workouts</a></li>
-          <li><a href="#contact">exercise plans</a></li>
-        </ul>
-      </nav>
-    </header>
+  </header>
+  <main id="app-root">
     <section id="home" class="hero-section">
       <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
 
@@ -110,11 +101,7 @@
 
             <section class="generate-controls" aria-label="Generator controls">
               <label class="sr-only" for="workout-input">Muscle group</label>
-              <input
-                type="text"
-                id="workout-input"
-                placeholder="Example: Hamstrings"
-              />
+              <input type="text" id="workout-input" placeholder="Example: Hamstrings" />
               <button class="btn-accent" id="generate-btn">Generate</button>
             </section>
 
@@ -134,38 +121,36 @@
       </section>
     </section>
 
+    <section class="container">
+      <h2 class="section-heading">About This App</h2>
+      <p class="section-subtitle">
+        This app helps you generate and manage workout routines. You can choose from a variety of exercises and create custom workouts.
+      </p>
+      <h3 class="subheading">Features:</h3>
+      <ul class="features-list">
+        <li>Generate random workouts based on muscle groups.</li>
+        <li>Create and save your own workout routines.</li>
+        <li>Access a comprehensive exercise bank.</li>
+    </section>
+    
+    <footer>
+      <p>&copy; 2024 Workout App. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="https://github.com/niklaserikssoon/SQ-workoutapp">Github</a></li>
+        <li><a href="exerciseBank.html">LinkedIN</a></li>
+    </footer>
+
     <!-- App root (views will be injected here) -->
-    <main id="app-root">
-      <section id="generate-workout" class="card">
-        <h2 class="section-heading">Generate Workout</h2>
-        <p class="section-subtitle">
-          Select a muscle group and generate a random workout
-        </p>
 
-        <div class="generate-controls">
-          <label for="workout-input">Muscle group</label>
-          <input
-            type="text"
-            id="workout-input"
-            placeholder="Example: Hamstrings"
-          />
-          <button class="btn-accent" id="generate-btn">Generate</button>
-        </div>
-        <!-- random generated workout -->
-        <ul id="workout-list"></ul>
-      </section>
+  </main>
+  <!-- Sidebar (non-module) -->
+  <script src="../scripts/side-panel.js"></script>
 
-      <!-- App root (views will be injected here) -->
-      <section id="app-content" aria-busy="true"></section>
-    </main>
+  <!-- Theme toggle -->
+  <script src="../scripts/theme.js"></script>
 
-    <!-- Sidebar (non-module) -->
-    <script src="../scripts/side-panel.js"></script>
+  <!-- App logic (module) -->
+  <script type="module" src="../scripts/main.js"></script>
+</body>
 
-    <!-- Theme toggle -->
-    <script src="../scripts/theme.js"></script>
-
-    <!-- App logic (module) -->
-    <script type="module" src="../scripts/main.js"></script>
-  </body>
 </html>
