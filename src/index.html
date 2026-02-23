@@ -50,7 +50,20 @@
   </header>
   <main id="app-root">
     <section id="home" class="hero-section">
-      <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
+      <picture>
+        <!-- Mobile -->
+        <source
+          srcset="../assets/gymHero_mobile.jpg"
+          media="(max-width: 768px)"
+        />
+
+        <!-- Desktop -->
+        <img
+          src="../assets/gymHero_desktop.jpg"
+          alt="Gym"
+          class="hero-image"
+        />
+      </picture>
 
       <!-- overlay-content på hero -->
       <section class="hero-overlay" aria-label="Workout starter">
