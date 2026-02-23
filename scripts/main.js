@@ -16,16 +16,19 @@ async function loadComponent() {
   const html = await response.text()
 
   const root = document.getElementById('app-content')
-  if (!root) return
+  if (!content) return
 
-  root.setAttribute('aria-busy', 'true')
-  root.replaceChildren()
+  // Mark as loading (accessibility + CLS clarity)
+  content.setAttribute('aria-busy', 'true')
+
+  // Replace only inner content, not the container
+  content.replaceChildren()
 
   const template = document.createElement('template')
   template.innerHTML = html
 
-  root.appendChild(template.content)
-  root.setAttribute('aria-busy', 'false')
+  content.appendChild(template.content)
+  content.setAttribute('aria-busy', 'false')
 
   //init Create form after HTML is injected
   initCreateForm()
@@ -40,8 +43,6 @@ async function loadComponent() {
 
   renderList()
   renderExercises()
-
-  await loadExercises()
 }
 
 // Component is loaded when page is ready
@@ -83,8 +84,7 @@ async function loadExercises() {
 
 function displayExercises(exercises) {
   const gallery = document.getElementById('workout-display');
-  if(!gallery) return;
-  gallery.innerHTML = ''
+  gallery.innerHTML = '';
 
   exercises.forEach((exercise) => {
     const article = document.createElement('article');
@@ -92,7 +92,6 @@ function displayExercises(exercises) {
 
     article.innerHTML = `
       <h3>${exercise.name}</h3>
-
       <p><strong>Category:</strong> ${exercise.category}</p>
       <p><strong>Level:</strong> ${exercise.level}</p>
       <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
