@@ -47,23 +47,29 @@
         <li><a href="#contact">exercise plans</a></li>
       </ul>
     </nav>
+<<<<<<< HEAD
+
+    <!-- Backdrop for the sidebar -->
+    <div id="side-panel-backdrop"></div>
+
+    <header>
+      <h1>WORKOUT APP</h1>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="exerciseBank.html">Workouts</a></li>
+          <li><a href="#contact">exercise plans</a></li>
+        </ul>
+      </nav>
+    </header>
+
+  <main id="main-content">
+=======
   </header>
   <main id="app-root">
+>>>>>>> origin/dev
     <section id="home" class="hero-section">
-      <picture>
-        <!-- Mobile -->
-        <source
-          srcset="../assets/gymHero_mobile.jpg"
-          media="(max-width: 768px)"
-        />
-
-        <!-- Desktop -->
-        <img
-          src="../assets/gymHero_desktop.jpg"
-          alt="Gym"
-          class="hero-image"
-        />
-      </picture>
+      <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
 
       <!-- overlay-content på hero -->
       <section class="hero-overlay" aria-label="Workout starter">
@@ -106,7 +112,7 @@
           </section>
 
           <!-- STEP 3A -->
-          <section id="generate-workout" class="card" hidden>
+          <section id="card-generate-workout" class="card" hidden>
             <h2 class="section-heading">Generate Workout</h2>
             <p class="section-subtitle">
               Select a muscle group and generate a random workout
@@ -114,11 +120,20 @@
 
             <section class="generate-controls" aria-label="Generator controls">
               <label class="sr-only" for="workout-input">Muscle group</label>
+<<<<<<< HEAD
+              <input
+                type="text"
+                id="workout-input"
+                placeholder="Example: Hamstrings"
+              />
+              <button class="btn-accent" id="card-generate-btn">Generate</button>
+=======
               <input type="text" id="workout-input" placeholder="Example: Hamstrings" />
               <button class="btn-accent" id="generate-btn">Generate</button>
+>>>>>>> origin/dev
             </section>
 
-            <ul id="workout-list" aria-label="Generated workout list"></ul>
+            <ul id="card-workout-list" aria-label="Generated workout list"></ul>
 
             <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
           </section>
@@ -154,13 +169,29 @@
     </footer>
 
     <!-- App root (views will be injected here) -->
+<<<<<<< HEAD
+    <section id="app-root">
+      <section id="generate-workout" class="card">
+        <h2 class="section-heading">Generate Workout</h2>
+        <p class="section-subtitle">
+          Select a muscle group and generate a random workout
+        </p>
+=======
+>>>>>>> origin/dev
 
   </main>
   <!-- Sidebar (non-module) -->
   <script src="../scripts/side-panel.js"></script>
 
+<<<<<<< HEAD
+      <!-- App root (views will be injected here) -->
+      <section id="app-content" aria-busy="true"></section>
+    </section>
+  </main>
+=======
   <!-- Theme toggle -->
   <script src="../scripts/theme.js"></script>
+>>>>>>> origin/dev
 
   <!-- App logic (module) -->
   <script type="module" src="../scripts/main.js"></script>

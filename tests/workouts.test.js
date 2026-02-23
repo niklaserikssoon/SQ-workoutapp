@@ -1,8 +1,10 @@
-/**
- * @jest-environment jsdom
- */
-
-const { getWorkouts, addWorkout, updateWorkout, getWorkoutById, saveWorkouts } = require('../scripts/storage/workoutStorage.js');
+import {
+  getWorkouts,
+  addWorkout,
+  updateWorkout,
+  getWorkoutById,
+  saveWorkouts
+} from "../scripts/storage/workoutStorage.js";
 
 describe("workoutService", () => {
     beforeEach(() => {
