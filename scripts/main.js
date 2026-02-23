@@ -15,7 +15,7 @@ async function loadComponent() {
   const response = await fetch('./items-list.html')
   const html = await response.text()
 
-  const root = document.getElementById('app-content')
+  const content = document.getElementById('app-content')
   if (!content) return
 
   // Mark as loading (accessibility + CLS clarity)
