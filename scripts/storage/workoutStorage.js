@@ -2,7 +2,13 @@ const workoutService = (function () {
   const STORAGE_KEY = "workouts";
 
   function getWorkouts() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      console.warn("Invalid workout data in storage. Resetting.");
+      localStorage.removeItem(STORAGE_KEY);
+      return [];
+    }
   }
 
   function saveWorkouts(workouts) {
@@ -29,7 +35,25 @@ const workoutService = (function () {
   }
 
   function getWorkoutById(id) {
-    return getWorkouts().find(w => w.id === id);
+      return getWorkouts().find(w => w.id === id);
+    }
+
+    function deleteWorkout(id) {
+    const workouts = getWorkouts().filter(w => w.id !== id);
+    saveWorkouts(workouts);
+  }
+
+  function createWorkout() {
+    return {
+      date: new Date().toISOString().split("T")[0],
+      exercises: [
+        {
+          exerciseId: 1,
+          sets: 5,
+          reps: 10
+        }
+      ]
+    };
   }
 
   return {
@@ -38,15 +62,9 @@ const workoutService = (function () {
     addWorkout,
     updateWorkout,
     getWorkoutById,
+    deleteWorkout,
+    createWorkout
   };
 })();
-
-export const {
-  getWorkouts,
-  saveWorkouts,
-  addWorkout,
-  updateWorkout,
-  getWorkoutById,
-} = workoutService;
 
 export default workoutService;

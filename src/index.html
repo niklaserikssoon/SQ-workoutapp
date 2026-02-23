@@ -54,15 +54,16 @@
       <picture>
         <!-- Mobile -->
         <source
-          srcset="../assets/gymHero_mobile.jpg"
+          srcset="../assets/gymHero_mobile.avif"
           media="(max-width: 768px)"
         />
 
         <!-- Desktop -->
         <img
-          src="../assets/gymHero_desktop.jpg"
+          src="../assets/gymHero_desktop.avif"
           alt="Gym"
           class="hero-image"
+          fetchpriority=high
         />
       </picture>
 
@@ -119,16 +120,41 @@
               <button class="btn-accent" id="generate-btn">Generate</button>
             </section>
 
-            <ul id="workout-list" aria-label="Generated workout list"></ul>
+            <ul id="workout-list" aria-label="Generated random workout list"></ul>
 
             <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
           </section>
 
           <!-- STEP 3B -->
-          <section id="custom-workout" class="card" hidden>
-            <h2 class="section-heading">Create Your Own Workout ✏️</h2>
-            <p class="section-subtitle">Create workout function</p>
+          <section id="custom-workout-section" class="card" hidden>
+            <h2 class="section-heading">Create Your Own Workout</h2>
 
+            <form id="custom-workout-form">
+              <label>
+                Exercise Name
+                <input type="text" id="exercise-name" placeholder="Example: Squats" required />
+              </label>
+
+              <label>
+                Sets
+                <input type="number" id="sets" min="1" required />
+              </label>
+
+              <label>
+                Reps
+                <input type="number" id="reps" min="1" required />
+              </label>
+
+              <button class="btn-accent" type="submit">
+                Add Workout
+              </button>
+            </form>
+
+            <h3 class="subheading">Saved Workouts</h3>
+            <ul id="custom-workout-list" class="features-list">
+              <li class="empty-state">No workouts yet</li>
+            </ul>
+            <button class="btn-secondary" id="clear-workouts-btn">Clear Workouts</button>
             <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
           </section>
         </article>
