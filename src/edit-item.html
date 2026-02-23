@@ -75,9 +75,9 @@
       <p>&copy; 2026 Workout App</p>
     </footer>
 
-    <!-- TODO: exerciseService is missing - needs to be created or removed from ui/workouts.js -->
-    <script src="../scripts/storage/exercises.js"></script>
-    <script src="../scripts/storage/workouts.js"></script>
-    <script src="../scripts/ui/workouts-form.js"></script>
+    <!-- Added type="module" to all script tags so ES module exports/imports work correctly -->
+    <script type="module" src="../scripts/storage/exercisesStorage.js"></script>
+    <script type="module" src="../scripts/storage/workoutStorage.js"></script>
+    <script type="module" src="../scripts/ui/renderWorkouts.js"></script>
   </body>
 </html>
