@@ -1,68 +1,88 @@
-<section class="card">
-  <h2 class="section-heading">Add New Exercise</h2>
-  <p class="section-subtitle">Create a new exercise and save it to the list</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <form id="create-item-form" class="create-form">
-    <!-- Category -->
-    <label>
-      Category
-      <select id="category" required>
-        <option value="">Select category</option>
-        <option value="strength">Strength</option>
-        <option value="hiit">HIIT</option>
-        <option value="cardio">Cardio</option>
-      </select>
-    </label>
+    <title>Exercise Management</title>
 
-    <!-- Muscle group -->
-    <label>
-      Muscle group
-      <input
-        type="text"
-        id="muscleGroup"
-        placeholder="e.g. legs, back, shoulders"
-        required
-      />
-    </label>
+    <!-- Base styles -->
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/layout.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
+    <link rel="stylesheet" href="../styles/pages.css" />
+  </head>
 
-    <!-- Equipment -->
-    <label>
-      Equipment
-      <select id="equipment" required>
-        <option value="">Select equipment</option>
-        <option value="none">None</option>
-        <option value="dumbbells">Dumbbells</option>
-        <option value="barbell">Barbell</option>
-        <option value="kettlebell">Kettlebell</option>
-        <option value="machine">Machine</option>
-        <option value="band">Resistance band</option>
-      </select>
-    </label>
+  <body class="page-items-list">
+    <main>
+      <h1 class="visually-hidden">Exercise Management</h1>
 
-    <!-- Level -->
-    <label>
-      Level
-      <select id="level" required>
-        <option value="">Select level</option>
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
-    </label>
+      <!-- Add new exercise -->
+      <section class="card">
+        <h2 class="section-heading">Add New Exercise</h2>
+        <p class="section-subtitle">
+          Create a new exercise and save it to the list
+        </p>
 
-    <button type="submit">Save exercise</button>
+        <form id="create-item-form" class="create-form">
+          <!-- Category -->
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="">Select category</option>
+            <option value="strength">Strength</option>
+            <option value="hiit">HIIT</option>
+            <option value="cardio">Cardio</option>
+          </select>
 
-    <p id="create-feedback" class="form-feedback" style="display:none;"></p>
+          <!-- Muscle group -->
+          <label for="muscleGroup">Muscle group</label>
+          <input
+            type="text"
+            id="muscleGroup"
+            placeholder="e.g. legs, back, shoulders"
+            required
+          />
 
-  </form>
-</section>
+          <!-- Equipment -->
+          <label for="equipment">Equipment</label>
+          <select id="equipment" required>
+            <option value="">Select equipment</option>
+            <option value="none">None</option>
+            <option value="dumbbells">Dumbbells</option>
+            <option value="barbell">Barbell</option>
+            <option value="kettlebell">Kettlebell</option>
+            <option value="machine">Machine</option>
+            <option value="band">Resistance band</option>
+          </select>
 
-<section class="card">
-  <h2 class="section-heading">Exercises</h2>
-  <p class="section-subtitle">Your saved exercises</p>
+          <!-- Level -->
+          <label for="Level">Level</label>
+          <select id="level" required>
+            <option value="">Select level</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
 
-  <!-- Used by renderExercises.js -->
-  <ul id="exerciseList" class="items-list"></ul>
-</section>
+          <button type="submit">Save exercise</button>
 
+          <p
+            id="create-feedback"
+            class="form-feedback"
+            style="display: none"
+          ></p>
+        </form>
+      </section>
 
+      <section class="card">
+        <h2 class="section-heading">Exercises</h2>
+        <p class="section-subtitle">Your saved exercises</p>
+
+        <!-- Used by exercise-bank.js -->
+        <ul id="exerciseList" class="items-list"></ul>
+      </section>
+    </main>
+  </body>
+  <!-- No scripts here — this file is loaded dynamically by main.js into index.html -->
+</html>

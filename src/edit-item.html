@@ -1,56 +1,83 @@
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Träningsapp</title>
-    <meta name="description" content="En tillgänglig Träningsapp för att logga och redigera träningspass.">
-    <link rel="stylesheet" href="../styles/edit-item.css">
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Workout App</title>
+    <meta
+      name="description"
+      content="An available workout app able to log and edit workout sessions."
+    />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/layout.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
+    <link rel="stylesheet" href="../styles/edit-item.css" />
+  </head>
+
+  <body class="page-edit-item">
     <header>
-        <h1>Träningsapp</h1>
+      <h1>Workout App</h1>
     </header>
 
     <main>
-        <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
+      <!-- Status messages -->
+      <div
+        id="status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
 
-        <section aria-labelledby="form-heading">
-            <h2 id="form-heading">Lägg till / redigera träningspass</h2>
+      <!-- Form section -->
+      <section aria-labelledby="form-heading">
+        <h2 id="form-heading">Add / edit workout session</h2>
 
-            <form id="workout-form">
-                <input type="hidden" id="workout-id" />
+        <form id="workout-form">
+          <input type="hidden" id="workout-id" />
 
-                <label for="name">Passnamn</label>
-                <input id="name" type="text" required aria-required="true">
+          <label for="name">Session name</label>
+          <input id="name" type="text" required aria-required="true" />
 
-                <label for="name">Välj övning</label>
-                <select id="exercise" required>
-                    <option value="">Övningar</option>
-                </select>
+          <label for="name">Choose workout</label>
+          <select id="exercise" required>
+            <option value="">Övningar</option>
+          </select>
 
-                <label for="duration">Tid (minuter)</label>
-                <input id="duration" type="number" min="1" required aria-required="true">
+          <label for="duration">Time (minutes)</label>
+          <input
+            id="duration"
+            type="number"
+            min="1"
+            required
+            aria-required="true"
+          />
 
-                <label for="notes">Anteckningar</label>
-                <textarea id="notes" rows="3"></textarea>
+          <label for="notes">Notes</label>
+          <textarea id="notes" rows="3"></textarea>
 
-                <button type="submit">Spara träningspass</button>
-            </form>
-        </section>
+          <button type="submit">Save workout session</button>
+        </form>
+      </section>
 
-        <section aria-labelledby="list-heading">
-            <h2 id="list-heading">Mina träningspass</h2>
-            <ul id="workout-list" aria-live="polite" aria-relevant="additions removals"></ul>
-        </section>
+      <!-- Workout list -->
+      <section aria-labelledby="list-heading">
+        <h2 id="list-heading">My workout sessions</h2>
+        <ul
+          id="workout-list"
+          aria-live="polite"
+          aria-relevant="additions removals"
+        ></ul>
+      </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Träningsapp</p>
+      <p>&copy; 2026 Workout App</p>
     </footer>
 
-    <script src="../scripts/storage/exercisesStorage.js"></script>
-    <script src="../scripts/storage/workoutStorage.js"></script>
-    <script src="../scripts/ui/renderWorkouts.js"></script>
-</body>
+    <!-- Added type="module" to all script tags so ES module exports/imports work correctly -->
+    <script type="module" src="../scripts/storage/exercisesStorage.js"></script>
+    <script type="module" src="../scripts/storage/workoutStorage.js"></script>
+    <script type="module" src="../scripts/ui/renderWorkouts.js"></script>
+  </body>
 </html>

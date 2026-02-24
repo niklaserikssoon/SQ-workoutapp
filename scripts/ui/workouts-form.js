@@ -13,10 +13,10 @@ const notesInput = document.getElementById('notes')
 const idInput = document.getElementById('workout-id')
 const submitBtn = form.querySelector('button')
 
-async function renderExercises() {
+async function renderExerciseDropdown() {
   await loadExercises()
   // Clear dropdown
-  exerciseSelect.innerHTML = `<option value="">Välj övning</option>`
+  exerciseSelect.innerHTML = `<option value="">Choose exercise</option>`
   getExercises().forEach((exercise) => {
     const option = document.createElement('option')
     option.value = exercise.id
@@ -34,7 +34,7 @@ function renderWorkouts() {
   if (workouts.length === 0) {
     const li = document.createElement('li')
     li.setAttribute('role', 'status')
-    li.textContent = 'Inga träningspass ännu'
+    li.textContent = 'No workouts yet'
     list.appendChild(li)
     return
   }
@@ -46,7 +46,9 @@ function renderWorkouts() {
     li.tabIndex = 0
 
     const exerciseId = workout.exercises?.[0]?.exerciseId
-    const exercise = exerciseId ? getExerciseById(exerciseId) : null
+    const exercise = exerciseId
+      ? getExercises().find((ex) => ex.id === exerciseId)
+      : null
 
     li.innerHTML = `
       <span>
@@ -56,8 +58,8 @@ function renderWorkouts() {
       <button
         class="edit-btn"
         data-id="${workout.id}"
-        aria-label="Redigera ${workout.name}">
-        Redigera
+        aria-label="Edit ${workout.name}">
+        Edit
       </button>
     `
 
@@ -71,7 +73,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault()
 
   if (!exerciseSelect.value) {
-    announce('Välj en övning')
+    announce('Choose an exercise')
     exerciseSelect.focus()
     return
   }
@@ -90,10 +92,10 @@ form.addEventListener('submit', (e) => {
 
   if (idInput.value) {
     updateWorkout(workout)
-    announce('Träningspass uppdaterat')
+    announce('Workout session updated')
   } else {
     addWorkout(workout)
-    announce('Träningspass sparat')
+    announce('Workout session saved')
   }
 
   resetForm()
@@ -119,14 +121,14 @@ function fillForm(workout) {
     exerciseSelect.value = workout.exercises[0].exerciseId
   }
 
-  submitBtn.textContent = 'Spara ändringar'
+  submitBtn.textContent = 'Save changes'
   nameInput.focus()
 }
 
 function resetForm() {
   form.reset()
   idInput.value = ''
-  submitBtn.textContent = 'Spara träningspass'
+  submitBtn.textContent = 'Save workout session'
 }
 
 function announce(message) {
@@ -134,9 +136,9 @@ function announce(message) {
 }
 
 ;(async function init() {
-  await renderExercises()
+  await renderExerciseDropdown()
   renderWorkouts()
 
   // Update dropdown if exercises are deleted
-  document.addEventListener('exercisesUpdated', renderExercises)
+  document.addEventListener('exercisesUpdated', renderExerciseDropdown)
 })()

@@ -3,24 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workout App</title>
+
+<<<<<<< HEAD
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Generate personalized workouts, track exercises, and start your fitness journey with our interactive workout app.">
 
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/side-panel.css" />
-    <link rel="manifest" href="/manifest.json"> <!-- Offline installation -->
-    <meta name="theme-color" content="#0a7cff"> <!-- Offline installation -->
-    <link
-      rel="preload"
-      as="image"
-      href="assets/gymHero_1280.webp"
-      media="(min-width: 769px)"
-    >
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../styles/side-panel.css" />
 
   <title>Workout App</title>
-  </head>
+</head>
 
 <body class="drawer-right">
   <!-- Mobile menu toggle -->
+  <button id="menu-toggle" aria-label="Open menu" class="menu-toggle" aria-expanded="false">
+    <span class="bar bar-1"></span>
+    <span class="bar bar-2"></span>
+    <span class="bar bar-3"></span>
+  </button>
+
+  <!-- Side navigation panel -->
+  <nav id="side-panel" class="side-panel">
+    <h2 class="visually-hidden">Side Navigation</h2>
+
+    <ul class="side-panel-list">
+      <li><button data-nav="list">Show Items</button></li>
+      <li><button data-nav="add">Add Items</button></li>
+      <li><button data-nav="search">Search Items</button></li>
+      <li><button data-nav="settings">Settings</button></li>
+    </ul>
+
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Theme toggle button">
+      <span class="theme-icon"></span>
+=======
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
+  </head>
+
   <body class="drawer-right">
     <!-- Mobile menu toggle -->
     <button
@@ -32,6 +54,7 @@
       <span class="bar bar-1"></span>
       <span class="bar bar-2"></span>
       <span class="bar bar-3"></span>
+>>>>>>> origin/dev
     </button>
 
     <!-- Side navigation panel -->
@@ -50,12 +73,33 @@
         <span class="theme-icon"></span>
       </button>
     </nav>
+<<<<<<< HEAD
+  </header>
+  <main id="app-root">
+    <section id="home" class="hero-section">
+      <picture>
+        <!-- Mobile -->
+        <source
+          srcset="../assets/gymHero_mobile.avif"
+          media="(max-width: 768px)"
+        />
+
+        <!-- Desktop -->
+        <img
+          src="../assets/gymHero_desktop.avif"
+          alt="Gym"
+          class="hero-image"
+          fetchpriority=high
+        />
+      </picture>
+=======
 
     <!-- Backdrop for the sidebar -->
     <div id="side-panel-backdrop"></div>
+>>>>>>> origin/dev
 
     <header>
-      <h1>Workout App</h1>
+      <h1>Welcome to My Website</h1>
       <nav aria-label="Primary navigation">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -66,31 +110,7 @@
     </header>
     <main id="app-root">
       <section id="home" class="hero-section">
-        <picture>
-          <!-- Mobile -->
-          <source
-            srcset="
-              ../assets/gymHero_480.webp 480w,
-              ../assets/gymHero_768.webp 768w
-            "
-            sizes="100vw"
-            media="(max-width: 768px)"
-            type="image/webp"
-          />
-
-          <!-- Desktop / fallback -->
-          <img
-            src="../assets/gymHero_1280.webp"
-            srcset="../assets/gymHero_1280.webp 1280w"
-            sizes="1280px"
-            width="1280"
-            height="853"
-            alt="Gym"
-            class="hero-image"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </picture>
+        <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
 
         <!-- overlay-content på hero -->
         <section class="hero-overlay" aria-label="Workout starter">
@@ -154,14 +174,20 @@
                 <button class="btn-accent" id="generate-btn">Generate</button>
               </section>
 
-            <ul id="workout-list" aria-label="Generated random workout list"></ul>
+              <ul id="workout-list" aria-label="Generated workout list"></ul>
 
               <button class="btn-secondary" id="generate-back-btn">
                 ⬅ Back
               </button>
             </section>
 
-            <!-- STEP 3B -->
+<<<<<<< HEAD
+            <ul id="workout-list" aria-label="Generated random workout list"></ul>
+
+            <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
+          </section>
+
+          <!-- STEP 3B -->
           <section id="custom-workout-section" class="card" hidden>
             <h2 class="section-heading">Create Your Own Workout</h2>
 
@@ -191,10 +217,20 @@
               <li class="empty-state">No workouts yet</li>
             </ul>
             <button class="btn-secondary" id="clear-workouts-btn">Clear Workouts</button>
+            <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
+          </section>
+        </article>
+=======
+            <!-- STEP 3B -->
+            <section id="custom-workout" class="card" hidden>
+              <h2 class="section-heading">Create Your Own Workout ✏️</h2>
+              <p class="section-subtitle">Create workout function</p>
+
               <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
             </section>
           </article>
         </section>
+>>>>>>> origin/dev
       </section>
 
       <section class="container">
@@ -224,7 +260,6 @@
       </footer>
 
       <!-- App root (views will be injected here) -->
-      <button id="install-btn" hidden aria-label="Install app">Install app</button> <!-- Offline installation -->
     </main>
     <!-- Sidebar (non-module) -->
     <script src="../scripts/side-panel.js"></script>

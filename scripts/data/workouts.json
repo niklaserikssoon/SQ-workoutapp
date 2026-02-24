@@ -5,6 +5,7 @@
         "exercises": [
             {
                 "exerciseId": 1,
+                "exerciseName": "",
                 "sets": 5,
                 "reps": 10
             }
