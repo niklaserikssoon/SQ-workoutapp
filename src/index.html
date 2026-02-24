@@ -11,6 +11,8 @@
   <title>Workout App</title>
   </head>
 
+<body class="drawer-right">
+  <!-- Mobile menu toggle -->
   <body class="drawer-right">
     <!-- Mobile menu toggle -->
     <button
@@ -27,6 +29,7 @@
     <!-- Side navigation panel -->
     <nav id="side-panel" class="side-panel" aria-hidden="true">
       <h2 class="visually-hidden">Side Navigation</h2>
+      >
 
       <ul class="side-panel-list">
         <li><button data-nav="list">Show Items</button></li>
@@ -35,7 +38,7 @@
         <li><button data-nav="settings">Settings</button></li>
       </ul>
 
-    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Theme toggle button">
+      <button id="theme-toggle" class="theme-toggle-btn">
         <span class="theme-icon"></span>
       </button>
     </nav>
@@ -44,7 +47,7 @@
     <div id="side-panel-backdrop"></div>
 
     <header>
-      <h1>Welcome to My Website</h1>
+      <h1>Workout App</h1>
       <nav aria-label="Primary navigation">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -55,10 +58,20 @@
     </header>
     <main id="app-root">
       <section id="home" class="hero-section">
-        <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
+      <picture>
+        <!-- Mobile -->
+        <source
           srcset="../assets/gymHero_mobile.avif"
+          media="(max-width: 768px)"
+        />
+
+        <!-- Desktop -->
+        <img
           src="../assets/gymHero_desktop.avif"
-          fetchpriority=high
+          alt="Gym"
+          class="hero-image"
+        />
+      </picture>
 
         <!-- overlay-content på hero -->
         <section class="hero-overlay" aria-label="Workout starter">

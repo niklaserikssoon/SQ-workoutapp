@@ -14,6 +14,7 @@ export async function loadExercises() {
   } catch (error) {
     console.error('generateWorkout loadExercises failed:', error)
     return []
+  }
 }
 
 function pickRandomUnique(arr, count) {
