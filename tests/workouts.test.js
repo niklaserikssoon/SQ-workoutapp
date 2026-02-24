@@ -7,7 +7,7 @@ import {
   updateWorkout,
   getWorkoutById,
   saveWorkouts,
-} from '../scripts/storage/workoutStorage.js'
+} from '../scripts/storage/workouts.js'
 
 describe('workoutService', () => {
   beforeEach(() => {

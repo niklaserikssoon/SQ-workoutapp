@@ -1,99 +1,84 @@
 // UI rendering modules
-import { renderList } from './ui/renderList.js'
-import { renderExercises } from './ui/renderExercises.js'
+import { renderList, initWorkoutNav } from './ui/index.js'
+import { renderExerciseBank, loadExercises } from './ui/exercise-bank.js'
 import { initSearch } from './logic/search.js'
-import { initCreateForm } from './createItem.js'
+import { initCreateForm } from './create-Item.js'
+import { generateWorkout } from './ui/generateWorkout.js'
 
-// Storage actions
-import { addTestItem } from './storage/itemsStorage.js'
-
-/**
- * Loads the HTML component into #app-root
- * Initializes UI event listeners
- */
 async function loadComponent() {
   const response = await fetch('./items-list.html')
   const html = await response.text()
 
-  const root = document.getElementById('app-content')
-  if (!root) return
+  const content = document.getElementById('app-content')
+  if (!content) return
 
-  root.setAttribute('aria-busy', 'true')
-  root.replaceChildren()
+  try {
+    const response = await fetch('../src/items-list.html')
+    if (!response.ok)
+      throw new Error(`Could not load page (${response.status})`)
+    const html = await response.text()
 
-  const template = document.createElement('template')
-  template.innerHTML = html
+    root.setAttribute('aria-busy', 'true')
+    root.replaceChildren()
 
-  root.appendChild(template.content)
-  root.setAttribute('aria-busy', 'false')
+    const template = document.createElement('template')
+    template.innerHTML = html
+    root.appendChild(template.content)
 
-  //init Create form after HTML is injected
-  initCreateForm()
+    root.setAttribute('aria-busy', 'false')
 
-  // Button for testing
-  // const button = document.getElementById('add-test-item');
-  // if (button) {
-  //   button.addEventListener('click', () => {
-  //     addTestItem('Workout ' + Math.floor(Math.random() * 100));
-  //   });
-  // }
-
-  renderList()
-  renderExercises()
-
-  await loadExercises()
+    initCreateForm()
+    renderList()
+    renderExerciseBank()
+  } catch (error) {
+    console.error('loadComponent failed:', error)
+    root.innerHTML =
+      '<p>Sorry, something went wrong loading this page. Please try again.</p>'
+  }
 }
 
 // Component is loaded when page is ready
-document.addEventListener('DOMContentLoaded', loadComponent)
-// Expose for side-panel navigation
-window.loadComponent = loadComponent
+document.addEventListener('DOMContentLoaded', () => {
+  loadComponent()
+  initWorkoutNav()
+  window.loadComponent = loadComponent
+})
 
 document.addEventListener('itemsUpdated', renderList)
-document.addEventListener('exercisesUpdated', renderExercises)
+document.addEventListener('exercisesUpdated', renderExerciseBank)
 
 window.addEventListener('storage', () => {
   renderList()
-  renderExercises()
+  renderExerciseBank()
 })
 
-// display all exercies from API
-let allExercises = [];
-let isLoaded = false;
+// display all exercises from API
+let allExercises = []
+let isLoaded = false
 
-async function loadExercises() {
+async function loadAllExercises() {
   const response = await fetch(
     'https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json'
-  );
+  )
+  allExercises = await response.json()
+  isLoaded = true
 
-  allExercises = await response.json();
-  isLoaded = true;
-
-  // OBS: Visa INTE något här
-  // displayExercises(allExercises)
-
-  // koppla search (men du kan också välja att disable:a search tills man klickar)
   initSearch({
     input: document.getElementById('exercise-search'),
     button: document.getElementById('search-button'),
     data: allExercises,
     onResults: displayExercises,
-  });
+  })
 }
 
 function displayExercises(exercises) {
-<<<<<<< HEAD
   const gallery = document.getElementById('workout-display')
-  if(!gallery) return;
+  if (!gallery) return
   gallery.innerHTML = ''
-=======
-  const gallery = document.getElementById('workout-display');
-  gallery.innerHTML = '';
->>>>>>> origin/dev
 
   exercises.forEach((exercise) => {
-    const article = document.createElement('article');
-    article.classList.add('card');
+    const article = document.createElement('article')
+    article.classList.add('card')
 
     article.innerHTML = `
       <h3>${exercise.name}</h3>
@@ -102,112 +87,94 @@ function displayExercises(exercises) {
       <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
       <p><strong>Primary muscles:</strong> ${exercise.primaryMuscles.join(', ')}</p>
       <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
-    `;
+    `
 
-    gallery.appendChild(article);
-  });
+    gallery.appendChild(article)
+  })
 }
 
-<<<<<<< HEAD
-/* ----- GENERATE WORKOUT ----- */
-=======
 document.getElementById('show-exercises')?.addEventListener('click', () => {
-  if (!isLoaded) return;
-  displayExercises(allExercises);
-});
+  if (!isLoaded) return
+  displayExercises(allExercises)
+})
 
-loadExercises();
+loadAllExercises()
 
 document.getElementById('load-more')?.addEventListener('click', () => {
-  renderNextPage(false);
-});
-
+  renderNextPage(false)
+})
 
 // generate random workout from API exercise database
->>>>>>> origin/dev
-import { generateWorkout } from "./ui/generateWorkout.js";
+const button = document.getElementById('generate-btn')
+const input = document.getElementById('workout-input')
+const workoutList = document.getElementById('workout-list')
 
-const button = document.getElementById("generate-btn");
-const generatedWorkoutCard = document.getElementById("generate-workout");
-const input = document.getElementById("workout-input");
-const workoutList = document.getElementById("workout-list");
+if (button && input && workoutList) {
+  button.addEventListener('click', async () => {
+    const muscle = input.value.trim()
 
-// Button for workout generation
-button.addEventListener("click", async () => {
-  const muscle = input.value.trim();
-  if (!muscle) return alert("Please enter a muscle group");
+    if (!muscle) {
+      alert('Please enter a muscle group')
+      return
+    }
 
-  const workout = await generateWorkout(muscle, 5);
-  renderWorkoutList(workout);
-});
+    const workout = await generateWorkout(muscle, 5)
+    workoutList.innerHTML = ''
 
-// Pull-to-refresh gesture
-let startY = 0;
-let isPulling = false;
+    const table = document.createElement('table')
+    table.classList.add('workout-table')
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Exercise</th>
+          <th>Sets</th>
+          <th>Reps</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `
 
-generatedWorkoutCard.addEventListener("pointerdown", (e) => {
-  startY = e.clientY;
-});
+    const tbody = table.querySelector('tbody')
+    workout.forEach((ex) => {
+      const row = document.createElement('tr')
+      row.innerHTML = `
+        <td>🏋️ ${ex.name}</td>
+        <td>${ex.sets}</td>
+        <td>${ex.reps}</td>
+      `
+      tbody.appendChild(row)
+    })
 
-generatedWorkoutCard.addEventListener("pointermove", (e) => {
-  const delta = e.clientY - startY;
-  if (delta > 50) { // pull distance threshold
-    refreshIndicator.textContent = "Release to refresh...";
-    isPulling = true;
-  }
-});
+const table = document.createElement("table");
+table.classList.add("workout-table");
 
-generatedWorkoutCard.addEventListener("pointerup", async () => {
-  if (isPulling) {
-    refreshIndicator.textContent = "Refreshing...";
-    isPulling = false;
+table.innerHTML = `
+  <thead>
+    <tr>
+      <th>Exercise</th>
+      <th>Sets</th>
+      <th>Reps</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+`;
 
-    const muscle = input.value.trim() || "Full Body"; // default if input empty
-    const workout = await generateWorkout(muscle, 5);
-    renderWorkoutList(workout);
+const tbody = table.querySelector("tbody");
 
-    // reset indicator
-    setTimeout(() => {
-      refreshIndicator.textContent = "Pull down to refresh";
-    }, 500);
-  }
-});
+workout.forEach(ex => {
+  const row = document.createElement("tr");
 
-// Render Workout List function
-function renderWorkoutList(workout) {
-  workoutList.innerHTML = "";
-
-  const table = document.createElement("table");
-  table.classList.add("workout-table");
-
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Exercise</th>
-        <th>Sets</th>
-        <th>Reps</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
+  row.innerHTML = `
+    <td>🏋️ ${ex.name}</td>
+    <td> ${ex.sets}</td>
+    <td>${ex.reps}</td>
   `;
 
-  const tbody = table.querySelector("tbody");
+  tbody.appendChild(row);
+});
 
-  workout.forEach(ex => {
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td>🏋️ ${ex.name}</td>
-      <td>${ex.sets}</td>
-      <td>${ex.reps}</td>
-    `;
-
-    tbody.appendChild(row);
-  });
-
-  workoutList.appendChild(table);
-}
-
+workoutList.appendChild(table);
+});
 
 // UI navigation logic for workout generation and custom workout creation
 const startSection = document.getElementById("start-workout");
@@ -245,3 +212,111 @@ document.getElementById("custom-back-btn").addEventListener("click", () => {
   customSection.hidden = true;
   optionsSection.hidden = false;
 });
+
+/*------- Custom Workout -------*/
+import workoutService from "./storage/workoutStorage.js";
+
+// Elements
+const customWorkoutSection = document.getElementById("custom-workout-section");
+const customWorkoutList = document.getElementById("custom-workout-list");
+const form = document.getElementById("custom-workout-form");
+
+const backBtn = document.getElementById("custom-back-btn");
+const customOptionBtn = document.getElementById("custom-option");
+const clearBtn = document.getElementById("clear-workouts-btn");
+const workoutOptionsSection = document.getElementById("workout-options");
+
+// --- Navigation ---
+// Show custom workout section when "Create Your Own" is clicked
+customOptionBtn?.addEventListener("click", () => {
+  workoutOptionsSection.hidden = true;
+  customWorkoutSection.hidden = false;
+
+  // Clear previous workouts when starting fresh
+  workoutService.saveWorkouts([]); // clears localStorage
+  renderWorkouts();
+});
+
+// Back button
+backBtn?.addEventListener("click", () => {
+  customWorkoutSection.hidden = true;
+  workoutOptionsSection.hidden = false;
+});
+
+// --- Clear button ---
+clearBtn?.addEventListener("click", () => {
+  workoutService.saveWorkouts([]); // clear localStorage
+  renderWorkouts();
+});
+
+// --- Render saved workouts ---
+function renderWorkouts() {
+  const workouts = workoutService.getWorkouts();
+  customWorkoutList.innerHTML = "";
+
+  if (workouts.length === 0) {
+    customWorkoutList.innerHTML = `<li class="empty-state">No workouts yet</li>`;
+    return;
+  }
+
+  const cwTable = document.createElement("table");
+  cwTable.classList.add("custom-workout-table");
+
+  cwTable.innerHTML = `
+    <thead>
+      <tr>
+        <th colspan="3">${new Date().toISOString().split("T")[0]}</th>
+      </tr>
+      <tr>
+        <th>Exercise</th>
+        <th>Sets</th>
+        <th>Reps</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const tbody = cwTable.querySelector("tbody");
+
+  workouts.forEach(workout => {
+    const row = document.createElement("tr");
+    row.classList.add("workout-row");
+
+    const exercise = workout.exercises[0];
+    row.innerHTML = `
+      <td class="workout-name">${exercise.exerciseName}</td>
+      <td class="workout-sets">${exercise.sets}</td>
+      <td class="workout-reps">${exercise.reps}</td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  // Append table to the container
+  customWorkoutList.appendChild(cwTable);
+}
+
+// --- Form submission ---
+form?.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const workout = {
+    date: new Date().toISOString().split("T")[0],
+    exercises: [
+      {
+        exerciseName: document.getElementById("exercise-name").value.trim(),
+        sets: Number(document.getElementById("sets").value),
+        reps: Number(document.getElementById("reps").value),
+      }
+    ]
+  };
+
+  workoutService.addWorkout(workout);
+
+  form.reset();
+  renderWorkouts();
+  list.lastElementChild?.scrollIntoView({ behavior: "smooth" });
+});
+
+// Render on load
+renderWorkouts();

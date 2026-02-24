@@ -1,13 +1,20 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workout App</title>
 
+<<<<<<< HEAD
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workout App</title>
+  <meta name="description" content="Generate personalized workouts, track exercises, and start your fitness journey with our interactive workout app.">
 
   <link rel="stylesheet" href="../styles/style.css" />
   <link rel="stylesheet" href="../styles/side-panel.css" />
+
+  <title>Workout App</title>
 </head>
 
 <body class="drawer-right">
@@ -19,9 +26,8 @@
   </button>
 
   <!-- Side navigation panel -->
-  <nav id="side-panel" class="side-panel" aria-hidden="true">
+  <nav id="side-panel" class="side-panel">
     <h2 class="visually-hidden">Side Navigation</h2>
-    >
 
     <ul class="side-panel-list">
       <li><button data-nav="list">Show Items</button></li>
@@ -30,30 +36,70 @@
       <li><button data-nav="settings">Settings</button></li>
     </ul>
 
-    <button id="theme-toggle" class="theme-toggle-btn">
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Theme toggle button">
       <span class="theme-icon"></span>
+=======
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
+  </head>
+
+  <body class="drawer-right">
+    <!-- Mobile menu toggle -->
+    <button
+      id="menu-toggle"
+      aria-label="Open menu"
+      class="menu-toggle"
+      aria-expanded="false"
+    >
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
+>>>>>>> origin/dev
     </button>
-  </nav>
 
-  <!-- Backdrop for the sidebar -->
-  <div id="side-panel-backdrop"></div>
+    <!-- Side navigation panel -->
+    <nav id="side-panel" class="side-panel" aria-hidden="true">
+      <h2 class="visually-hidden">Side Navigation</h2>
+      >
 
-  <header>
-    <h1>Welcome to My Website</h1>
-    <nav aria-label="Primary navigation">
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="exerciseBank.html">Workouts</a></li>
-        <li><a href="#contact">exercise plans</a></li>
+      <ul class="side-panel-list">
+        <li><button data-nav="list">Show Items</button></li>
+        <li><button data-nav="add">Add Items</button></li>
+        <li><button data-nav="search">Search Items</button></li>
+        <li><button data-nav="settings">Settings</button></li>
       </ul>
+
+      <button id="theme-toggle" class="theme-toggle-btn">
+        <span class="theme-icon"></span>
+      </button>
     </nav>
 <<<<<<< HEAD
+  </header>
+  <main id="app-root">
+    <section id="home" class="hero-section">
+      <picture>
+        <!-- Mobile -->
+        <source
+          srcset="../assets/gymHero_mobile.avif"
+          media="(max-width: 768px)"
+        />
+
+        <!-- Desktop -->
+        <img
+          src="../assets/gymHero_desktop.avif"
+          alt="Gym"
+          class="hero-image"
+          fetchpriority=high
+        />
+      </picture>
+=======
 
     <!-- Backdrop for the sidebar -->
     <div id="side-panel-backdrop"></div>
+>>>>>>> origin/dev
 
     <header>
-      <h1>WORKOUT APP</h1>
+      <h1>Welcome to My Website</h1>
       <nav aria-label="Primary navigation">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -62,139 +108,177 @@
         </ul>
       </nav>
     </header>
+    <main id="app-root">
+      <section id="home" class="hero-section">
+        <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
 
-  <main id="main-content">
-=======
-  </header>
-  <main id="app-root">
->>>>>>> origin/dev
-    <section id="home" class="hero-section">
-      <img src="../assets/gymHero.jpg" alt="Gym" class="hero-image" />
-
-      <!-- overlay-content på hero -->
-      <section class="hero-overlay" aria-label="Workout starter">
-        <header class="hero-header">
-          <h2 class="section-heading">Home</h2>
-          <p class="section-subtitle">
-            Welcome to the home page! Explore our workout generator and exercise
-            bank.
-          </p>
-        </header>
-
-        <!-- panel/kort på bilden -->
-        <article class="hero-panel">
-          <!-- STEP 1 -->
-          <section id="start-workout" class="card">
-            <h2 class="section-heading">Start Workout</h2>
+        <!-- overlay-content på hero -->
+        <section class="hero-overlay" aria-label="Workout starter">
+          <header class="hero-header">
+            <h2 class="section-heading">Home</h2>
             <p class="section-subtitle">
-              Click start to choose how you want to train.
+              Welcome to the home page! Explore our workout generator and
+              exercise bank.
             </p>
-            <button class="btn-accent" id="start-btn">Start</button>
-          </section>
+          </header>
 
-          <!-- STEP 2 -->
-          <section id="workout-options" class="card" hidden>
-            <h2 class="section-heading">Choose Option</h2>
-            <p class="section-subtitle">
-              Generate a workout or build your own.
-            </p>
+          <!-- panel/kort på bilden -->
+          <article class="hero-panel">
+            <!-- STEP 1 -->
+            <section id="start-workout" class="card">
+              <h2 class="section-heading">Start Workout</h2>
+              <p class="section-subtitle">
+                Click start to choose how you want to train.
+              </p>
+              <button class="btn-accent" id="start-btn">Start</button>
+            </section>
 
-            <section class="generate-controls" aria-label="Workout options">
-              <button class="btn-accent" id="generate-option">
-                Generate Workout
-              </button>
-              <button class="btn-secondary" id="custom-option">
-                Create Your Own
+            <!-- STEP 2 -->
+            <section id="workout-options" class="card" hidden>
+              <h2 class="section-heading">Choose Option</h2>
+              <p class="section-subtitle">
+                Generate a workout or build your own.
+              </p>
+
+              <section class="generate-controls" aria-label="Workout options">
+                <button class="btn-accent" id="generate-option">
+                  Generate Workout
+                </button>
+                <button class="btn-secondary" id="custom-option">
+                  Create Your Own
+                </button>
+              </section>
+
+              <button class="btn-secondary" id="options-back-btn">
+                ⬅ Back
               </button>
             </section>
 
-            <button class="btn-secondary" id="options-back-btn">⬅ Back</button>
-          </section>
+            <!-- STEP 3A -->
+            <section id="generate-workout" class="card" hidden>
+              <h2 class="section-heading">Generate Workout</h2>
+              <p class="section-subtitle">
+                Select a muscle group and generate a random workout
+              </p>
 
-          <!-- STEP 3A -->
-          <section id="card-generate-workout" class="card" hidden>
-            <h2 class="section-heading">Generate Workout</h2>
-            <p class="section-subtitle">
-              Select a muscle group and generate a random workout
-            </p>
+              <section
+                class="generate-controls"
+                aria-label="Generator controls"
+              >
+                <label class="sr-only" for="workout-input">Muscle group</label>
+                <input
+                  type="text"
+                  id="workout-input"
+                  placeholder="Example: Hamstrings"
+                />
+                <button class="btn-accent" id="generate-btn">Generate</button>
+              </section>
 
-            <section class="generate-controls" aria-label="Generator controls">
-              <label class="sr-only" for="workout-input">Muscle group</label>
+              <ul id="workout-list" aria-label="Generated workout list"></ul>
+
+              <button class="btn-secondary" id="generate-back-btn">
+                ⬅ Back
+              </button>
+            </section>
+
 <<<<<<< HEAD
-              <input
-                type="text"
-                id="workout-input"
-                placeholder="Example: Hamstrings"
-              />
-              <button class="btn-accent" id="card-generate-btn">Generate</button>
-=======
-              <input type="text" id="workout-input" placeholder="Example: Hamstrings" />
-              <button class="btn-accent" id="generate-btn">Generate</button>
->>>>>>> origin/dev
-            </section>
-
-            <ul id="card-workout-list" aria-label="Generated workout list"></ul>
+            <ul id="workout-list" aria-label="Generated random workout list"></ul>
 
             <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
           </section>
 
           <!-- STEP 3B -->
-          <section id="custom-workout" class="card" hidden>
-            <h2 class="section-heading">Create Your Own Workout ✏️</h2>
-            <p class="section-subtitle">Create workout function</p>
+          <section id="custom-workout-section" class="card" hidden>
+            <h2 class="section-heading">Create Your Own Workout</h2>
 
+            <form id="custom-workout-form">
+              <label>
+                Exercise Name
+                <input type="text" id="exercise-name" placeholder="Example: Squats" required />
+              </label>
+
+              <label>
+                Sets
+                <input type="number" id="sets" min="1" required />
+              </label>
+
+              <label>
+                Reps
+                <input type="number" id="reps" min="1" required />
+              </label>
+
+              <button class="btn-accent" type="submit">
+                Add Workout
+              </button>
+            </form>
+
+            <h3 class="subheading">Saved Workouts</h3>
+            <ul id="custom-workout-list" class="features-list">
+              <li class="empty-state">No workouts yet</li>
+            </ul>
+            <button class="btn-secondary" id="clear-workouts-btn">Clear Workouts</button>
             <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
           </section>
         </article>
+=======
+            <!-- STEP 3B -->
+            <section id="custom-workout" class="card" hidden>
+              <h2 class="section-heading">Create Your Own Workout ✏️</h2>
+              <p class="section-subtitle">Create workout function</p>
+
+              <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
+            </section>
+          </article>
+        </section>
+>>>>>>> origin/dev
       </section>
-    </section>
 
-    <section class="container">
-      <h2 class="section-heading">About This App</h2>
-      <p class="section-subtitle">
-        This app helps you generate and manage workout routines. You can choose from a variety of exercises and create custom workouts.
-      </p>
-      <h3 class="subheading">Features:</h3>
-      <ul class="features-list">
-        <li>Generate random workouts based on muscle groups.</li>
-        <li>Create and save your own workout routines.</li>
-        <li>Access a comprehensive exercise bank.</li>
-    </section>
-    
-    <footer>
-      <p>&copy; 2024 Workout App. All rights reserved.</p>
-      <ul class="footer-links">
-        <li><a href="https://github.com/niklaserikssoon/SQ-workoutapp">Github</a></li>
-        <li><a href="exerciseBank.html">LinkedIN</a></li>
-    </footer>
-
-    <!-- App root (views will be injected here) -->
-<<<<<<< HEAD
-    <section id="app-root">
-      <section id="generate-workout" class="card">
-        <h2 class="section-heading">Generate Workout</h2>
+      <section class="container">
+        <h2 class="section-heading">About This App</h2>
         <p class="section-subtitle">
-          Select a muscle group and generate a random workout
+          This app helps you generate and manage workout routines. You can
+          choose from a variety of exercises and create custom workouts.
         </p>
-=======
->>>>>>> origin/dev
+        <h3 class="subheading">Features:</h3>
+        <ul class="features-list">
+          <li>Generate random workouts based on muscle groups.</li>
+          <li>Create and save your own workout routines.</li>
+          <li>Access a comprehensive exercise bank.</li>
+        </ul>
+      </section>
 
-  </main>
-  <!-- Sidebar (non-module) -->
-  <script src="../scripts/side-panel.js"></script>
+      <footer>
+        <p>&copy; 2024 Workout App. All rights reserved.</p>
+        <ul class="footer-links">
+          <li>
+            <a href="https://github.com/niklaserikssoon/SQ-workoutapp"
+              >Github</a
+            >
+          </li>
+          <li><a href="exerciseBank.html">LinkedIN</a></li>
+        </ul>
+      </footer>
 
-<<<<<<< HEAD
       <!-- App root (views will be injected here) -->
-      <section id="app-content" aria-busy="true"></section>
-    </section>
-  </main>
-=======
-  <!-- Theme toggle -->
-  <script src="../scripts/theme.js"></script>
->>>>>>> origin/dev
+    </main>
+    <!-- Sidebar (non-module) -->
+    <script src="../scripts/side-panel.js"></script>
 
-  <!-- App logic (module) -->
-  <script type="module" src="../scripts/main.js"></script>
-</body>
+    <!-- Theme toggle -->
+    <script src="../scripts/theme.js"></script>
 
+    <!-- App logic (module) -->
+    <script type="module" src="../scripts/main.js"></script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then(() => console.log('Service worker registered'))
+            .catch((err) => console.error('Service worker failed: ', err))
+        })
+      }
+    </script>
+  </body>
 </html>

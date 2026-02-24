@@ -7,6 +7,12 @@
 
     <link rel="stylesheet" href="../styles/style.css" />
     <link rel="stylesheet" href="../styles/side-panel.css" />
+    <link
+      rel="preload"
+      as="image"
+      href="assets/gymHero_1280.webp"
+      media="(min-width: 769px)"
+    >
 
   <title>Workout App</title>
   </head>
@@ -58,20 +64,31 @@
     </header>
     <main id="app-root">
       <section id="home" class="hero-section">
-      <picture>
-        <!-- Mobile -->
-        <source
-          srcset="../assets/gymHero_mobile.avif"
-          media="(max-width: 768px)"
-        />
+        <picture>
+          <!-- Mobile -->
+          <source
+            srcset="
+              ../assets/gymHero_480.webp 480w,
+              ../assets/gymHero_768.webp 768w
+            "
+            sizes="100vw"
+            media="(max-width: 768px)"
+            type="image/webp"
+          />
 
-        <!-- Desktop -->
-        <img
-          src="../assets/gymHero_desktop.avif"
-          alt="Gym"
-          class="hero-image"
-        />
-      </picture>
+          <!-- Desktop / fallback -->
+          <img
+            src="../assets/gymHero_1280.webp"
+            srcset="../assets/gymHero_1280.webp 1280w"
+            sizes="1280px"
+            width="1280"
+            height="853"
+            alt="Gym"
+            class="hero-image"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
 
         <!-- overlay-content på hero -->
         <section class="hero-overlay" aria-label="Workout starter">
