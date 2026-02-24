@@ -11,11 +11,11 @@ body {
   color: var(--text-primary);
 }
 
-html, body {
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
-}/**/
-
+} /**/
 
 :root {
   --bg-main: #ffffff;
@@ -25,7 +25,7 @@ html, body {
   --text-primary: #111111;
   --text-secondary: #4b5563;
 
-  --accent: #5a7d7c;
+  --accent: #75a1a0;
   --accent-hover: #6f9a98;
 
   --border-soft: rgba(0, 0, 0, 0.1);
@@ -61,7 +61,7 @@ html, body {
 }
 
 .hero-header p {
-  color:white;
+  color: white;
   font-size: 1.2rem;
   margin-top: 12px;
 }
@@ -78,10 +78,10 @@ html, body {
   width: min(520px, 92vw);
 }
 .hero-section::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
 }
 .hero-overlay {
   position: absolute;
@@ -96,8 +96,8 @@ html, body {
   --text-primary: #ffffff;
   --text-secondary: #9ca3af;
 
-  --accent: #5a7d7c;
-  --accent-hover: #6f9a98;
+  --accent: #75a1a0;
+  --accent-hover: #3f6f6d; /**/
 
   --border-soft: rgba(255, 255, 255, 0.05);
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -142,15 +142,14 @@ nav a:hover {
   background: rgba(255, 255, 255, 0.08); /* genomskinlig */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px); /* safari */
-  
+
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
 
   padding: 2rem;
   color: white;
 
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .section-heading {
@@ -272,7 +271,7 @@ button,
 nav a {
   min-width: 44px;
   min-height: 44px;
-}/**/
+} /**/
 
 #workout-input {
   flex: 1;
@@ -456,29 +455,132 @@ footer .footer-links a:hover {
 body {
   font-family: 'Inter', system-ui, sans-serif;
   font-display: swap;
-/* -------------- Generate workout -------------- */
+  /* -------------- Generate workout -------------- */
 
-.workout-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  border: 3px solid var(--border-soft);
-}
+  .workout-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    border: 3px solid var(--border-soft);
+  }
 
-.workout-table th,
-.workout-table td {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
+  .workout-table th,
+  .workout-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
 
-.workout-table th {
-  background: #111;
-  color: white;
-}
+  .workout-table th {
+    background: #111;
+    color: white;
+  }
 }
 
 /* Utility classes */
 [hidden] {
   display: none !important;
+}
+
+/* Custom workout section */
+.form-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.form-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-list input {
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.form-list button {
+  align-self: start;
+  padding: 0.6rem 1.2rem;
+}
+
+#custom-workout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; 
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#custom-workout-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+#custom-workout-form input {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+#custom-workout-form button {
+  width: fit-content;
+  padding: 0.6rem 1.2rem;
+  align-self: flex-start;
+}
+
+#custom-workout-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* each workout is a row */
+  gap: 0.5rem;
+}
+
+.custom-workout-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.custom-workout-table th,
+.custom-workout-table td {
+  border: 1px solid var(--border-soft);
+  padding: 0.5rem 0.8rem;
+  text-align: left;
+}
+
+.custom-workout-table th {
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.custom-workout-table th:first-child {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.workout-row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.empty-state::before {
+  content: "" !important;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+  margin-top: 0.1rem;
 }

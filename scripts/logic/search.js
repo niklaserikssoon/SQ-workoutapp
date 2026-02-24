@@ -24,10 +24,11 @@ export function initSearch({ input, button, data, onResults }) {
 
     onResults(filtered);
   }
+  if(button)
+    button.addEventListener("click", runSearch);
 
-  button.addEventListener("click", runSearch);
-
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter") runSearch();
-  });
+  if(input)
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") runSearch();
+    });
 }

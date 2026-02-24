@@ -40,10 +40,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Run test
+        run: npm test
+
+      - name: Run lighthouse
+        run: npm run lighthouse
+          
       - name: Build site
         run: npm run build
 
