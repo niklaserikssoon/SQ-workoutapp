@@ -1,19 +1,23 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Träningsapp</title>
+    <title>Workout App</title>
     <meta
       name="description"
-      content="En tillgänglig Träningsapp för att logga och redigera träningspass."
+      content="An available workout app able to log and edit workout sessions."
     />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/layout.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
     <link rel="stylesheet" href="../styles/edit-item.css" />
   </head>
 
-  <body>
+  <body class="page-edit-item">
     <header>
-      <h1>Träningsapp</h1>
+      <h1>Workout App</h1>
     </header>
 
     <main>
@@ -27,20 +31,20 @@
 
       <!-- Form section -->
       <section aria-labelledby="form-heading">
-        <h2 id="form-heading">Lägg till / redigera träningspass</h2>
+        <h2 id="form-heading">Add / edit workout session</h2>
 
         <form id="workout-form">
           <input type="hidden" id="workout-id" />
 
-          <label for="name">Passnamn</label>
+          <label for="name">Session name</label>
           <input id="name" type="text" required aria-required="true" />
 
-          <label for="name">Välj övning</label>
+          <label for="name">Choose workout</label>
           <select id="exercise" required>
             <option value="">Övningar</option>
           </select>
 
-          <label for="duration">Tid (minuter)</label>
+          <label for="duration">Time (minutes)</label>
           <input
             id="duration"
             type="number"
@@ -49,16 +53,16 @@
             aria-required="true"
           />
 
-          <label for="notes">Anteckningar</label>
+          <label for="notes">Notes</label>
           <textarea id="notes" rows="3"></textarea>
 
-          <button type="submit">Spara träningspass</button>
+          <button type="submit">Save workout session</button>
         </form>
       </section>
 
       <!-- Workout list -->
       <section aria-labelledby="list-heading">
-        <h2 id="list-heading">Mina träningspass</h2>
+        <h2 id="list-heading">My workout sessions</h2>
         <ul
           id="workout-list"
           aria-live="polite"
@@ -68,7 +72,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2026 Träningsapp</p>
+      <p>&copy; 2026 Workout App</p>
     </footer>
 
     <!-- Added type="module" to all script tags so ES module exports/imports work correctly -->
