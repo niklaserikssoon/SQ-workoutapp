@@ -4,31 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exercise Bank</title>
-
-    <link rel="stylesheet" href="../styles/exerciseBank.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/layout.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
   </head>
-
-  <body class="drawer-right">
+  <body class="drawer-right page-exercise-bank">
     <!-- Mobile menu toggle -->
-    <button id="menu-toggle" aria-label="Open menu" class="menu-toggle">
-      ☰
+    <button
+      id="menu-toggle"
+      aria-label="Open menu"
+      class="menu-toggle"
+      aria-expanded="false"
+    >
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
     </button>
-
     <!-- Side navigation panel -->
-    <nav id="side-panel" class="side-panel" aria-hidden="true" inert>
-      <h2 class="visually-hidden">Side Navigation</h2>
-
-      <ul class="side-panel-list">
-        <li><button data-nav="list">Show Items</button></li>
-        <li><button data-nav="add">Add Items</button></li>
-        <li><button data-nav="search">Search Items</button></li>
-        <li><button data-nav="settings">Settings</button></li>
-      </ul>
+    <nav id="side-panel" class="side-panel" aria-hidden="true">
+      <!-- <h2 class="visually-hidden">Side Navigation</h2> -->
+      <div class="side-panel-header">
+        <h2>Side Navigation</h2>
+      </div>
+      <div class="side-panel-content">
+        <ul class="side-panel-list">
+          <li><button data-nav="list">Show Items</button></li>
+          <li><button data-nav="add">Add Items</button></li>
+          <li><button data-nav="search">Search Items</button></li>
+          <li><button data-nav="settings">Settings</button></li>
+        </ul>
+      </div>
+      <button
+        id="theme-toggle"
+        class="theme-toggle-btn"
+        aria-label="Toggle dark mode"
+      ></button>
     </nav>
-
     <!-- Backdrop for the sidebar -->
     <div id="side-panel-backdrop"></div>
-
     <header>
       <h1>Exercise Bank</h1>
       <nav aria-label="Primary navigation">
@@ -39,7 +53,6 @@
         </ul>
       </nav>
     </header>
-
     <main>
       <!-- search bar for exercises -->
       <section class="search-section">
@@ -53,33 +66,24 @@
         />
         <button id="search-button">Search</button>
       </section>
-
       <!-- display worksouts from json -->
-      <section id="workout-display">
-      </section>
-
+      <section id="workout-display"></section>
       <!-- Exercise modal -->
       <dialog id="exercise-modal">
         <article class="exercise-modal-content">
           <button id="modal-close" aria-label="Close modal">✕</button>
-
           <h2 id="modal-title"></h2>
-
           <img id="modal-image" alt="" />
-
           <p id="modal-overview"></p>
-
           <h3>Instructions</h3>
           <ol id="modal-instructions"></ol>
         </article>
       </dialog>
       <button id="show-exercises" class="btn-accent">Show exercises</button>
     </main>
-
     <script type="module" src="../scripts/main.js"></script>
     <!-- Sidebar (non-module) -->
     <script src="../scripts/side-panel.js"></script>
-
     <!-- Theme toggle -->
     <script src="../scripts/theme.js"></script>
   </body>

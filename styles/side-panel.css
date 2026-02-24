@@ -12,7 +12,6 @@
   will-change: transform;
   z-index: 1000;
   padding: 0;
-  box-sizing: border-box;
 }
 
 .side-panel-content {
@@ -20,13 +19,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: calc(100% - 60px);
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-
-.theme-toggle-btn {
-  align-self: flex-end;
-  margin: 16px;
+  padding: 16px 0;
 }
 
 /* When panel is open */
@@ -36,19 +29,19 @@
 
 /* --- Header --- */
 .side-panel-header {
-  width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding-left: 20px;
+  padding-right: 16px;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-soft);
 }
 
 .side-panel-header h2 {
-  color: var(--text-primary);
   margin: 0;
   font-size: 1.2rem;
+  color: var(--text-primary);
 }
 
 /* --- Menu List --- */
@@ -82,41 +75,37 @@
 
 /* --- Toggle Button (Hamburger) --- */
 .menu-toggle {
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 16px;
   left: 16px;
+  width: 44px;
+  height: 44px;
   font-size: 1.8rem;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 1100;
-
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  color: var(--text-primary);
 }
 
 .menu-toggle .bar {
-  display: block;
   width: 22px;
   height: 2px;
   background: currentColor;
   border-radius: 2px;
   transition:
-    transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1),
+    transform 0.28s ease,
     opacity 0.2s ease;
 }
 
-.menu-toggle .bar-1 {
-  margin-bottom: 6px;
-}
+.menu-toggle .bar-1,
 .menu-toggle .bar-2 {
-  margin-bottom: 6px;
+  margin-bottom: 0px;
 }
 
 .menu-toggle.is-open .bar-1 {
@@ -134,16 +123,12 @@
 /* --- Backdrop Overlay --- */
 #side-panel-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background: var(--overlay);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 900;
-  will-change: opacity;
 }
 
 #side-panel-backdrop.visible {
@@ -165,8 +150,8 @@
 
 /* Right drawer */
 body.drawer-right .side-panel {
-  right: 0;
   left: auto;
+  right: 0;
   transform: translateX(100%);
 }
 
@@ -179,11 +164,26 @@ body.drawer-right .menu-toggle {
   right: 16px;
 }
 
+/* --- Dark mode toggle button --- */
 .theme-toggle-btn {
-  margin-top: auto;
-  align-self: flex-end;
+  width: 44px;
+  height: 44px;
+  margin: 16px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
 }
 
-body {
-  overflow-x: hidden;
+.theme-toggle-btn::before {
+  content: '🌙';
+  font-size: 1.25rem;
+}
+
+html.dark .theme-toggle-btn::before {
+  content: '☀️';
 }
