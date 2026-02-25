@@ -1,13 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  getWorkouts,
-  addWorkout,
-  updateWorkout,
-  getWorkoutById,
-  saveWorkouts,
-} from '../scripts/storage/workouts.js'
+import { jest } from '@jest/globals'
+import workoutService from '../scripts/storage/workouts.js'
+
+const { getWorkouts, addWorkout, updateWorkout, getWorkoutById, saveWorkouts } =
+  workoutService
 
 describe('workoutService', () => {
   beforeEach(() => {

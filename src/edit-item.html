@@ -39,9 +39,9 @@
           <label for="name">Session name</label>
           <input id="name" type="text" required aria-required="true" />
 
-          <label for="name">Choose workout</label>
+          <label for="exercise">Choose workout</label>
           <select id="exercise" required>
-            <option value="">Övningar</option>
+            <option value="">Select exercise</option>
           </select>
 
           <label for="duration">Time (minutes)</label>
@@ -76,8 +76,8 @@
     </footer>
 
     <!-- Added type="module" to all script tags so ES module exports/imports work correctly -->
-    <script type="module" src="../scripts/storage/exercisesStorage.js"></script>
-    <script type="module" src="../scripts/storage/workoutStorage.js"></script>
-    <script type="module" src="../scripts/ui/renderWorkouts.js"></script>
+    <script type="module" src="../scripts/storage/exercises.js"></script>
+    <script type="module" src="../scripts/storage/workouts.js"></script>
+    <script type="module" src="../scripts/ui/workouts-form.js"></script>
   </body>
 </html>
