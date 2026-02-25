@@ -75,6 +75,35 @@ details {
   margin-top: 10px;
 }
 
+.btn-accent {
+  background-color: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+.btn-secondary {
+  background-color: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+.btn-accent:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
 summary {
   cursor: pointer;
   font-weight: 600;
