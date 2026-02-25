@@ -102,6 +102,11 @@ function displayExercises(exercises = []) {
       <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
       <p><strong>Primary muscles:</strong> ${exercise.primaryMuscles.join(', ')}</p>
       <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
+
+      <details>
+        <summary><strong>Instructions</strong> (Visa mer)</summary>
+        <p>${exercise.instructions}</p>
+      </details>
     `;
 
     gallery.appendChild(article);
