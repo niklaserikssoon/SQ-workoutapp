@@ -20,20 +20,31 @@
 
       <!-- Add new exercise -->
       <section class="card">
-        <h2 class="section-heading">Add New Exercise</h2>
+        <h2 id="create-heading" class="section-heading">Add New Exercise</h2>
         <p class="section-subtitle">
           Create a new exercise and save it to the list
         </p>
 
-        <form id="create-item-form" class="create-form">
+        <form
+          id="create-item-form"
+          class="create-form"
+          aria-labelledby="create-heading"
+        >
           <!-- Category -->
           <label for="category">Category</label>
-          <select id="category" required>
+          <select
+            id="category"
+            required
+            aria-required="true"
+            aria-describedby="category-error"
+          >
             <option value="">Select category</option>
             <option value="strength">Strength</option>
             <option value="hiit">HIIT</option>
             <option value="cardio">Cardio</option>
           </select>
+
+          <p id="category-error" class="error-message" hidden></p>
 
           <!-- Muscle group -->
           <label for="muscleGroup">Muscle group</label>
@@ -42,11 +53,20 @@
             id="muscleGroup"
             placeholder="e.g. legs, back, shoulders"
             required
+            aria-required="true"
+            aria-describedby="muscleGroup-error"
           />
+
+          <p id="muscleGroup-error" class="error-message" hidden></p>
 
           <!-- Equipment -->
           <label for="equipment">Equipment</label>
-          <select id="equipment" required>
+          <select
+            id="equipment"
+            required
+            aria-required="true"
+            aria-describedby="equipment-error"
+          >
             <option value="">Select equipment</option>
             <option value="none">None</option>
             <option value="dumbbells">Dumbbells</option>
@@ -56,21 +76,31 @@
             <option value="band">Resistance band</option>
           </select>
 
+          <p id="equipment-error" class="error-message" hidden></p>
+
           <!-- Level -->
           <label for="level">Level</label>
-          <select id="level" required>
+          <select
+            id="level"
+            required
+            aria-required="true"
+            aria-describedby="level-error"
+          >
             <option value="">Select level</option>
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
           </select>
 
+          <p id="level-error" class="error-message" hidden></p>
+
           <button type="submit">Save exercise</button>
 
           <p
             id="create-feedback"
             class="form-feedback"
-            style="display: none"
+            aria-live="polite"
+            hidden
           ></p>
         </form>
       </section>

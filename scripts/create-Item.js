@@ -48,11 +48,11 @@ export function initCreateForm() {
     const feedback = document.getElementById('create-feedback') // UI message area
     if (feedback) {
       feedback.textContent = '✅ Exercise saved!'
-      feedback.style.display = 'block'
+      feedback.hidden = false
 
       // Auto-hide after a short moment
       setTimeout(() => {
-        feedback.style.display = 'none'
+        feedback.hidden = true
         feedback.textContent = ''
       }, 2000)
     }
