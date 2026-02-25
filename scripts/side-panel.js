@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backdrop.classList.add('visible')
     menuToggle.classList.add('is-open')
 
+    sidePanel.hidden = false
     sidePanel.setAttribute('aria-hidden', 'false')
     menuToggle.setAttribute('aria-expanded', 'true')
   }
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backdrop.classList.remove('visible')
     menuToggle.classList.remove('is-open')
 
+    sidePanel.hidden = true
     sidePanel.setAttribute('aria-hidden', 'true')
     menuToggle.setAttribute('aria-expanded', 'false')
   }
