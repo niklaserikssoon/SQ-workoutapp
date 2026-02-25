@@ -175,15 +175,8 @@ body.drawer-right .menu-toggle {
   color: var(--text-primary);
   cursor: pointer;
 
-  display: grid;
-  place-items: center;
-}
-
-.theme-toggle-btn::before {
-  content: '🌙';
-  font-size: 1.25rem;
-}
-
-html.dark .theme-toggle-btn::before {
-  content: '☀️';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
