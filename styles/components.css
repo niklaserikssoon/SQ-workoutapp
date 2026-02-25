@@ -86,3 +86,26 @@ textarea {
   align-items: center;
   justify-content: center;
 }
+
+/* --- Theme Toggle Icon --- */
+.theme-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition:
+    transform 0.4s ease,
+    opacity 0.3s ease;
+}
+
+html:not(.dark) .theme-icon::before {
+  content: '🌞';
+}
+
+html.dark .theme-icon::before {
+  content: '🌙';
+}
+
+.theme-toggle-btn:hover .theme-icon {
+  transform: scale(1.15);
+}
