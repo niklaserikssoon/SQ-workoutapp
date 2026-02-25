@@ -12,7 +12,7 @@ import { initSearch } from './logic/search.js'
  * Initializes UI event listeners
  */
 async function loadComponent() {
-  const response = await fetch('./items-list.html')
+  const response = await fetch('../src/items-list.html')
   const html = await response.text()
 
   const content = document.getElementById('app-content')
@@ -77,12 +77,48 @@ async function loadExercises() {
   allExercises = await response.json();
   isLoaded = true;
 
+  // Store references
+  const searchInput = document.getElementById('exercise-search');
+  const searchBtn = document.getElementById('search-button');
+
+  // Initialize search logic
   initSearch({
-    input: document.getElementById('exercise-search'),
-    button: document.getElementById('search-button'),
+    input: searchInput,
+    button: searchBtn,
     data: allExercises,
     onResults: displayExercises,
   });
+
+  // Show all exercises if hash is set
+  if (location.hash === '#show-all-exercises') {
+    displayExercises(allExercises);
+    history.replaceState(null, '', location.pathname);
+  }
+
+  // Handle side-panel / deep links
+  handleDeepLinks(searchInput, searchBtn);
+}
+
+function handleDeepLinks(searchInput, searchBtn) {
+  const hash = location.hash;
+
+  if (hash === '#show-exercises') {
+    displayExercises(allExercises);
+    return;
+  }
+
+  if (hash.startsWith('#search')) {
+    const query = hash.includes('=')
+      ? decodeURIComponent(hash.split('=')[1])
+      : '';
+
+    searchInput?.focus();
+
+    if (query) {
+      searchInput.value = query;
+      searchBtn?.click();
+    }
+  }
 }
 
 function displayExercises(exercises = []) {
@@ -90,11 +126,10 @@ function displayExercises(exercises = []) {
   if (!gallery) return;
 
   gallery.innerHTML = '';
-
+  console.log("N", exercises.length);
   exercises.forEach((exercise) => {
     const article = document.createElement('article');
     article.classList.add('card');
-
     article.innerHTML = `
       <h3>${exercise.name}</h3>
       <p><strong>Category:</strong> ${exercise.category}</p>
@@ -108,7 +143,7 @@ function displayExercises(exercises = []) {
         <p>${exercise.instructions}</p>
       </details>
     `;
-
+    
     gallery.appendChild(article);
   });
 }

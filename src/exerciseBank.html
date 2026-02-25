@@ -23,16 +23,16 @@
     </button>
     <!-- Side navigation panel -->
     <nav id="side-panel" class="side-panel" aria-hidden="true">
-      <!-- <h2 class="visually-hidden">Side Navigation</h2> -->
-      <div class="side-panel-header">
-        <h2>Side Navigation</h2>
-      </div>
       <div class="side-panel-content">
         <ul class="side-panel-list">
-          <li><button data-nav="list">Show Items</button></li>
-          <li><button data-nav="add">Add Items</button></li>
-          <li><button data-nav="search">Search Items</button></li>
-          <li><button data-nav="settings">Settings</button></li>
+          <input
+            type="search"
+            id="side-panel-search"
+            placeholder="Search exercises…"
+            aria-label="Search exercises bar"
+          />
+          <li><button data-nav="search-exercises">Search Exercises</button></li>
+          <li><button data-nav="show-exercises">Show Exercises</button></li>
         </ul>
       </div>
       <button
@@ -46,12 +46,12 @@
     <!-- Backdrop for the sidebar -->
     <div id="side-panel-backdrop"></div>
     <header>
-      <h1>Exercise Bank</h1>
+      <h1>EXERCISE BANK</h1>
       <nav aria-label="Primary navigation">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="exerciseBank.html">Workouts</a></li>
-          <li><a href="#contact">exercise plans</a></li>
+          <li><a id="nav-link" href="../index.html#home">Home</a></li>
+          <li><a id="nav-link" href="./exerciseBank.html">Exercise Bank</a></li>
+          <li><a id="nav-link" href="../index.html#about">About</a></li>
         </ul>
       </nav>
     </header>

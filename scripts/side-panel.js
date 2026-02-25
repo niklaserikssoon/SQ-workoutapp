@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isOpen = false
 
+  sidePanel.querySelectorAll('input, button, select, textarea, a[href], [tabindex]').forEach(el => {
+    el.disabled = true
+    el.setAttribute('tabindex', '-1')
+  })
+  
   /* ---------- Panel controls ---------- */
   function openPanel() {
     if (isOpen) return
@@ -22,6 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     sidePanel.hidden = false
     sidePanel.setAttribute('aria-hidden', 'false')
     menuToggle.setAttribute('aria-expanded', 'true')
+
+    sidePanel.querySelectorAll('input, button, [tabindex]').forEach(el => {
+      el.disabled = false;
+      el.setAttribute('tabindex', '0');
+    });
+
+    const firstFocusable = sidePanel.querySelector('input, button, [tabindex]');
+    firstFocusable?.focus();
   }
 
   function closePanel() {
@@ -35,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     sidePanel.hidden = true
     sidePanel.setAttribute('aria-hidden', 'true')
     menuToggle.setAttribute('aria-expanded', 'false')
+
+    sidePanel.querySelectorAll('input, button, [tabindex]').forEach(el => {
+    el.disabled = true;
+    el.setAttribute('tabindex', '-1');
+    });
   }
 
   /* ---------- Toggle button ---------- */
@@ -83,5 +101,38 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
+  sidePanel.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-nav]')
+    if (!btn) return
+
+    const nav = btn.dataset.nav
+
+    switch (nav) {
+      case 'show-exercises':
+        window.location.href = '../src/exerciseBank.html#show-all-exercises'
+        break;
+
+      case 'search-exercises': {
+        const input = document.getElementById('side-panel-search');
+        const query = input?.value.trim();
+
+        const url = query
+          ? `../src/exerciseBank.html#search=${encodeURIComponent(query)}`
+          : `../src/exerciseBank.html#search`;
+          
+        window.location.href = url;
+        break;
+      }
+
+      case 'add-workout':
+        document.getElementById('add-workout-section')?.scrollIntoView({ behavior: 'smooth' })
+        break;
+    }
+
+    closePanel()
+  })
+
   sessionStorage.removeItem('activeView')
 })
+
+
