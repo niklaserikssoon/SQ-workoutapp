@@ -3,27 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Generate personalized workouts, track exercises, and start your fitness journey with our interactive workout app.">
-
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/side-panel.css" />
-<<<<<<< HEAD
-    <link rel="manifest" href="/manifest.json"> <!-- Offline installation -->
-    <meta name="theme-color" content="#0a7cff"> <!-- Offline installation -->
-=======
+    <meta
+      name="description"
+      content="Generate personalized workouts, track exercises, and start your fitness journey with our interactive workout app."
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <!-- App installation -->
+    <meta name="theme-color" content="#22c55e" />
+    <!-- App installation -->
+     
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/side-panel.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <!-- Offline installation for web -->
+    <meta name="theme-color" content="#0a7cff" />
+    <!-- Offline installation for web -->
     <link
       rel="preload"
       as="image"
       href="assets/gymHero_1280.webp"
       media="(min-width: 769px)"
-    >
+    />
+    <!-- Image preload-->
 
-  <title>Workout App</title>
->>>>>>> feature/lighthouse-implementation
+    <title>Syntax Squad Workout App</title>
   </head>
 
-<body class="drawer-right">
-  <!-- Mobile menu toggle -->
   <body class="drawer-right">
     <!-- Mobile menu toggle -->
     <button
@@ -37,43 +42,43 @@
       <span class="bar bar-3"></span>
     </button>
 
-    <!-- Side navigation panel -->
+<!-- Side navigation panel -->
     <nav id="side-panel" class="side-panel" aria-hidden="true">
-      <h2 class="visually-hidden">Side Navigation</h2>
+      <div class="side-panel-content">
+        <ul class="side-panel-list">
+          <input
+            type="search"
+            id="side-panel-search"
+            placeholder="Search exercises…"
+            aria-label="Search exercises"
+          />
+          <li><button data-nav="search-exercises">Search Exercises</button></li>
+          <li><button data-nav="show-exercises">Show Exercises</button></li>
+        </ul>
+      </div>
+      <button
+        id="theme-toggle"
+        class="theme-toggle-btn"
+        aria-label="Toggle dark mode"
       >
-
-      <ul class="side-panel-list">
-        <li><button data-nav="list">Show Items</button></li>
-        <li><button data-nav="add">Add Items</button></li>
-        <li><button data-nav="search">Search Items</button></li>
-        <li><button data-nav="settings">Settings</button></li>
-      </ul>
-
-      <button id="theme-toggle" class="theme-toggle-btn">
         <span class="theme-icon"></span>
       </button>
     </nav>
-
     <!-- Backdrop for the sidebar -->
     <div id="side-panel-backdrop"></div>
 
     <header>
-      <h1>Workout App</h1>
+      <h1>SYNTAX SQUAD WORKOUT APP</h1>
       <nav aria-label="Primary navigation">
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="exerciseBank.html">Workouts</a></li>
-          <li><a href="#contact">exercise plans</a></li>
+          <li><a id="nav-link" href="#home">Home</a></li>
+          <li><a id="nav-link" href="./src/exerciseBank.html">Exercise Bank</a></li>
+          <li><a id="nav-link" href="#about">About</a></li>
         </ul>
       </nav>
     </header>
-    <main id="app-root">
-<<<<<<< HEAD
-      <button id="install-btn" hidden aria-label="Install app">Install app</button> <!-- Offline installation -->
-      <section id="app-content" aria-busy="true"></section>
-    </main>
-=======
-      <section id="home" class="hero-section">
+    <main id="app-root" id="home">
+      <section class="hero-section">
         <picture>
           <!-- Mobile -->
           <source
@@ -85,7 +90,6 @@
             media="(max-width: 768px)"
             type="image/webp"
           />
->>>>>>> feature/lighthouse-implementation
 
           <!-- Desktop / fallback -->
           <img
@@ -163,7 +167,10 @@
                 <button class="btn-accent" id="generate-btn">Generate</button>
               </section>
 
-            <ul id="workout-list" aria-label="Generated random workout list"></ul>
+              <ul
+                id="workout-list"
+                aria-label="Generated random workout list"
+              ></ul>
 
               <button class="btn-secondary" id="generate-back-btn">
                 ⬅ Back
@@ -171,42 +178,41 @@
             </section>
 
             <!-- STEP 3B -->
-          <section id="custom-workout-section" class="card" hidden>
-            <h2 class="section-heading">Create Your Own Workout</h2>
+            <section id="custom-workout-section" class="card" hidden>
+              <h2 class="section-heading">Create Your Own Workout</h2>
 
-            <form id="custom-workout-form">
-              <label>
-                Exercise Name
-                <input type="text" id="exercise-name" placeholder="Example: Squats" required />
-              </label>
+              <form id="custom-workout-form">
+                <label for="exercise-name">Exercise Name</label>
+                <input
+                  type="text"
+                  id="exercise-name"
+                  placeholder="Example: Squats"
+                  required
+                />
 
-              <label>
-                Sets
+                <label for="sets">Sets</label>
                 <input type="number" id="sets" min="1" required />
-              </label>
 
-              <label>
-                Reps
+                <label for="reps">Reps</label>
                 <input type="number" id="reps" min="1" required />
-              </label>
 
-              <button class="btn-accent" type="submit">
-                Add Workout
+                <button class="btn-accent" type="submit">Add Workout</button>
+              </form>
+
+              <h3 class="subheading">Saved Workouts</h3>
+              <ul id="custom-workout-list" class="features-list">
+                <li class="empty-state">No workouts yet</li>
+              </ul>
+              <button class="btn-secondary" id="clear-workouts-btn">
+                Clear Workouts
               </button>
-            </form>
-
-            <h3 class="subheading">Saved Workouts</h3>
-            <ul id="custom-workout-list" class="features-list">
-              <li class="empty-state">No workouts yet</li>
-            </ul>
-            <button class="btn-secondary" id="clear-workouts-btn">Clear Workouts</button>
               <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
             </section>
           </article>
         </section>
       </section>
 
-      <section class="container">
+      <section class="container" id="about">
         <h2 class="section-heading">About This App</h2>
         <p class="section-subtitle">
           This app helps you generate and manage workout routines. You can
@@ -219,21 +225,21 @@
           <li>Access a comprehensive exercise bank.</li>
         </ul>
       </section>
-
-      <footer>
-        <p>&copy; 2024 Workout App. All rights reserved.</p>
-        <ul class="footer-links">
-          <li>
-            <a href="https://github.com/niklaserikssoon/SQ-workoutapp"
-              >Github</a
-            >
-          </li>
-          <li><a href="exerciseBank.html">LinkedIN</a></li>
-        </ul>
-      </footer>
-
-      <!-- App root (views will be injected here) -->
     </main>
+    <footer>
+      <p>&copy; 2024 Workout App. All rights reserved.</p>
+      <ul class="footer-links">
+        <li>
+          <a id="nav-link" href="https://github.com/niklaserikssoon/SQ-workoutapp">Github</a>
+        </li>
+        <li><a id="nav-link" href="exerciseBank.html">LinkedIN</a></li>
+      </ul>
+
+        <!-- Offline installation -->
+       <button id="install-btn" class="btn-secondary" hidden aria-label="Install app">
+        Install app
+      </button>
+    </footer>
     <!-- Sidebar (non-module) -->
     <script src="../scripts/side-panel.js"></script>
 

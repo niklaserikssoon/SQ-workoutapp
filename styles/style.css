@@ -36,6 +36,14 @@ body {
   --overlay: rgba(0, 0, 0, 0.15);
 }
 
+#nav-link {
+  color: #1a4d4c; /* Darker teal to improve contrast */
+  background-color: #ffffff; /* Keep white background */
+  font-weight: normal;
+  font-size: 16px;
+  text-decoration: none;
+}
+
 /* ------------------------------------------- HERO SECTION --------------------------- */
 .hero-section {
   position: relative;
