@@ -11,17 +11,17 @@
     <!-- App installation -->
     <meta name="theme-color" content="#22c55e" />
     <!-- App installation -->
-     
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="stylesheet" href="./styles/side-panel.css" />
-    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/side-panel.css" />
+    <link rel="manifest" href="../manifest.json" />
     <!-- Offline installation for web -->
     <meta name="theme-color" content="#0a7cff" />
     <!-- Offline installation for web -->
     <link
       rel="preload"
       as="image"
-      href="assets/gymHero_1280.webp"
+      href="../assets/gymHero_1280.webp"
       media="(min-width: 769px)"
     />
     <!-- Image preload-->
@@ -42,7 +42,7 @@
       <span class="bar bar-3"></span>
     </button>
 
-<!-- Side navigation panel -->
+    <!-- Side navigation panel -->
     <nav id="side-panel" class="side-panel" aria-hidden="true">
       <div class="side-panel-content">
         <ul class="side-panel-list">
@@ -72,7 +72,7 @@
       <nav aria-label="Primary navigation">
         <ul>
           <li><a id="nav-link" href="#home">Home</a></li>
-          <li><a id="nav-link" href="./src/exerciseBank.html">Exercise Bank</a></li>
+          <li><a id="nav-link" href="./exerciseBank.html">Exercise Bank</a></li>
           <li><a id="nav-link" href="#about">About</a></li>
         </ul>
       </nav>
@@ -230,13 +230,22 @@
       <p>&copy; 2024 Workout App. All rights reserved.</p>
       <ul class="footer-links">
         <li>
-          <a id="nav-link" href="https://github.com/niklaserikssoon/SQ-workoutapp">Github</a>
+          <a
+            id="nav-link"
+            href="https://github.com/niklaserikssoon/SQ-workoutapp"
+            >Github</a
+          >
         </li>
         <li><a id="nav-link" href="exerciseBank.html">LinkedIN</a></li>
       </ul>
 
-        <!-- Offline installation -->
-       <button id="install-btn" class="btn-secondary" hidden aria-label="Install app">
+      <!-- Offline installation -->
+      <button
+        id="install-btn"
+        class="btn-secondary"
+        hidden
+        aria-label="Install app"
+      >
         Install app
       </button>
     </footer>
