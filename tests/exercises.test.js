@@ -1,13 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-
-const {
+import { jest } from '@jest/globals'
+import {
   getExercises,
   addExercise,
   deleteExercise,
   getItems,
-} = require('../scripts/storage/exercises.js')
+} from '../scripts/storage/exercises.js'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
