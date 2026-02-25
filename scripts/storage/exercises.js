@@ -14,7 +14,7 @@ function getExercises() {
  * Adds a new exercise to LocalStorage
  * Saves the updated list and notifies the UI
  */
-function addExercise(newExercise) {
+export function addExercise(newExercise) {
   const exerciseList = getExercises()
 
   exerciseList.push(newExercise)
@@ -33,7 +33,7 @@ function addExercise(newExercise) {
  * Saves the updated list in LocalStorage
  * Dispatches a global event so the UI can update automatically
  */
-function deleteExercise(idToDelete) {
+export function deleteExercise(idToDelete) {
   const confirmDelete = confirm(
     'Are you sure you want to delete this exercise?'
   )
@@ -53,9 +53,7 @@ function deleteExercise(idToDelete) {
 }
 
 // Moved from itemsStorage.js
-function getItems() {
+export function getItems() {
   const items = JSON.parse(localStorage.getItem('items')) || []
   return items.sort((a, b) => b.createdAt - a.createdAt) // newest first
 }
-
-module.exports = { getExercises, addExercise, deleteExercise, getItems }
