@@ -2,7 +2,9 @@ name: CI + Deploy static site
 
 on:
   push:
-    branches: ['dev']
+    branches: ['dev', 'main']
+  pull_request:
+    branches: ['dev', 'main']
 
 permissions:
   contents: read
@@ -50,7 +52,7 @@ jobs:
 
       - name: Run lighthouse
         run: npm run lighthouse
-          
+
       - name: Build site
         run: npm run build
 
