@@ -6,7 +6,7 @@
  * Fetches all exercises from LocalStorage
  * Returns an empty array if nothing is saved
  */
-function getExercises() {
+export function getExercises() {
   return JSON.parse(localStorage.getItem('exercises')) || []
 }
 
