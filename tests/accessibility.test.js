@@ -5,7 +5,7 @@ import { axe } from 'jest-axe'
 // ─── Helper to load HTML files ───────────────────────────────────────────────
 
 function loadHTML(filename) {
-  const filePath = path.join(process.cwd(), 'src', filename)
+  const filePath = path.join(process.cwd(), filename)
   return fs.readFileSync(filePath, 'utf8')
 }
 
@@ -67,7 +67,7 @@ describe('Accessibility: index.html', () => {
 
 describe('Accessibility: exerciseBank.html', () => {
   beforeEach(() => {
-    document.documentElement.innerHTML = loadHTML('exerciseBank.html')
+    document.documentElement.innerHTML = loadHTML('src/exerciseBank.html')
   })
 
   test('has no critical WCAG violations', async () => {
@@ -115,7 +115,7 @@ describe('Accessibility: exerciseBank.html', () => {
 
 describe('Accessibility: edit-item.html', () => {
   beforeEach(() => {
-    document.documentElement.innerHTML = loadHTML('edit-item.html')
+    document.documentElement.innerHTML = loadHTML('src/edit-item.html')
   })
 
   test('has no critical WCAG violations', async () => {
@@ -166,7 +166,7 @@ describe('Accessibility: edit-item.html', () => {
 
 describe('Accessibility: items-list.html', () => {
   beforeEach(() => {
-    document.documentElement.innerHTML = loadHTML('items-list.html')
+    document.documentElement.innerHTML = loadHTML('src/items-list.html')
   })
 
   test('has no critical WCAG violations', async () => {
