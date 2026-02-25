@@ -2,7 +2,7 @@
   "name": "WorkoutApp",
   "short_name": "Workout",
   "description": "Offline exercise tracker.",
-  "start_url": "/src/index.html",
+  "start_url": "index.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
