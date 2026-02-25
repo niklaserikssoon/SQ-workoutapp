@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "startServerCommand": "npm run serve",
-      "url": ["http://localhost:8080"],
+      "url": ["http://localhost:8080/src/index.html"],
       "numberOfRuns": 1,
       "settings": {
         "chromeFlags": "--no-sandbox --headless"
