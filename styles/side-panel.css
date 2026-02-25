@@ -17,9 +17,8 @@
 .side-panel-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% - 60px);
-  padding: 16px 0;
+  align-items: stretch;
+  padding-top: 1rem;
 }
 
 /* When panel is open */
@@ -180,3 +179,18 @@ body.drawer-right .menu-toggle {
   justify-content: center;
   line-height: 1;
 }
+
+.side-panel-user {
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.auth-status {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  letter-spacing: 0.3px;
+}
+
+
