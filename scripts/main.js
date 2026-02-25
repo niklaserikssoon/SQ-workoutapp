@@ -41,8 +41,12 @@ async function loadComponent() {
   //   });
   // }
 
-  renderList()
-  displayExercises()
+  if (typeof renderList === 'function') {
+    renderList()
+  }
+  if (isLoaded) {
+    displayExercises(allExercises)
+  }
 }
 
 // Component is loaded when page is ready
@@ -54,8 +58,12 @@ window.loadComponent = loadComponent
 //document.addEventListener('exercisesUpdated', renderExercises)
 
 window.addEventListener('storage', () => {
-  renderList()
-  renderExercises()
+  if (typeof renderList === 'function') {
+    renderList()
+  }
+  if (typeof renderExercises === 'function') {
+    renderExercises()
+  }
 })
 
 // display all exercies from API
@@ -63,17 +71,12 @@ let allExercises = [];
 let isLoaded = false;
 
 async function loadExercises() {
-  const response = await fetch(
-    'https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json'
-  );
+  const response = await fetch('../scripts/data/exercises.json');
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
   allExercises = await response.json();
   isLoaded = true;
 
-  // OBS: Visa INTE något här
-  // displayExercises(allExercises)
-
-  // koppla search (men du kan också välja att disable:a search tills man klickar)
   initSearch({
     input: document.getElementById('exercise-search'),
     button: document.getElementById('search-button'),
@@ -82,8 +85,10 @@ async function loadExercises() {
   });
 }
 
-function displayExercises(exercises) {
+function displayExercises(exercises = []) {
   const gallery = document.getElementById('workout-display');
+  if (!gallery) return;
+
   gallery.innerHTML = '';
 
   exercises.forEach((exercise) => {
@@ -103,7 +108,10 @@ function displayExercises(exercises) {
   });
 }
 
-document.getElementById('show-exercises')?.addEventListener('click', () => {
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('#show-exercises');
+  if (!btn) return;
+
   if (!isLoaded) return;
   displayExercises(allExercises);
 });
@@ -122,11 +130,11 @@ window.addEventListener("beforeinstallprompt", (e) => {
   if (localStorage.getItem(INSTALL_KEY) === "true") return;
 
   deferredPrompt = e;
-  installBtn.hidden = false;
+  if (installBtn) installBtn.hidden = false;
 });
 
 // Handle install button click
-installBtn.addEventListener("click", async () => {
+installBtn?.addEventListener("click", async () => {
   if (!deferredPrompt) return;
 
   deferredPrompt.prompt();
@@ -142,7 +150,7 @@ installBtn.addEventListener("click", async () => {
 
 // Detect successful install
 window.addEventListener("appinstalled", () => {
-  installBtn.hidden = true;
+  if (installBtn) installBtn.hidden = true;
   localStorage.setItem("pwa-installed", "true");
 });
 
@@ -167,8 +175,8 @@ const button = document.getElementById("generate-btn");
 const input = document.getElementById("workout-input");
 const workoutList = document.getElementById("workout-list");
 
-button.addEventListener("click", async () => {
-  const muscle = input.value.trim();
+button?.addEventListener("click", async () => {
+  const muscle = input?.value.trim();
 
   if (!muscle) {
     alert("Please enter a muscle group");
@@ -177,12 +185,12 @@ button.addEventListener("click", async () => {
 
   const workout = await generateWorkout(muscle, 5);
 
-workoutList.innerHTML = ""; 
+  workoutList.innerHTML = "";
 
-const table = document.createElement("table");
-table.classList.add("workout-table");
+  const table = document.createElement("table");
+  table.classList.add("workout-table");
 
-table.innerHTML = `
+  table.innerHTML = `
   <thead>
     <tr>
       <th>Exercise</th>
@@ -193,21 +201,21 @@ table.innerHTML = `
   <tbody></tbody>
 `;
 
-const tbody = table.querySelector("tbody");
+  const tbody = table.querySelector("tbody");
 
-workout.forEach(ex => {
-  const row = document.createElement("tr");
+  workout.forEach(ex => {
+    const row = document.createElement("tr");
 
-  row.innerHTML = `
+    row.innerHTML = `
     <td>🏋️ ${ex.name}</td>
     <td> ${ex.sets}</td>
     <td>${ex.reps}</td>
   `;
 
-  tbody.appendChild(row);
-});
+    tbody.appendChild(row);
+  });
 
-workoutList.appendChild(table);
+  workoutList.appendChild(table);
 });
 
 // UI navigation logic for workout generation and custom workout creation
@@ -216,33 +224,33 @@ const optionsSection = document.getElementById("workout-options");
 const generateSection = document.getElementById("generate-workout");
 const customSection = document.getElementById("custom-workout");
 
-document.getElementById("start-btn").addEventListener("click", () => {
+document.getElementById("start-btn")?.addEventListener("click", () => {
   startSection.hidden = true;
   optionsSection.hidden = false;
 });
 
-document.getElementById("generate-option").addEventListener("click", () => {
+document.getElementById("generate-option")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   generateSection.hidden = false;
 });
 
-document.getElementById("custom-option").addEventListener("click", () => {
+document.getElementById("custom-option")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   customSection.hidden = false;
 });
 
 // Back buttons
-document.getElementById("options-back-btn").addEventListener("click", () => {
+document.getElementById("options-back-btn")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   startSection.hidden = false;
 });
 
-document.getElementById("generate-back-btn").addEventListener("click", () => {
+document.getElementById("generate-back-btn")?.addEventListener("click", () => {
   generateSection.hidden = true;
   optionsSection.hidden = false;
 });
 
-document.getElementById("custom-back-btn").addEventListener("click", () => {
+document.getElementById("custom-back-btn")?.addEventListener("click", () => {
   customSection.hidden = true;
   optionsSection.hidden = false;
 });
@@ -349,7 +357,7 @@ form?.addEventListener("submit", (e) => {
 
   form.reset();
   renderWorkouts();
-  list.lastElementChild?.scrollIntoView({ behavior: "smooth" });
+  customWorkoutList.lastElementChild?.scrollIntoView({ behavior: "smooth" });
 });
 
 // Render on load
