@@ -1,6 +1,7 @@
 // CONSTANTS
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "currentUser";
+const API_BASE = "https://localhost:7001/api/v1/User";
 
 let exercises = [];
 
@@ -32,22 +33,18 @@ function saveUsers(users) {
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-function setCurrentUser(name) {
-    localStorage.setItem(CURRENT_USER_KEY, name);
-}
-
-function getCurrentUserName() {
-    return localStorage.getItem(CURRENT_USER_KEY);
+function setCurrentUser(user) {
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
 }
 
 export function logout() {
     localStorage.removeItem(CURRENT_USER_KEY);
+    localStorage.removeItem("token");
 }
 
 export function getCurrentUser() {
-    const name = getCurrentUserName();
-    if (!name) return null;
-    return getUsers().find(u => u.name === name) || null;
+    const raw = localStorage.getItem(CURRENT_USER_KEY);
+    return raw ? JSON.parse(raw) : null;
 }
 
 function updateCurrentUser(updatedUser) {
@@ -81,19 +78,28 @@ export function registerUser(name, password, email) {
     return newUser;
 }
 
-export function login(name, password) {
-    const users = getUsers();
+export async function login(name, password) {
+    const res = await fetch(`${API_BASE}/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userName: name, password })
+    });
 
-    const user = users.find(
-        u => u.name === name && u.password === password
-    );
-
-    if (!user) {
-        throw new Error("Wrong name or password.");
+    let data;
+    try {
+        data = await res.json();
+    } catch {
+        data = null;
     }
 
-    setCurrentUser(name);
-    return user;
+    if (!res.ok) {
+        throw new Error(data?.message || "Wrong username or password.");
+    }
+
+    setCurrentUser(data);
+    return data;
 }
 
 // PROFILE

@@ -7,6 +7,7 @@ import {
 } from "../storage/profileStorage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    console.log("login.js loaded");
     await seedUsers();
 
     const tabRegister = document.getElementById("tab-register");
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // LOGIN
     if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             if (loginMessage) loginMessage.textContent = "";
 
@@ -74,9 +75,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             const password = loginForm.password?.value || "";
 
             try {
-                login(name, password);
+                const user = await login(name, password);
 
-                const profile = getProfile();
+                const profile = user.profile;
 
                 if (isProfileEmpty(profile)) {
                     window.location.href = paths.profile;
@@ -93,30 +94,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // REGISTER
     if (registerForm) {
-        registerForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            if (registerMessage) registerMessage.textContent = "";
+    registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (registerMessage) registerMessage.textContent = "";
 
-            const name = registerForm.name?.value?.trim() || "";
-            const password = registerForm.password?.value || "";
-            const email = registerForm.email?.value?.trim() || "";
+        const name = registerForm.name?.value?.trim() || "";
+        const password = registerForm.password?.value || "";
+        const email = registerForm.email?.value?.trim() || "";
 
-            try {
-                registerUser(name, password, email);
+        try {
+            await registerUser(name, password, email);
+            const user = await login(name, password);
 
-                login(name, password);
+            const profile = user.profile;
 
-                const profile = getProfile();
-                if (isProfileEmpty(profile)) {
-                    window.location.href = paths.profile;
-                } else {
-                    window.location.href = paths.index;
-                }
-
-            } catch (err) {
-                if (registerMessage) registerMessage.textContent = err.message || String(err);
-                else console.error(err);
+            if (isProfileEmpty(profile)) {
+                window.location.href = paths.profile;
+            } else {
+                window.location.href = paths.index;
             }
-        });
-    }
+
+        } catch (err) {
+            if (registerMessage) registerMessage.textContent = err.message || String(err);
+            else console.error(err);
+        }
+    });
+}
 });
