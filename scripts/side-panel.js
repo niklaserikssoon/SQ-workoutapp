@@ -73,8 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update "Logged in as"
     if (authStatusEl) {
-        authStatusEl.textContent = current ? `Logged in as: ${current}` : '';
+    if (current) {
+        const user = JSON.parse(current);
+        authStatusEl.textContent = `Logged in as: ${user.userName || user.name}`;
+    } else {
+        authStatusEl.textContent = '';
     }
+}
 
     if (current) {
         // Show My Profile
