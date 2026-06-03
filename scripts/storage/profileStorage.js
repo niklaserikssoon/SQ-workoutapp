@@ -178,15 +178,22 @@ function loginWithLocalUser(name, password) {
 }
 
 export async function login(name, password) {
-    // 1. First try old local demo users
-    const localUser = loginWithLocalUser(name, password);
-
-    if (localUser) {
-        return localUser;
+    // 1. Try backend API login first (to get JWT token)
+    try {
+        return await loginWithApi(name, password);
+    } catch (err) {
+        // TypeError = network/fetch failure — backend is down, fall back to local
+        // Any other error = wrong credentials — re-throw
+        if (!(err instanceof TypeError)) {
+            throw err;
+        }
     }
 
-    // 2. If not found locally, try backend API login
-    return await loginWithApi(name, password);
+    // 2. Backend unreachable — fall back to local demo users
+    const localUser = loginWithLocalUser(name, password);
+    if (localUser) return localUser;
+
+    throw new Error("Wrong name or password.");
 }
 
 // PROFILE
