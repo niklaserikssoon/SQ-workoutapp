@@ -4,7 +4,7 @@ const CURRENT_USER_KEY = "currentUser";
 const AUTH_TYPE_KEY = "authType";
 const TOKEN_KEY = "token";
 
-const API_BASE = "https://user-api.wonderfulpebble-02d3e465.italynorth.azurecontainerapps.io/api/v1/users";
+const API_BASE = CONFIG.userApiUrl + "api/v1/User";
 
 let exercises = [];
 
