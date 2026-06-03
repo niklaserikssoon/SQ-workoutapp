@@ -75,7 +75,7 @@ btn?.addEventListener('click', () => {
       errorEl.hidden = true
 
       try {
-        const token = localStorage.getItem('jwt_token')
+        const token = localStorage.getItem('token')
 
         const res = await fetch(API_URL, {
           method: 'POST',
