@@ -1,0 +1,4 @@
+const CONFIG = {
+  userApiUrl: "https://user-api.wonderfulpebble-02d3e465.italynorth.azurecontainerapps.io",
+  workoutApiUrl: "https://workoutapp-api.wonderfulpebble-02d3e465.italynorth.azurecontainerapps.io"
+};
