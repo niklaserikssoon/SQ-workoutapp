@@ -1,17 +1,17 @@
-const API_URL = 'https://localhost:7002/api/v1/ai/generate-plan';
+const API_URL = CONFIG.workoutApiUrl + 'api/v1/ai/generate-plan'
 
-const btn = document.getElementById('ai-btn');
+const btn = document.getElementById('ai-btn')
 
 btn?.addEventListener('click', () => {
-    const startSection = document.getElementById('start-workout');
-    const heroPanel = startSection?.parentElement;
+  const startSection = document.getElementById('start-workout')
+  const heroPanel = startSection?.parentElement
 
-    if (document.getElementById('ai-section')) return;
+  if (document.getElementById('ai-section')) return
 
-    const section = document.createElement('section');
-    section.id = 'ai-section';
-    section.classList.add('card');
-    section.innerHTML = `
+  const section = document.createElement('section')
+  section.id = 'ai-section'
+  section.classList.add('card')
+  section.innerHTML = `
         <h2 class="section-heading">AI Workout Plan</h2>
         <p class="section-subtitle">Tell us about your goals and we'll generate a plan for you.</p>
 
@@ -40,65 +40,67 @@ btn?.addEventListener('click', () => {
 
         <p id="ai-error" hidden style="color: red;"></p>
         <button class="btn-secondary" id="ai-back-btn">⬅ Back</button>
-    `;
+    `
 
-    startSection.hidden = true;
-    heroPanel.appendChild(section);
+  startSection.hidden = true
+  heroPanel.appendChild(section)
 
-    document.getElementById('ai-back-btn').addEventListener('click', () => {
-        section.remove();
-        startSection.hidden = false;
-    });
+  document.getElementById('ai-back-btn').addEventListener('click', () => {
+    section.remove()
+    startSection.hidden = false
+  })
 
-    document.getElementById('generate-plan-btn').addEventListener('click', async () => {
-        const goal = document.getElementById('ai-goal').value.trim();
-        const fitnessLevel = document.getElementById('ai-level').value;
-        const daysPerWeek = Number(document.getElementById('ai-days').value);
-        const equipment = document.getElementById('ai-equipment').value.trim();
+  document
+    .getElementById('generate-plan-btn')
+    .addEventListener('click', async () => {
+      const goal = document.getElementById('ai-goal').value.trim()
+      const fitnessLevel = document.getElementById('ai-level').value
+      const daysPerWeek = Number(document.getElementById('ai-days').value)
+      const equipment = document.getElementById('ai-equipment').value.trim()
 
-        const generateBtn = document.getElementById('generate-plan-btn');
-        const resultDiv = document.getElementById('ai-result');
-        const planOutput = document.getElementById('ai-plan-output');
-        const errorEl = document.getElementById('ai-error');
+      const generateBtn = document.getElementById('generate-plan-btn')
+      const resultDiv = document.getElementById('ai-result')
+      const planOutput = document.getElementById('ai-plan-output')
+      const errorEl = document.getElementById('ai-error')
 
-        if (!goal) {
-            errorEl.textContent = 'Please enter a goal.';
-            errorEl.hidden = false;
-            return;
-        }
+      if (!goal) {
+        errorEl.textContent = 'Please enter a goal.'
+        errorEl.hidden = false
+        return
+      }
 
-        generateBtn.disabled = true;
-        generateBtn.textContent = 'Generating...';
-        resultDiv.hidden = true;
-        errorEl.hidden = true;
+      generateBtn.disabled = true
+      generateBtn.textContent = 'Generating...'
+      resultDiv.hidden = true
+      errorEl.hidden = true
 
-        try {
-            const token = localStorage.getItem('jwt_token');
+      try {
+        const token = localStorage.getItem('jwt_token')
 
-            const res = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ goal, fitnessLevel, daysPerWeek, equipment })
-            });
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ goal, fitnessLevel, daysPerWeek, equipment }),
+        })
 
-            if (res.status === 401) throw new Error('You must be logged in.');
-            if (res.status === 503) throw new Error('AI service timed out, try again.');
-            if (!res.ok) throw new Error('Something went wrong, try again later.');
+        if (res.status === 401) throw new Error('You must be logged in.')
+        if (res.status === 503)
+          throw new Error('AI service timed out, try again.')
+        if (!res.ok) throw new Error('Something went wrong, try again later.')
 
-            const data = await res.json();
-            planOutput.textContent = data.plan;
-            resultDiv.hidden = false;
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
-
-        } catch (err) {
-            errorEl.textContent = err.message;
-            errorEl.hidden = false;
-        } finally {
-            generateBtn.disabled = false;
-            generateBtn.textContent = 'Generate Plan';
-        }
-    });
-});
+        const data = await res.json()
+        planOutput.textContent = data.plan
+        resultDiv.hidden = false
+        resultDiv.scrollIntoView({ behavior: 'smooth' })
+      } catch (err) {
+        errorEl.textContent = err.message
+        errorEl.hidden = false
+      } finally {
+        generateBtn.disabled = false
+        generateBtn.textContent = 'Generate Plan'
+      }
+    })
+})
