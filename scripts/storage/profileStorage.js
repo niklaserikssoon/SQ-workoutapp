@@ -4,7 +4,7 @@ const CURRENT_USER_KEY = "currentUser";
 const AUTH_TYPE_KEY = "authType";
 const TOKEN_KEY = "token";
 
-const API_BASE = "https://localhost:7001/api/v1/User";
+const API_BASE = "https://user-api.wonderfulpebble-02d3e465.italynorth.azurecontainerapps.io/api/v1/users";
 
 let exercises = [];
 
@@ -88,7 +88,7 @@ function updateCurrentUser(updatedUser) {
 
 // AUTHENTICATION
 
-export function registerUser(name, password, email) {
+export async function registerUser(name, password, email) {
     const users = getUsers();
 
     if (users.find(u => u.name.toLowerCase() === name.toLowerCase())) {
@@ -104,6 +104,22 @@ export function registerUser(name, password, email) {
 
     users.push(newUser);
     saveUsers(users);
+
+    try {
+        await fetch(`${API_BASE}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                UserName: name,
+                FirstName: name,
+                LastName: name,
+                Email: email,
+                Password: password
+            })
+        });
+    } catch {
+        // Backend unavailable — user saved locally
+    }
 
     setAuthType("local");
     setCurrentUser(newUser);
