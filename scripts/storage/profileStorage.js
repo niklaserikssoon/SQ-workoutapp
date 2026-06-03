@@ -4,7 +4,7 @@ const CURRENT_USER_KEY = "currentUser";
 const AUTH_TYPE_KEY = "authType";
 const TOKEN_KEY = "token";
 
-const API_BASE = "https://localhost:7001/api/v1/User";
+const API_BASE = CONFIG.userApiUrl + "api/v1/User";
 
 let exercises = [];
 
