@@ -72,7 +72,7 @@ let allExercises = [];
 let isLoaded = false;
 
 async function loadExercises() {
-  const response = await fetch('../scripts/data/exercises.json');
+  const response = await fetch(CONFIG.exerciseListUrl);
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
   allExercises = await response.json();

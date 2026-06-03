@@ -58,8 +58,7 @@ export async function loadExercises() {
       allExercises = JSON.parse(cached)
     } else {
       const response = await fetch(
-        'https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json'
-      )
+        CONFIG.exerciseListUrl)
       if (!response.ok)
         throw new Error(`Could not load exercises (${response.status})`)
       allExercises = await response.json()
