@@ -133,23 +133,16 @@
 
           <article class="hero-panel">
 
-            <!-- STEP 1 -->
-            <section id="start-workout" class="card">
-              <h2 class="section-heading">Start Workout</h2>
-              <p class="section-subtitle">Click start to choose how you want to train.</p>
-              <button class="btn-accent" id="start-btn">Start</button>
-              <button class="btn-accent" id="ai-btn">AI-workout</button>
-
-            </section>
-
             <!-- STEP 2 -->
-            <section id="workout-options" class="card" hidden>
+            <section id="workout-options" class="card">
               <h2 class="section-heading">Choose Option</h2>
               <p class="section-subtitle">Generate a workout or build your own.</p>
 
               <section class="generate-controls" aria-label="Workout options">
                 <button class="btn-accent" id="generate-option">Generate Workout</button>
-                <button class="btn-secondary" id="custom-option">Create Your Own</button>
+                <button class="btn-secondary" id="custom-option">Create Exercise</button>
+                <button class="btn-secondary" id="custom-workout-btn">Create Workout</button>
+                <button class="btn-accent" id="ai-btn">AI-workout</button>
               </section>
 
               <button class="btn-secondary" id="options-back-btn">⬅ Back</button>
@@ -172,28 +165,21 @@
             </section>
 
             <!-- STEP 3B -->
-            <section id="custom-workout-section" class="card" hidden>
-              <h2 class="section-heading">Create Your Own Workout</h2>
+            <section id="create-exercise-section" class="card" hidden>
+              <h2 class="section-heading">Create Exercise</h2>
+              <p class="section-subtitle">Add a new exercise to the database.</p>
 
-              <form id="custom-workout-form">
+              <form id="create-exercise-form">
                 <label for="exercise-name">Exercise Name</label>
                 <input type="text" id="exercise-name" placeholder="Example: Squats" required />
 
-                <label for="sets">Sets</label>
-                <input type="number" id="sets" min="1" required />
+                <label for="primary-muscle">Primary Muscle</label>
+                <input type="text" id="primary-muscle" placeholder="Example: Quadriceps" required />
 
-                <label for="reps">Reps</label>
-                <input type="number" id="reps" min="1" required />
-
-                <button class="btn-accent" type="submit">Add Workout</button>
+                <button class="btn-accent" type="submit">Save Exercise</button>
               </form>
 
-              <h3 class="subheading">Saved Workouts</h3>
-              <ul id="custom-workout-list" class="features-list">
-                <li class="empty-state">No workouts yet</li>
-              </ul>
-
-              <button class="btn-secondary" id="clear-workouts-btn">Clear Workouts</button>
+              <p id="exercise-feedback" hidden></p>
               <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
             </section>
 

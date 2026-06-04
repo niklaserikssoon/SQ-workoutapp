@@ -52,6 +52,19 @@ export function deleteExercise(idToDelete) {
   return updatedExerciseList
 }
 
+export async function addExerciseToApi(exerciseName, primaryMuscle, token) {
+  const res = await fetch(`${CONFIG.workoutApiUrl}api/v1/exercises`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ exerciseName, primaryMuscle })
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
 // Moved from itemsStorage.js
 export function getItems() {
   const items = JSON.parse(localStorage.getItem('items')) || []
