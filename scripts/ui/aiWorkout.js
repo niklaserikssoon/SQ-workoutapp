@@ -3,8 +3,8 @@ const API_URL = CONFIG.workoutApiUrl + 'api/v1/ai/generate-plan'
 const btn = document.getElementById('ai-btn')
 
 btn?.addEventListener('click', () => {
-  const startSection = document.getElementById('start-workout')
-  const heroPanel = startSection?.parentElement
+  const optionsSection = document.getElementById('workout-options')
+  const heroPanel = optionsSection?.parentElement
 
   if (document.getElementById('ai-section')) return
 
@@ -42,12 +42,12 @@ btn?.addEventListener('click', () => {
         <button class="btn-secondary" id="ai-back-btn">⬅ Back</button>
     `
 
-  startSection.hidden = true
+  optionsSection.hidden = true
   heroPanel.appendChild(section)
 
   document.getElementById('ai-back-btn').addEventListener('click', () => {
     section.remove()
-    startSection.hidden = false
+    optionsSection.hidden = false
   })
 
   document
