@@ -259,11 +259,11 @@ button?.addEventListener("click", async () => {
   workoutList.appendChild(table);
 });
 
-// UI navigation logic for workout generation and custom workout creation
+// UI navigation
 const startSection = document.getElementById("start-workout");
 const optionsSection = document.getElementById("workout-options");
 const generateSection = document.getElementById("generate-workout");
-const customSection = document.getElementById("custom-workout-section");
+const createExerciseSection = document.getElementById("create-exercise-section");
 
 document.getElementById("start-btn")?.addEventListener("click", () => {
   startSection.hidden = true;
@@ -275,7 +275,11 @@ document.getElementById("generate-option")?.addEventListener("click", () => {
   generateSection.hidden = false;
 });
 
-// Back buttons
+document.getElementById("custom-option")?.addEventListener("click", () => {
+  optionsSection.hidden = true;
+  createExerciseSection.hidden = false;
+});
+
 document.getElementById("options-back-btn")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   startSection.hidden = false;
@@ -287,114 +291,41 @@ document.getElementById("generate-back-btn")?.addEventListener("click", () => {
 });
 
 document.getElementById("custom-back-btn")?.addEventListener("click", () => {
-  customSection.hidden = true;
+  createExerciseSection.hidden = true;
   optionsSection.hidden = false;
 });
 
-/*------- Custom Workout -------*/
-import workoutService from "./storage/workouts.js";
+/*------- Create Exercise -------*/
+import { addExerciseToApi } from './storage/exercises.js';
+import { getToken, getAuthType } from './storage/profileStorage.js';
 
-// Elements
-const customWorkoutSection = document.getElementById("custom-workout-section");
-const customWorkoutList = document.getElementById("custom-workout-list");
-const form = document.getElementById("custom-workout-form");
+const createExerciseForm = document.getElementById('create-exercise-form');
+const exerciseFeedback = document.getElementById('exercise-feedback');
 
-const backBtn = document.getElementById("custom-back-btn");
-const customOptionBtn = document.getElementById("custom-option");
-const clearBtn = document.getElementById("clear-workouts-btn");
-const workoutOptionsSection = document.getElementById("workout-options");
+createExerciseForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-// --- Navigation ---
-// Show custom workout section when "Create Your Own" is clicked
-customOptionBtn?.addEventListener("click", () => {
-  workoutOptionsSection.hidden = true;
-  customWorkoutSection.hidden = false;
-
-  // Clear previous workouts when starting fresh
-  workoutService.saveWorkouts([]); // clears localStorage
-  renderWorkouts();
-});
-
-// Back button
-backBtn?.addEventListener("click", () => {
-  customWorkoutSection.hidden = true;
-  workoutOptionsSection.hidden = false;
-});
-
-// --- Clear button ---
-clearBtn?.addEventListener("click", () => {
-  workoutService.saveWorkouts([]); // clear localStorage
-  renderWorkouts();
-});
-
-// --- Render saved workouts ---
-function renderWorkouts() {
-  const workouts = workoutService.getWorkouts();
-  customWorkoutList.innerHTML = "";
-
-  if (workouts.length === 0) {
-    customWorkoutList.innerHTML = `<li class="empty-state">No workouts yet</li>`;
+  const token = getToken();
+  if (!token || getAuthType() !== 'api') {
+    showExerciseFeedback('You must be logged in to create an exercise.', true);
     return;
   }
 
-  const cwTable = document.createElement("table");
-  cwTable.classList.add("custom-workout-table");
+  const exerciseName = document.getElementById('exercise-name').value.trim();
+  const primaryMuscle = document.getElementById('primary-muscle').value.trim();
 
-  cwTable.innerHTML = `
-    <thead>
-      <tr>
-        <th colspan="3">${new Date().toISOString().split("T")[0]}</th>
-      </tr>
-      <tr>
-        <th>Exercise</th>
-        <th>Sets</th>
-        <th>Reps</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  `;
-
-  const tbody = cwTable.querySelector("tbody");
-
-  workouts.forEach(workout => {
-    const row = document.createElement("tr");
-    row.classList.add("workout-row");
-
-    const exercise = workout.exercises[0];
-    row.innerHTML = `
-      <td class="workout-name">${exercise.exerciseName}</td>
-      <td class="workout-sets">${exercise.sets}</td>
-      <td class="workout-reps">${exercise.reps}</td>
-    `;
-
-    tbody.appendChild(row);
-  });
-
-  // Append table to the container
-  customWorkoutList.appendChild(cwTable);
-}
-
-// --- Form submission ---
-form?.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const workout = {
-    date: new Date().toISOString().split("T")[0],
-    exercises: [
-      {
-        exerciseName: document.getElementById("exercise-name").value.trim(),
-        sets: Number(document.getElementById("sets").value),
-        reps: Number(document.getElementById("reps").value),
-      }
-    ]
-  };
-
-  workoutService.addWorkout(workout);
-
-  form.reset();
-  renderWorkouts();
-  customWorkoutList.lastElementChild?.scrollIntoView({ behavior: "smooth" });
+  try {
+    await addExerciseToApi(exerciseName, primaryMuscle, token);
+    createExerciseForm.reset();
+    showExerciseFeedback('Exercise saved!');
+  } catch {
+    showExerciseFeedback('Could not save exercise. Try again.', true);
+  }
 });
 
-// Render on load
-renderWorkouts();
+function showExerciseFeedback(message, isError = false) {
+  exerciseFeedback.textContent = message;
+  exerciseFeedback.hidden = false;
+  exerciseFeedback.className = isError ? 'feedback-error' : 'feedback-success';
+  setTimeout(() => { exerciseFeedback.hidden = true; }, 3000);
+}
