@@ -169,3 +169,99 @@ html.dark .theme-icon::before {
 .theme-toggle-btn:hover .theme-icon {
   transform: scale(1.15);
 }
+
+/* --- AI Workout Section --- */
+#ai-section {
+  width: min(520px, 92vw);
+  color: white;
+  background: rgba(0, 0, 0, 0.88);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+  overflow-x: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+#ai-section h2 {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+#ai-section p {
+  color: #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+#ai-section input,
+#ai-section select {
+  margin: 0.25rem 0.5rem 0.5rem 0;
+  min-width: 120px;
+}
+
+#ai-section label {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#ai-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#ai-result h3 {
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+#ai-plan-output {
+  color: #ffffff;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#ai-error {
+  color: #e74c3c;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.hero-section:has(#ai-section) .hero-image {
+  height: auto;
+  min-height: 70vh;
+}
+
+.hero-section:has(#ai-section) {
+  min-height: 70vh;
+}
+
+#ai-section .section-subtitle {
+  color: #cccccc;
+}
+
+#ai-section label {
+  display: block;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#ai-section input,
+#ai-section select {
+  display: block;
+  width: 100%;
+  margin: 0 0 0.5rem 0;
+  box-sizing: border-box;
+}
+
+.subheading {
+  color: #ffffff;
+}
