@@ -44,4 +44,4 @@ jobs:
             az containerapp update \
               --name ${{ secrets.FRONTEND_CONTAINER_APP_NAME }} \
               --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-              --image dynamos.azurecr.io/frontend:${{ github.sha }}
+              --image deploymentdnyamosacr.azurecr.io/frontend:${{ github.sha }}
