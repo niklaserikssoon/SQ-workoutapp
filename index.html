@@ -146,7 +146,7 @@
 
         <div class="hero-overlay">
           <header class="hero-header">
-            <h2>Lagomt stark</h2>
+            <h2>Lagomt Stark</h2>
             <p>Strong Enough for Everyday Life.</p>
             <p>~</p>
             <p>Build your workout, track progress, and reach your goals.</p>
@@ -157,16 +157,16 @@
               <h2 class="section-heading">Choose Option</h2>
               <p class="section-subtitle">Generate a workout or build your own.</p>
               <div class="generate-controls" aria-label="Workout options">
-                <button class="btn-accent" id="generate-option">Generate Workout</button>
+                <button class="btn-accent" id="generate-option">Generate Workout Session</button>
                 <button class="btn-accent" id="custom-option">Create Exercise</button>
                 <button class="btn-accent" id="custom-workout-btn">Create Workout</button>
-                <button class="btn-accent" id="ai-btn">AI-workout</button>
+                <button class="btn-accent" id="ai-btn">Generate Workout Plan</button>
               </div>
             </section>
 
             <!-- Generate Workout-->
             <section id="generate-workout" class="card" hidden>
-              <h2 class="section-heading">Generate Workout</h2>
+              <h2 class="section-heading">Generate Workout Session</h2>
               <p class="section-subtitle">Select a muscle group and generate a random workout.</p>
               <div class="generate-controls" aria-label="Generator controls">
                 <label class="sr-only" for="workout-input">Muscle group</label>
@@ -179,7 +179,7 @@
 
             <!-- AI Workout Plan -->
             <section id="ai-section" class="card" hidden>
-              <h2 class="section-heading">AI Workout Plan</h2>
+              <h2 class="section-heading">Generate Workout Plan</h2>
               <p class="section-subtitle">Tell us about your goals and we'll generate a plan for you.</p>
 
               <label for="ai-goal">Goal</label>
@@ -193,7 +193,16 @@
               </select>
 
               <label for="ai-days">Days per week</label>
-              <input type="number" id="ai-days" min="1" max="7" value="3" />
+              <!-- <input type="number" id="ai-days" min="1" max="7" value="3" /> -->
+              <select id="ai-days">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+              </select>
 
               <label for="ai-equipment">Equipment (optional)</label>
               <input type="text" id="ai-equipment" placeholder="Ex: Dumbbells, barbell, none" />
