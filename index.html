@@ -186,23 +186,29 @@
               <input type="text" id="ai-goal" placeholder="Ex: Build muscle, lose weight, improve cardio" />
 
               <label for="ai-level">Fitness Level</label>
-              <select id="ai-level">
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
+                <div class="select-wrapper">
+                <select id="ai-level">
+                  <option value="Beginner">Beginner</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true">▾</span>
+               </div>
 
-              <label for="ai-days">Days per week</label>
+               <label for="ai-days">Days per week</label>
+               <div class="select-wrapper">
               <!-- <input type="number" id="ai-days" min="1" max="7" value="3" /> -->
-              <select id="ai-days">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-              </select>
+                <select id="ai-days">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                </select>
+               <span class="select-chevron" aria-hidden="true">▾</span>
+               </div>
 
               <label for="ai-equipment">Equipment (optional)</label>
               <input type="text" id="ai-equipment" placeholder="Ex: Dumbbells, barbell, none" />

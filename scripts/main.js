@@ -350,6 +350,26 @@ document.getElementById("custom-back-btn")?.addEventListener("click", () => {
   optionsSection.hidden = false;
 });
 
+document.querySelectorAll('.select-wrapper select').forEach(select => {
+  const chevron = select.closest('.select-wrapper').querySelector('.select-chevron')
+  let isOpen = false
+
+  select.addEventListener('mousedown', () => {
+    isOpen = !isOpen
+    chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+  })
+
+  select.addEventListener('blur', () => {
+    isOpen = false
+    chevron.style.transform = 'rotate(0deg)'
+  })
+
+  select.addEventListener('change', () => {
+    isOpen = false
+    chevron.style.transform = 'rotate(0deg)'
+  })
+})
+
 /*------- Create Exercise -------*/
 import { addExerciseToApi } from './storage/exercises.js';
 import { getToken, getAuthType } from './storage/profileStorage.js';

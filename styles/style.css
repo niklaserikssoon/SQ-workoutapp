@@ -651,6 +651,7 @@ input[type="text"],
 input[type="search"],
 input[type="number"],
 input[type="email"],
+select,
 textarea {
   min-height: 44px;
   padding: 0.625rem 1rem;
@@ -663,27 +664,6 @@ textarea {
   outline: none;
   width: 100%;
   transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-select {
-  min-height: 44px;
-  padding: 0.625rem 1rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-mid);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
-  outline: none;
-  width: 100%;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2375a1a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;  /* move left by changing to 0.75rem */
-  padding-right: 2.5rem;
 }
 
 input[type="text"]:focus,
@@ -701,6 +681,29 @@ select { cursor: pointer; }
 textarea {
   border-radius: var(--radius-lg);
   resize: vertical;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper select {
+  flex: 1;
+  padding-right: 2rem;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.select-chevron {
+  position: absolute;
+  display: inline-block;
+  font-size: 1rem;
+  transition: transform 0.2s;
+  line-height: 1;
+  right: 0.875rem;
+  color: var(--accent);
 }
 
 /* ── CONTAINER ───────────────────────────────── */
