@@ -3,121 +3,204 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exercise Bank</title>
+    <meta name="description" content="Browse and search the full exercise bank." />
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="../styles/base.css" />
-    <link rel="stylesheet" href="../styles/layout.css" />
-    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="manifest" href="../manifest.json" />
+    <meta name="theme-color" content="#75a1a0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../styles/style.css" />
     <link rel="stylesheet" href="../styles/side-panel.css" />
+
+    <title>Exercise Bank — Syntax Squad</title>
   </head>
 
-  <body class="drawer-right page-exercise-bank">
+  <body class="drawer-right">
 
-    <!-- Mobile menu toggle -->
-    <button
-      id="menu-toggle"
-      aria-label="Open menu"
-      class="menu-toggle"
-      aria-expanded="false"
-    >
-      <span class="bar bar-1"></span>
-      <span class="bar bar-2"></span>
-      <span class="bar bar-3"></span>
-    </button>
+    <!-- SKIP LINK (WCAG 2.1 §2.4.1) -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <!-- Side navigation panel -->
-    <nav id="side-panel" class="side-panel" aria-hidden="true">
+    <!-- SIDE PANEL -->
+    <nav id="side-panel" class="side-panel" aria-label="Side navigation" aria-hidden="true">
       <div class="side-panel-content">
-
         <ul class="side-panel-list">
 
-          <!-- USER STATUS (correct position) -->
           <li class="side-user-wrapper">
             <p id="side-auth-status" class="auth-status"></p>
           </li>
+
           <li><button data-nav="profile" class="profile-btn" hidden>My Profile</button></li>
+
           <li>
-            <input
-              type="search"
-              id="side-panel-search"
-              placeholder="Search exercises…"
-              aria-label="Search exercises"
-            />
+            <label for="side-panel-search" class="sr-only">Search exercises</label>
+            <input type="search" id="side-panel-search" placeholder="Search exercises…"
+              aria-label="Search exercises" autocomplete="off" />
           </li>
 
           <li><button data-nav="search-exercises">Search Exercises</button></li>
           <li><button data-nav="show-exercises">Show Exercises</button></li>
-
-          <!-- These will dynamically change to Log Out -->
           <li><button data-nav="log-in">Log In</button></li>
           <li><button data-nav="register">Register</button></li>
 
         </ul>
       </div>
 
-      <button
-        id="theme-toggle"
-        class="theme-toggle-btn"
-        aria-label="Toggle dark mode"
-      >
-        <span class="theme-icon"></span>
-      </button>
+      <div class="side-panel-theme-row">
+        <span>Theme</span>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
+          <span class="theme-icon" aria-hidden="true"></span>
+        </button>
+      </div>
     </nav>
 
-    <!-- Backdrop (only ONE, correct) -->
-    <div id="side-panel-backdrop"></div>
+    <div id="side-panel-backdrop" role="presentation" aria-hidden="true"></div>
 
-    <!-- Header -->
-    <header>
-      <h1>EXERCISE BANK</h1>
+    <!-- HEADER -->
+    <header role="banner">
+      <h1>Syntax Squad Workout App</h1>
+
       <nav aria-label="Primary navigation">
         <ul>
-          <li><a id="nav-link" href="../index.html#home">Home</a></li>
-          <li><a id="nav-link" href="./exerciseBank.html">Exercise Bank</a></li>
-          <li><a id="nav-link" href="../index.html#about">About</a></li>
+          <li><a href="../index.html#home">Home</a></li>
+          <li><a href="./exerciseBank.html">Exercise Bank</a></li>
+
+          <li class="nav-about-wrapper">
+            <button
+              class="nav-about-btn"
+              id="about-toggle"
+              aria-expanded="false"
+              aria-controls="about-dropdown"
+            >
+              About <span class="nav-chevron" aria-hidden="true">▾</span>
+            </button>
+            <div
+              id="about-dropdown"
+              class="about-dropdown"
+              role="region"
+              aria-label="About this app"
+            >
+              <h3>About This App</h3>
+              <p>
+                This app helps you generate and manage workout routines. Choose from a variety of
+                exercises and create custom workouts suited to your goals.
+              </p>
+              <p class="subheading">Features</p>
+              <ul class="features-list">
+                <li>Generate random workouts based on muscle groups.</li>
+                <li>Create and save your own workout routines.</li>
+                <li>Access a comprehensive exercise bank.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-burger-wrapper">
+            <button
+              id="menu-toggle"
+              aria-label="Open navigation menu"
+              aria-controls="side-panel"
+              aria-expanded="false"
+              class="menu-toggle"
+            >
+              <span class="bar bar-1"></span>
+              <span class="bar bar-2"></span>
+              <span class="bar bar-3"></span>
+            </button>
+          </li>
         </ul>
       </nav>
     </header>
 
-    <!-- Main content -->
-    <main>
+    <!-- MAIN -->
+    <main id="main-content">
 
-      <!-- Search bar -->
-      <section class="search-section">
-        <label for="exercise-search" class="visually-hidden">Search exercises</label>
-        <input
-          type="text"
-          id="exercise-search"
-          placeholder="Search for exercises..."
-        />
-        <button class="btn-accent" id="search-button">Search</button>
+      <section class="container" style="max-width: 98%; margin: 2;">
+
+        <h2 class="section-heading">Exercise Bank</h2>
+        <p class="section-subtitle">Search for exercises or browse the full list.</p>
+
+        <!-- Search bar -->
+        <section class="search-section" aria-label="Search exercises">
+          <label for="exercise-search" class="sr-only">Search exercises</label>
+          <div class="generate-controls">
+            <input
+              type="text"
+              id="exercise-search"
+              placeholder="Search for exercises..."
+              autocomplete="off"
+            />
+            <button class="btn-accent" id="search-button">Search</button>
+          </div>
+        </section>
+
+        <button class="btn-accent" id="show-exercises">Show all exercises</button>
+
+        <!-- Results -->
+        <section id="workout-display" aria-live="polite" aria-label="Exercise results"></section>
+
       </section>
-
-      <!-- Display workouts -->
-      <section id="workout-display"></section>
-
-      <!-- Exercise modal -->
-      <dialog id="exercise-modal">
-        <article class="exercise-modal-content">
-          <button id="modal-close" aria-label="Close modal">✕</button>
-          <h2 id="modal-title"></h2>
-          <img id="modal-image" alt="" />
-          <p id="modal-overview"></p>
-          <h3>Instructions</h3>
-          <ol id="modal-instructions"></ol>
-        </article>
-      </dialog>
-
-      <button id="show-exercises" class="btn-accent">Show exercises</button>
 
     </main>
 
-    <!-- Scripts -->
+    <!-- EXERCISE MODAL -->
+    <dialog id="exercise-modal">
+      <article class="exercise-modal-content">
+        <h2 id="modal-title"></h2>
+        <img id="modal-image" alt="" />
+        <p id="modal-overview"></p>
+        <h3>Instructions</h3>
+        <ol id="modal-instructions"></ol>
+        <button id="modal-close" class="btn-accent" aria-label="Close modal">Close</button>
+      </article>
+    </dialog>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+      <p>&copy; 2024 Workout App. All rights reserved.</p>
+      <ul class="footer-links">
+        <li>
+          <a href="https://github.com/niklaserikssoon/SQ-workoutapp" rel="noopener noreferrer">GitHub</a>
+        </li>
+        <li>
+          <a href="https://linkedin.com" rel="noopener noreferrer">LinkedIn</a>
+        </li>
+      </ul>
+    </footer>
+
+    <!-- SCRIPTS -->
     <script src="../scripts/config.js"></script>
-    <script type="module" src="../scripts/main.js"></script>
     <script src="../scripts/side-panel.js"></script>
     <script src="../scripts/theme.js"></script>
+    <script type="module" src="../scripts/main.js"></script>
+
+    <script>
+      /* About dropdown */
+      const aboutToggle = document.getElementById('about-toggle');
+      const aboutDropdown = document.getElementById('about-dropdown');
+
+      aboutToggle?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = aboutDropdown.classList.toggle('open');
+        aboutToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!aboutToggle?.contains(e.target) && !aboutDropdown?.contains(e.target)) {
+          aboutDropdown?.classList.remove('open');
+          aboutToggle?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && aboutDropdown?.classList.contains('open')) {
+          aboutDropdown.classList.remove('open');
+          aboutToggle?.setAttribute('aria-expanded', 'false');
+          aboutToggle?.focus();
+        }
+      });
+    </script>
 
   </body>
 </html>

@@ -127,7 +127,7 @@ function displayExercises(exercises = []) {
   if (!gallery) return;
 
   gallery.innerHTML = '';
-  console.log("N", exercises.length);
+
   exercises.forEach((exercise) => {
     const article = document.createElement('article');
     article.classList.add('card');
@@ -137,17 +137,72 @@ function displayExercises(exercises = []) {
       <p><strong>Level:</strong> ${exercise.level}</p>
       <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
       <p><strong>Primary muscles:</strong> ${exercise.primaryMuscles.join(', ')}</p>
-      <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
-
-      <details>
-        <summary><strong>Instructions</strong> (Visa mer)</summary>
-        <p>${exercise.instructions}</p>
-      </details>
+      <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ') || '—'}</p>
+      <button class="btn-secondary show-more-btn" style="margin-top:auto;">Instructions</button>
     `;
-    
+
+    // Store data on the element to avoid re-fetching
+    article.dataset.name         = exercise.name;
+    article.dataset.category     = exercise.category;
+    article.dataset.level        = exercise.level;
+    article.dataset.equipment    = exercise.equipment ?? 'None';
+    article.dataset.primary      = exercise.primaryMuscles.join(', ');
+    article.dataset.secondary    = exercise.secondaryMuscles.join(', ') || '—';
+    article.dataset.instructions = exercise.instructions ?? '';
+
     gallery.appendChild(article);
   });
 }
+
+/* ── Exercise modal ───────────────────────────── */
+const exerciseModal    = document.getElementById('exercise-modal');
+const modalTitle       = document.getElementById('modal-title');
+const modalOverview    = document.getElementById('modal-overview');
+const modalInstructions = document.getElementById('modal-instructions');
+const modalClose       = document.getElementById('modal-close');
+
+document.getElementById('workout-display')?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.show-more-btn');
+  if (!btn) return;
+
+  const card = btn.closest('article');
+  const d    = card.dataset;
+
+  modalTitle.textContent = d.name;
+  modalOverview.innerHTML = `
+    <strong>Category:</strong> ${d.category} &nbsp;·&nbsp;
+    <strong>Level:</strong> ${d.level} &nbsp;·&nbsp;
+    <strong>Equipment:</strong> ${d.equipment}<br>
+    <strong>Primary muscles:</strong> ${d.primary}<br>
+    <strong>Secondary muscles:</strong> ${d.secondary}
+  `;
+
+  // Split instructions into numbered steps if comma/period separated
+  modalInstructions.innerHTML = '';
+  const steps = d.instructions
+    .split(/(?<=\.)\s*,\s*|(?<=\.)\s+(?=[A-Z])/)
+    .filter(s => s.trim());
+
+  if (steps.length > 1) {
+    steps.forEach(step => {
+      const li = document.createElement('li');
+      li.textContent = step.trim();
+      modalInstructions.appendChild(li);
+    });
+  } else {
+    const li = document.createElement('li');
+    li.textContent = d.instructions;
+    modalInstructions.appendChild(li);
+  }
+
+  exerciseModal?.showModal();
+});
+
+modalClose?.addEventListener('click', () => exerciseModal?.close());
+
+exerciseModal?.addEventListener('click', (e) => {
+  if (e.target === exerciseModal) exerciseModal.close(); // click backdrop to close
+});
 
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('#show-exercises');
