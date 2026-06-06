@@ -502,7 +502,7 @@ html.dark .theme-icon::before { content: '🌙'; }
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 760px;
+  max-width: 550px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -515,13 +515,14 @@ html.dark .theme-icon::before { content: '🌙'; }
 /* ── HERO HEADER ─────────────────────────────── */
 .hero-header {
   width: 100%;
+  max-width: 550px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-xl);
   padding: 1.625rem;
@@ -545,7 +546,10 @@ html.dark .theme-icon::before { content: '🌙'; }
 }
 
 /* ── HERO PANEL ──────────────────────────────── */
-.hero-panel { width: 100%; }
+.hero-panel { 
+  width: 100%;
+  max-width: 1000px; 
+}
 
 #workout-options { text-align: center; }
 #workout-options .generate-controls {
@@ -556,15 +560,15 @@ html.dark .theme-icon::before { content: '🌙'; }
 @media (max-width: 767px) {
   #workout-options .generate-controls {
     flex-direction: column;
-    align-items: stretch;  /* full width buttons */
+    align-items: stretch; 
   }
 }
 
 /* ── GLASS CARD ──────────────────────────────── */
 .card {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-xl);
   padding: 1.625rem;
