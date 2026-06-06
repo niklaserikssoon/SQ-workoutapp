@@ -1,9 +1,10 @@
 // UI rendering modules
 //import { renderList } from './ui/generateWorkout.js'
 //import { displayExercises } from './ui/exercise-bank.js'
+//import { initCreateForm } from './createItem.js'
 import { initSearch } from './logic/search.js'
 import './ui/aiWorkout.js'
-//import { initCreateForm } from './createItem.js'
+import { initCreateWorkout } from './ui/createWorkout.js'
 
 // Storage actions
 //import { addTestItem } from './storage/itemsStorage.js'
@@ -96,6 +97,8 @@ async function loadExercises() {
     history.replaceState(null, '', location.pathname);
   }
 
+  initCreateWorkout(allExercises)
+  
   // Handle side-panel / deep links
   handleDeepLinks(searchInput, searchBtn);
 }
