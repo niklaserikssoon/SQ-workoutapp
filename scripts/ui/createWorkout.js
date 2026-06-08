@@ -42,22 +42,26 @@ function showCreateWorkout() {
   renderSelectedExercises()
   toggle('workout-options', true)
   toggle('create-workout-section', false)
+  document.querySelector('.hero-header').hidden = true
 }
 
 function hideCreateWorkout() {
   toggle('create-workout-section', true)
   toggle('workout-options', false)
+  document.querySelector('.hero-header').hidden = false
 }
 
 function showMyWorkouts() {
   toggle('workout-options', true)
   toggle('my-workouts-section', false)
   renderMyWorkouts()
+  document.querySelector('.hero-header').hidden = true
 }
 
 function hideMyWorkouts() {
   toggle('my-workouts-section', true)
   toggle('workout-options', false)
+  document.querySelector('.hero-header').hidden = false
 }
 
 // ── Exercise Search ────────────────────────────────────────────
@@ -117,9 +121,11 @@ function addExercise(ex) {
   if (selectedExercises.some(e => e.exerciseName === ex.name)) return
 
   selectedExercises.push({
-    exerciseId:   ex.id ?? 0,
-    exerciseName: ex.name,
-    primaryMuscle: ex.primaryMuscles?.[0] ?? ''
+    exerciseId:    ex.id ?? 0,
+    exerciseName:  ex.name,
+    primaryMuscle: ex.primaryMuscles?.[0] ?? '',
+    sets:          3,
+    reps:          10
   })
 
   renderSelectedExercises()
@@ -144,18 +150,51 @@ function renderSelectedExercises() {
 
   selectedExercises.forEach(ex => {
     const div = document.createElement('div')
-    div.className = 'exercise-result-item'
-    div.innerHTML = `
-      <span>
-        ${ex.exerciseName}
-        <small>${ex.primaryMuscle}</small>
-      </span>
-      <button class="btn-secondary remove-exercise-btn">Remove</button>
-    `
-    div.querySelector('.remove-exercise-btn').addEventListener('click', () => {
-      removeExercise(ex.exerciseName)
-    })
-    container.appendChild(div)
+          div.className = 'selected-exercise-item'
+          div.innerHTML = `
+            <div class="selected-exercise-main">
+              <span class="selected-exercise-name">${ex.exerciseName}</span>
+              <button class="btn-info-btn" aria-label="Show instructions">Instructions</button>
+            </div>
+            <div class="sets-reps-controls">
+              ${buildPicker('sets', ex.sets)}
+              ${buildPicker('reps', ex.reps)}
+            </div>
+            <button class="btn-remove-btn remove-exercise-btn" aria-label="Remove exercise">✕</button>
+          `
+
+      // Info button — look up full exercise data and open modal
+      div.querySelector('.btn-info-btn').addEventListener('click', () => {
+        const full = allExercises.find(e => e.name === ex.exerciseName)
+        if (!full) return
+        document.getElementById('modal-title').textContent = full.name
+        document.getElementById('modal-overview').innerHTML = `
+          <strong>Category:</strong> ${full.category} &nbsp;·&nbsp;
+          <strong>Level:</strong> ${full.level}<br>
+          <strong>Primary muscles:</strong> ${full.primaryMuscles?.join(', ')}
+        `
+        const ol = document.getElementById('modal-instructions')
+        ol.innerHTML = ''
+        const instructions = Array.isArray(full.instructions)
+          ? full.instructions.join(' ')
+          : (full.instructions ?? '')
+
+        const steps = instructions
+          .split(/(?<=\.)\s*,\s*|(?<=\.)\s+(?=[A-Z])/)
+          .filter(s => s.trim())
+
+        steps.forEach(step => {
+          const li = document.createElement('li')
+          li.textContent = step.trim()
+          ol.appendChild(li)
+        })
+        document.getElementById('exercise-modal')?.showModal()
+      })
+
+      wirePickerEvents(div, 'sets', ex)
+      wirePickerEvents(div, 'reps', ex)
+      div.querySelector('.remove-exercise-btn').addEventListener('click', () => removeExercise(ex.exerciseName))
+      container.appendChild(div)
   })
 }
 
@@ -262,12 +301,31 @@ async function renderMyWorkouts() {
           Delete
         </button>
       </div>
-      <ul class="saved-workout-exercises">
-        ${w.exercises.map(e =>
-          `<li>${e.exerciseName} <small>${e.primaryMuscle ?? ''}</small></li>`
-        ).join('')}
-      </ul>
-    `
+      <div class="saved-workout-table-wrapper">
+        <table class="saved-workout-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Exercise</th>
+              <th>Sets</th>
+              <th>Reps</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${w.exercises.map(e => `
+              <tr>
+                <td>
+                  <button class="btn-info-btn my-workout-info-btn" data-name="${e.exerciseName}" aria-label="Show instructions">ℹ</button>
+                </td>
+                <td>${e.exerciseName}</td>
+                <td>${e.sets ?? '—'}</td>
+                <td>${e.reps ?? '—'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+      `
 
     div.querySelector('.delete-workout-btn').addEventListener('click', async (e) => {
       const id     = e.target.dataset.id
@@ -290,6 +348,35 @@ async function renderMyWorkouts() {
     })
 
     container.appendChild(div)
+
+    div.querySelectorAll('.my-workout-info-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name
+        const full = allExercises.find(e => e.name === name)
+        if (!full) return
+
+        document.getElementById('modal-title').textContent = full.name
+        document.getElementById('modal-overview').innerHTML = `
+          <strong>Category:</strong> ${full.category} &nbsp;·&nbsp;
+          <strong>Level:</strong> ${full.level}<br>
+          <strong>Primary muscles:</strong> ${full.primaryMuscles?.join(', ')}
+        `
+        const ol = document.getElementById('modal-instructions')
+        ol.innerHTML = ''
+        const instructions = Array.isArray(full.instructions)
+          ? full.instructions.join(' ')
+          : (full.instructions ?? '')
+        instructions
+          .split(/(?<=\.)\s*,\s*|(?<=\.)\s+(?=[A-Z])/)
+          .filter(s => s.trim())
+          .forEach(step => {
+            const li = document.createElement('li')
+            li.textContent = step.trim()
+            ol.appendChild(li)
+          })
+        document.getElementById('exercise-modal')?.showModal()
+      })
+    })
   })
 }
 
@@ -304,4 +391,31 @@ function showFeedback(el, message, isError) {
   el.hidden = false
   el.className = isError ? 'feedback-error' : 'feedback-success'
   setTimeout(() => { el.hidden = true }, 3000)
+}
+
+const COMMON_VALUES = {
+  sets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  reps: [3, 5, 6, 8, 10, 12, 15, 20, 25]
+}
+
+function buildPicker(field, currentValue) {
+  const options = COMMON_VALUES[field].map(v =>
+    `<option value="${v}" ${v === currentValue ? 'selected' : ''}>${v}</option>`
+  ).join('')
+
+  return `
+    <div class="picker-label">
+      <span>${field.charAt(0).toUpperCase() + field.slice(1)}</span>
+      <div class="select-wrapper">
+        <select class="${field}-input">${options}</select>
+        <span class="select-chevron" aria-hidden="true" style="pointer-events:none;">▾</span>
+      </div>
+    </div>
+  `
+}
+
+function wirePickerEvents(div, field, ex) {
+  div.querySelector(`.${field}-input`).addEventListener('change', e => {
+    ex[field] = parseInt(e.target.value)
+  })
 }

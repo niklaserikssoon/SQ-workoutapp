@@ -12,6 +12,7 @@ const errorEl       = document.getElementById('ai-error')
 function showAi() {
   optionsSection.hidden = true
   aiSection.hidden = false
+  document.querySelector('.hero-header').hidden = true 
 }
 
 function hideAi() {
@@ -22,6 +23,7 @@ function hideAi() {
   errorEl.hidden = true
   planOutput.textContent = ''
   errorEl.textContent = ''
+  document.querySelector('.hero-header').hidden = false 
 }
 
 aiBtn?.addEventListener('click', showAi)

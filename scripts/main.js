@@ -306,8 +306,8 @@ button?.addEventListener("click", async () => {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-    <td>🏋️ ${ex.name}</td>
-    <td> ${ex.sets}</td>
+    <td>${ex.name}</td>
+    <td>${ex.sets}</td>
     <td>${ex.reps}</td>
   `;
 
@@ -326,31 +326,37 @@ const createExerciseSection = document.getElementById("create-exercise-section")
 document.getElementById("start-btn")?.addEventListener("click", () => {
   startSection.hidden = true;
   optionsSection.hidden = false;
+  setHeroHeader(false)
 });
 
 document.getElementById("generate-option")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   generateSection.hidden = false;
+  setHeroHeader(false)
 });
 
 document.getElementById("custom-option")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   createExerciseSection.hidden = false;
+  setHeroHeader(false)
 });
 
 document.getElementById("options-back-btn")?.addEventListener("click", () => {
   optionsSection.hidden = true;
   startSection.hidden = false;
+  setHeroHeader(false)
 });
 
 document.getElementById("generate-back-btn")?.addEventListener("click", () => {
   generateSection.hidden = true;
   optionsSection.hidden = false;
+  setHeroHeader(true)
 });
 
 document.getElementById("custom-back-btn")?.addEventListener("click", () => {
   createExerciseSection.hidden = true;
   optionsSection.hidden = false;
+  setHeroHeader(true)
 });
 
 document.querySelectorAll('.select-wrapper select').forEach(select => {
@@ -406,4 +412,9 @@ function showExerciseFeedback(message, isError = false) {
   exerciseFeedback.hidden = false;
   exerciseFeedback.className = isError ? 'feedback-error' : 'feedback-success';
   setTimeout(() => { exerciseFeedback.hidden = true; }, 3000);
+}
+
+function setHeroHeader(visible) {
+  const el = document.querySelector('.hero-header')
+  if (el) el.hidden = !visible
 }

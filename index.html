@@ -283,6 +283,17 @@
           </article>
         </div>
       </section>
+
+      <!-- Exercise info modal -->
+      <dialog id="exercise-modal">
+        <article>
+          <h2 id="modal-title"></h2>
+          <p id="modal-overview"></p>
+          <h3>Instructions</h3>
+          <ol id="modal-instructions"></ol>
+          <button id="modal-close" class="btn-accent">Close</button>
+        </article>
+      </dialog>
     </main>
 
     <!-- FOOTER -->
@@ -344,6 +355,12 @@
             .catch(err => console.error('SW failed:', err));
         });
       }
+
+      const exerciseModal = document.getElementById('exercise-modal')
+      document.getElementById('modal-close')?.addEventListener('click', () => exerciseModal?.close())
+      exerciseModal?.addEventListener('click', e => {
+        if (e.target === exerciseModal) exerciseModal.close()
+      })
     </script>
 
   </body>
