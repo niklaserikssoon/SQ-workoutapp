@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // SIDEBAR NAVIGATION
+  // SIDEBAR NAVIGATION + testar deploy
   sidePanel.addEventListener('click', async (e) => {
      const btn = e.target.closest('[data-nav]');
      if (!btn) return;
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
      closePanel();
  });
 
-  // Restore state
+  // Restore state 
   const savedView = sessionStorage.getItem('activeView');
   if (savedView === 'add' && typeof window.loadComponent === 'function') {
     window.loadComponent().then(() => {
