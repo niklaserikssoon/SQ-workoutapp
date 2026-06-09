@@ -94,7 +94,7 @@ async function loadAiPlans() {
 function renderPlan(container, plan) {
   try {
     const parsed = typeof plan === 'string' ? JSON.parse(plan) : plan
-    const days = parsed.days ?? []
+    const days = Array.isArray(parsed) ? parsed : (parsed.days ?? [])
 
     container.innerHTML = days.map(day => `
       <div class="saved-workout-item">
@@ -148,8 +148,8 @@ saveAiPlanBtn?.addEventListener('click', async () => {
       },
       body: JSON.stringify({
           goal: currentPlanData.goal,
-          plan: typeof currentPlanData.plan === 'string'
-            ? JSON.parse(currentPlanData.plan).days
+          plan: Array.isArray(currentPlanData.plan)
+            ? currentPlanData.plan
             : (currentPlanData.plan.days ?? currentPlanData.plan)
         })
     })

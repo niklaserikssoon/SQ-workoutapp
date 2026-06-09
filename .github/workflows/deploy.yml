@@ -55,8 +55,11 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Update Container App image
-        run: |
-          az containerapp update \
-            --name ${{ secrets.FRONTEND_CONTAINER_APP_NAME }} \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --image deploymentdnyamosacr.azurecr.io/frontend:${{ github.sha }}
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az containerapp update \
+              --name ${{ secrets.FRONTEND_CONTAINER_APP_NAME }} \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+              --image deploymentdnyamosacr.azurecr.io/frontend:${{ github.sha }}
