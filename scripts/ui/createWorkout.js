@@ -197,12 +197,7 @@ async function saveWorkout() {
           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
-          name,
-          exercises: selectedExercises.map(e => ({
-            exerciseId: e.exerciseId,
-            sets:       e.sets,
-            reps:       e.reps
-          }))
+          catalogExerciseIds: selectedExercises.map(e => e.exerciseId)
         })
       })
     } catch (err) {
