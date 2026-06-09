@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const backdrop = document.getElementById('side-panel-backdrop');
   const authStatusEl = document.getElementById('side-auth-status');
 
-  if (!menuToggle || !sidePanel || !backdrop) {
+  // do not auto-insert menu-toggle-right; only reference if present in DOM
+  const _menuToggleRight = document.getElementById('menu-toggle-right');
+
+  if (! (menuToggle || _menuToggleRight) || !sidePanel || !backdrop) {
     console.warn('Sidebar elements missing from DOM');
     return;
   }
@@ -64,105 +67,130 @@ document.addEventListener('DOMContentLoaded', () => {
   const exerciseBankPath = isInSrc ? 'exerciseBank.html' : './src/exerciseBank.html';
 
   // UPDATE AUTH UI
-  function updateAuthStatus() {
-    const current = localStorage.getItem('currentUser');
+  async function getCurrentUserFromStorage() {
+    try {
+      const mod = await import('./storage/profileStorage.js');
+      if (typeof mod.getCurrentUser === 'function') {
+        const u = await mod.getCurrentUser();
+        return u;
+      }
+      if (typeof mod.getProfile === 'function') {
+        const p = await mod.getProfile();
+        return p;
+      }
+    } catch (e) {
+      // ignore dynamic import errors, fallback to localStorage below
+    }
+
+    try {
+      const item = localStorage.getItem('currentUser');
+      return item ? JSON.parse(item) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function updateAuthStatus() {
+    const current = await getCurrentUserFromStorage();
 
     const loginBtn = sidePanel.querySelector('[data-nav="log-in"]');
     const registerBtn = sidePanel.querySelector('[data-nav="register"]');
     const profileBtn = sidePanel.querySelector('[data-nav="profile"]');
 
-    // Update "Logged in as"
     if (authStatusEl) {
-        authStatusEl.textContent = current ? `Logged in as: ${current}` : '';
+      if (current) {
+        const name = current?.userName || current?.name || current?.email || current?.username || '';
+        authStatusEl.textContent = `Logged in as: ${name}`;
+      } else {
+        authStatusEl.textContent = '';
+      }
     }
 
     if (current) {
-        // Show My Profile
-        if (profileBtn) profileBtn.hidden = false;
+      // Show My Profile
+      if (profileBtn) profileBtn.hidden = false;
 
-        // Change Log In → Log Out
-        if (loginBtn) loginBtn.textContent = 'Log Out';
+      // Change Log In → Log Out
+      if (loginBtn) loginBtn.textContent = 'Log Out';
 
-        // Hide Register
-        if (registerBtn) registerBtn.style.display = 'none';
+      // Hide Register
+      if (registerBtn) registerBtn.style.display = 'none';
 
-        // Move My Profile ABOVE Log Out
-        const list = sidePanel.querySelector('.side-panel-list');
-        if (list && profileBtn && loginBtn) {
-            list.insertBefore(profileBtn.closest('li'), loginBtn.closest('li'));
-        }
-
+      // Move My Profile ABOVE Log Out
+      const list = sidePanel.querySelector('.side-panel-list');
+      if (list && profileBtn && loginBtn) {
+        list.insertBefore(profileBtn.closest('li'), loginBtn.closest('li'));
+      }
     } else {
-        // Hide My Profile
-        if (profileBtn) profileBtn.hidden = true;
+      // Hide My Profile
+      if (profileBtn) profileBtn.hidden = true;
 
-        // Reset Log In
-        if (loginBtn) loginBtn.textContent = 'Log In';
+      // Reset Log In
+      if (loginBtn) loginBtn.textContent = 'Log In';
 
-        // Show Register
-        if (registerBtn) registerBtn.style.display = '';
+      // Show Register
+      if (registerBtn) registerBtn.style.display = '';
     }
-}
+  }
 
   // SIDEBAR NAVIGATION
-sidePanel.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-nav]');
-    if (!btn) return;
+  sidePanel.addEventListener('click', async (e) => {
+     const btn = e.target.closest('[data-nav]');
+     if (!btn) return;
 
-    const nav = btn.dataset.nav;
-    sessionStorage.setItem('activeView', nav);
+     const nav = btn.dataset.nav;
+     sessionStorage.setItem('activeView', nav);
 
-    switch (nav) {
+     switch (nav) {
 
-        case 'show-exercises':
-            window.location.href = `${exerciseBankPath}#show-all-exercises`;
-            break;
+         case 'show-exercises':
+             window.location.href = `${exerciseBankPath}#show-all-exercises`;
+             break;
 
-        case 'search-exercises': {
-            const input = document.getElementById('side-panel-search');
-            const query = input?.value.trim();
-            const url = query
-                ? `${exerciseBankPath}#search=${encodeURIComponent(query)}`
-                : `${exerciseBankPath}#search`;
-            window.location.href = url;
-            break;
-        }
+         case 'profile': {
+             // NEW PROFILE PAGE
+             window.location.href = isInSrc
+                 ? 'profile.html'
+                 : './src/profile.html';
+             break;
+         }
 
-        case 'profile': {
-            // NEW PROFILE PAGE
-            window.location.href = isInSrc
-                ? 'profile.html'
-                : './src/profile.html';
-            break;
-        }
-
-        case 'log-in':
-        case 'login': {
-            const current = localStorage.getItem('currentUser');
+         case 'log-in':
+         case 'login': {
+            const current = await getCurrentUserFromStorage();
 
             if (current) {
-                // LOG OUT
-                localStorage.removeItem('currentUser');
-                updateAuthStatus();
+                try {
+                    const mod = await import('./storage/profileStorage.js');
+                    if (typeof mod.logout === 'function') {
+                        await mod.logout();
+                    } else {
+                        // fallback: remove localStorage key
+                        localStorage.removeItem('currentUser');
+                    }
+                } catch (err) {
+                    localStorage.removeItem('currentUser');
+                }
+                await updateAuthStatus();
                 closePanel();
                 return;
             }
 
             // Go to login page
             window.location.href = `${loginPath}#login`;
-            break;
-        }
+             break;
+         }
 
-        case 'register':
-            window.location.href = `${loginPath}#register`;
-            break;
+         case 'register':
+             window.location.href = `${loginPath}#register`;
+             break;
 
-        default:
-            break;
-    }
+         default:
+             break;
+     }
 
-    closePanel();
-});
+     closePanel();
+ });
 
   // Restore state
   const savedView = sessionStorage.getItem('activeView');

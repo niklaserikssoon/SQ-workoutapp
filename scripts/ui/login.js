@@ -2,11 +2,11 @@ import {
     login, 
     registerUser, 
     seedUsers, 
-    getProfile, 
     isProfileEmpty 
 } from "../storage/profileStorage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    console.log("login.js loaded");
     await seedUsers();
 
     const tabRegister = document.getElementById("tab-register");
@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function activateTab(name) {
         const isRegister = name === "register";
+
         if (tabRegister) tabRegister.setAttribute("aria-selected", isRegister ? "true" : "false");
         if (tabLogin) tabLogin.setAttribute("aria-selected", isRegister ? "false" : "true");
 
@@ -27,8 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function switchTab(tab) {
-        if (tab === "register") activateTab("register");
-        else activateTab("login");
+        activateTab(tab === "register" ? "register" : "login");
     }
 
     if (tabRegister) tabRegister.addEventListener("click", () => switchTab("register"));
@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const hash = (location.hash || "").replace("#", "");
+
     if (hash === "register" || hash === "login") {
         activateTab(hash);
     } else {
@@ -52,10 +53,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         else activateTab("login");
     }
 
-    const isInSrc = location.pathname.includes('/src/');
+    const isInSrc = location.pathname.includes("/src/");
     const paths = {
-      index: isInSrc ? '../index.html' : 'index.html',
-      profile: isInSrc ? 'profile.html' : './src/profile.html'
+        index: isInSrc ? "../index.html" : "index.html",
+        profile: isInSrc ? "profile.html" : "./src/profile.html"
     };
 
     const loginForm = document.getElementById("loginForm");
@@ -66,23 +67,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // LOGIN
     if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
+
             if (loginMessage) loginMessage.textContent = "";
 
             const name = loginForm.name?.value?.trim() || "";
             const password = loginForm.password?.value || "";
 
             try {
-                login(name, password);
+                const user = await login(name, password);
 
-                const profile = getProfile();
+                const authType = localStorage.getItem("authType");
 
-                if (isProfileEmpty(profile)) {
-                    window.location.href = paths.profile;
-                } else {
-                    window.location.href = paths.index;
+                // Local demo users have profile data
+                if (authType === "local") {
+                    const profile = user.profile;
+
+                    if (isProfileEmpty(profile)) {
+                        window.location.href = paths.profile;
+                    } else {
+                        window.location.href = paths.index;
+                    }
+
+                    return;
                 }
+
+                // API users do not use the old demo profile
+                window.location.href = paths.index;
 
             } catch (err) {
                 if (loginMessage) loginMessage.textContent = err.message || String(err);
@@ -93,8 +105,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // REGISTER
     if (registerForm) {
-        registerForm.addEventListener("submit", (e) => {
+        registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
+
             if (registerMessage) registerMessage.textContent = "";
 
             const name = registerForm.name?.value?.trim() || "";
@@ -102,16 +115,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             const email = registerForm.email?.value?.trim() || "";
 
             try {
-                registerUser(name, password, email);
+                await registerUser(name, password, email);
+                const user = await login(name, password);
 
-                login(name, password);
+                const authType = localStorage.getItem("authType");
 
-                const profile = getProfile();
-                if (isProfileEmpty(profile)) {
-                    window.location.href = paths.profile;
-                } else {
-                    window.location.href = paths.index;
+                if (authType === "local") {
+                    const profile = user.profile;
+
+                    if (isProfileEmpty(profile)) {
+                        window.location.href = paths.profile;
+                    } else {
+                        window.location.href = paths.index;
+                    }
+
+                    return;
                 }
+
+                window.location.href = paths.index;
 
             } catch (err) {
                 if (registerMessage) registerMessage.textContent = err.message || String(err);

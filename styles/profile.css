@@ -1,173 +1,237 @@
+/* --- Base Layout --- */
 body {
-    margin: 0;
-    font-family: 'Inter', system-ui, sans-serif;
-    background: #f5f5f7;
-    color: #111;
-    line-height: 1.6;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #f5f5f7;
+  color: #111;
+  line-height: 1.6;
 }
 
+/* --- Header --- */
 header {
-    background: #ffffff;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #e5e5e5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e5e5e5;
 
-.header-actions {
-    display: flex;
-    gap: 0.6rem;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 600;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
-#logoutButton {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
+.header-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
 }
 
-#logoutButton:hover {
-    background: #333;
-}
-
-#goBackButton {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-#goBackButton:hover {
-    background: #333;
-}
-
-
+/* --- Main Content --- */
 main {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-    display: grid;
-    gap: 2.5rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  display: grid;
+  gap: 2.5rem;
 }
 
+/* --- Sections --- */
 section {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 }
 
 section h2 {
-    margin-top: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
+/* --- Forms --- */
 form {
-    display: grid;
-    gap: 1.2rem;
+  display: grid;
+  gap: 1.2rem;
 }
 
 fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 legend {
-    font-weight: 600;
-    margin-bottom: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 label {
-    font-weight: 600;
-    font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
+/* --- Inputs --- */
 input,
 select,
 textarea {
-    width: 100%;
-    padding: 0.9rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background: #fafafa;
-    font-size: 1rem;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  font-size: 1rem;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #111;
-    outline: none;
+  border-color: #111;
+  outline: none;
 }
 
 textarea {
-    min-height: 100px;
-    resize: vertical;
+  min-height: 100px;
+  resize: vertical;
 }
 
+/* --- Submit Button --- */
 button[type="submit"] {
-    padding: 0.9rem 1.2rem;
-    border: none;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 0.5rem;
+  padding: 0.9rem 1.2rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 button[type="submit"]:hover {
-    background: #333;
+  background: #333;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0;
-    display: grid;
-    gap: 0.8rem;
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.9rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+
+  font-size: 0.95rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    opacity 150ms ease,
+    box-shadow 150ms ease;
 }
 
-ul li,
-article {
-    background: #fafafa;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid #e5e5e5;
+.btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-output {
-    display: block;
-    margin-top: 0.5rem;
-    font-weight: 600;
-    color: #0a7a0a;
+.btn--primary {
+  background: #111;
+  color: #ffffff;
+  font-weight: 600;
 }
 
+.btn--primary:hover {
+  background: #333;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: #000;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.btn--small {
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+}
+
+/* --- Dark Mode Base --- */
+[data-theme="dark"] body,
+.dark body {
+  background: #0b0b0c;
+  color: #e9e9ea;
+}
+
+/* --- Dark Mode Header --- */
+[data-theme="dark"] header,
+.dark header {
+  background: #0f0f10;
+  border-bottom-color: #1a1a1a;
+}
+
+/* --- Dark Mode Sections --- */
+[data-theme="dark"] section,
+.dark section {
+  background: #101012;
+  border-color: #1a1a1a;
+}
+
+/* --- Dark Mode Primary Buttons --- */
+[data-theme="dark"] .btn--primary,
+.dark .btn--primary,
+[data-theme="dark"] button[type="submit"],
+.dark button[type="submit"] {
+  background: #1a1a1b;
+  color: #ffffff;
+}
+
+/* --- Dark Mode Button Hover --- */
+[data-theme="dark"] .btn--primary:hover,
+.dark .btn--primary:hover,
+[data-theme="dark"] button[type="submit"]:hover,
+.dark button[type="submit"]:hover,
+[data-theme="dark"] .btn--primary.btn--small:hover,
+.dark .btn--primary.btn--small:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.04) !important;
+}
+
+/* --- Dark Mode General Buttons --- */
+[data-theme="dark"] .btn,
+.dark .btn {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+[data-theme="dark"] .btn:hover,
+.dark .btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+/* --- Mobile Tweaks --- */
 @media (max-width: 700px) {
-    header {
-        flex-direction: column;
-        gap: 1rem;
-    }
+  header {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    main {
-        margin-top: 1rem;
-    }
+  main {
+    margin-top: 1rem;
+  }
 }

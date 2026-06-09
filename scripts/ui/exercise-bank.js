@@ -58,8 +58,7 @@ export async function loadExercises() {
       allExercises = JSON.parse(cached)
     } else {
       const response = await fetch(
-        'https://raw.githubusercontent.com/yuhonas/free-exercise-db/master/dist/exercises.json'
-      )
+        CONFIG.exerciseListUrl)
       if (!response.ok)
         throw new Error(`Could not load exercises (${response.status})`)
       allExercises = await response.json()
@@ -89,12 +88,18 @@ function displayExercises(exercises) {
     const article = document.createElement('article')
     article.classList.add('card')
     article.innerHTML = `
-    <h3>${exercise.name}</h3>
-      <p><strong>Category:</strong> ${exercise.category}</p>
-      <p><strong>Level:</strong> ${exercise.level}</p>
-      <p><strong>Equipment:</strong> ${exercise.equipment ?? 'None'}</p>
-      <p><strong>Primary muscles:</strong> ${exercise.primaryMuscles.join(', ')}</p>
-      <p><strong>Secondary muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
+      <h3>${exercise.name}</h3>
+      <div class="exercise-badges">
+        <span class="badge badge-category">${exercise.category}</span>
+        <span class="badge badge-level">${exercise.level}</span>
+        <span class="badge badge-equipment">${exercise.equipment ?? 'None'}</span>
+      </div>
+      <p class="exercise-muscles">
+        <strong>Primary:</strong> ${exercise.primaryMuscles.join(', ')}
+      </p>
+      <p class="exercise-muscles">
+        <strong>Secondary:</strong> ${exercise.secondaryMuscles.join(', ') || '—'}
+      </p>
     `
     fragment.appendChild(article)
   })

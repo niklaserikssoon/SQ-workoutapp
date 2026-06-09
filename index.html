@@ -3,246 +3,364 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Generate personalized workouts, track exercises, and start your fitness journey with our interactive workout app."
-    />
+    <meta name="description"
+      content="Generate personalised workouts, track exercises, and start your fitness journey with the Syntax Squad Workout App." />
 
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#22c55e" />
-    <!-- App installation -->
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="theme-color" content="#091c27" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="./styles/style.css" />
     <link rel="stylesheet" href="./styles/side-panel.css" />
-    <link rel="manifest" href="./manifest.json" />
-    <!-- Offline installation for web -->
-    <meta name="theme-color" content="#0a7cff" />
 
-    <link
-      rel="preload"
-      as="image"
-      href="./assets/gymHero_1280.webp"
-      media="(min-width: 769px)"
-    />
+    <link rel="preload" as="image" href="./assets/gymHero_1280.webp" media="(min-width: 769px)" />
 
-    <title>Syntax Squad Workout App</title>
+    <title>Prototype Workout App</title>
   </head>
 
   <body class="drawer-right">
 
-    <!-- Mobile menu toggle -->
-    <button
-      id="menu-toggle"
-      aria-label="Open menu"
-      class="menu-toggle"
-      aria-expanded="false"
-    >
-      <span class="bar bar-1"></span>
-      <span class="bar bar-2"></span>
-      <span class="bar bar-3"></span>
-    </button>
+    <!-- SKIP LINK (WCAG 2.1 §2.4.1) -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <!-- Side navigation panel -->
-    <nav id="side-panel" class="side-panel" aria-hidden="true">
+    <!-- SIDE PANEL -->
+    <nav id="side-panel" class="side-panel" aria-label="Side navigation" aria-hidden="true">
       <div class="side-panel-content">
-
         <ul class="side-panel-list">
 
-          <!-- USER STATUS (correct position) -->
           <li class="side-user-wrapper">
             <p id="side-auth-status" class="auth-status"></p>
           </li>
-          <li><button data-nav="profile" class="profile-btn" hidden>My Profile</button></li>   
+
+          <li><button data-nav="profile" class="profile-btn" hidden>My Profile</button></li>
+
           <li>
-            <input
-              type="search"
-              id="side-panel-search"
-              placeholder="Search exercises…"
-              aria-label="Search exercises"
-            />
+            <label for="side-panel-search" class="sr-only">Search exercises</label>
+            <input type="search" id="side-panel-search" placeholder="Search exercises…"
+              aria-label="Search exercises" autocomplete="off" />
           </li>
 
           <li><button data-nav="search-exercises">Search Exercises</button></li>
           <li><button data-nav="show-exercises">Show Exercises</button></li>
-
-          <!-- These will dynamically change to Log Out -->
           <li><button data-nav="log-in">Log In</button></li>
           <li><button data-nav="register">Register</button></li>
 
         </ul>
       </div>
 
-      <button
-        id="theme-toggle"
-        class="theme-toggle-btn"
-        aria-label="Toggle dark mode"
-      >
-        <span class="theme-icon"></span>
-      </button>
+      <!-- Theme toggle only here — not in header -->
+      <div class="side-panel-theme-row">
+        <span>Theme</span>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
+          <span class="theme-icon" aria-hidden="true"></span>
+        </button>
+      </div>
     </nav>
 
-    <!-- Backdrop (only one) -->
-    <div id="side-panel-backdrop"></div>
+    <div id="side-panel-backdrop" role="presentation" aria-hidden="true"></div>
 
     <!-- HEADER -->
-    <header>
-      <h1>SYNTAX SQUAD WORKOUT APP</h1>
+    <header role="banner">
+      <h1>Prototype Workout App</h1>
+
+      <!-- Nav right-aligned via margin-left: auto in CSS -->
       <nav aria-label="Primary navigation">
         <ul>
           <li><a id="nav-link-home" href="./index.html#home">Home</a></li>
           <li><a id="nav-link-exbank" href="./src/exerciseBank.html">Exercise Bank</a></li>
-          <li><a id="nav-link-about" href="./index.html#about">About</a></li>
+          
+          <!-- About as dropdown -->
+          <li class="nav-about-wrapper">
+            <button
+              class="nav-about-btn"
+              id="about-toggle"
+              aria-expanded="false"
+              aria-controls="about-dropdown"
+            >
+              About <span class="nav-chevron" aria-hidden="true">▾</span>
+            </button>
+            <div
+              id="about-dropdown"
+              class="about-dropdown"
+              role="region"
+              aria-label="About this app"
+            >
+              <h2>About This App</h2>
+              <p>
+                This app helps you generate and manage workout routines. Choose from a variety of
+                exercises and create custom workouts suited to your goals.
+              </p>
+              <p class="subheading">Features</p>
+              <ul class="features-list">
+                <li>Generate random workouts based on muscle groups.</li>
+                <li>Create and save your own workout routines.</li>
+                <li>Access a comprehensive exercise bank.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-burger-wrapper">
+            <button
+              id="menu-toggle"
+              aria-label="Open navigation menu"
+              aria-controls="side-panel"
+              aria-expanded="false"
+              class="menu-toggle"
+            >
+              <span class="bar bar-1"></span>
+              <span class="bar bar-2"></span>
+              <span class="bar bar-3"></span>
+            </button>
+          </li>
         </ul>
       </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main id="app-root" id="home">
-      <section class="hero-section">
+    <!-- MAIN -->
+    <main id="main-content">
+
+      <!-- HERO -->
+      <section class="hero-section" id="home" aria-label="Home hero">
         <picture>
           <source
-            srcset="
-              ./assets/gymHero_480.webp 480w,
-              ./assets/gymHero_768.webp 768w
-            "
+            srcset="./assets/gymHero_480.webp 480w, ./assets/gymHero_768.webp 768w"
             sizes="100vw"
             media="(max-width: 768px)"
             type="image/webp"
           />
-
           <img
             src="./assets/gymHero_1280.webp"
             srcset="./assets/gymHero_1280.webp 1280w"
-            sizes="1280px"
+            sizes="100vw"
             width="1280"
             height="853"
-            alt="Gym"
+            alt="Gym interior with rows of treadmills"
             class="hero-image"
             fetchpriority="high"
             decoding="async"
           />
         </picture>
 
-        <section class="hero-overlay" aria-label="Workout starter">
+        <div class="hero-overlay">
           <header class="hero-header">
-            <h2 class="section-heading">Home</h2>
-            <p class="section-subtitle">
-              Welcome to the home page! Explore our workout generator and exercise bank.
-            </p>
+            <h2>Lagomt Stark</h2>
+            <p>Strong Enough for Everyday Life.</p>
+            <p>~</p>
+            <p>Build your workout, track progress, and reach your goals.</p>
           </header>
 
           <article class="hero-panel">
-
-            <!-- STEP 1 -->
-            <section id="start-workout" class="card">
-              <h2 class="section-heading">Start Workout</h2>
-              <p class="section-subtitle">Click start to choose how you want to train.</p>
-              <button class="btn-accent" id="start-btn">Start</button>
-            </section>
-
-            <!-- STEP 2 -->
-            <section id="workout-options" class="card" hidden>
+            <section id="workout-options" class="card">
               <h2 class="section-heading">Choose Option</h2>
               <p class="section-subtitle">Generate a workout or build your own.</p>
-
-              <section class="generate-controls" aria-label="Workout options">
-                <button class="btn-accent" id="generate-option">Generate Workout</button>
-                <button class="btn-secondary" id="custom-option">Create Your Own</button>
-              </section>
-
-              <button class="btn-secondary" id="options-back-btn">⬅ Back</button>
+              <div class="generate-controls" aria-label="Workout options">
+                <button class="btn-accent" id="generate-option">Generate Workout Session</button>
+                <button class="btn-accent" id="ai-btn">Generate Workout Plan</button>
+              </div>
+              <div class="generate-controls" style="margin-top: 0.5rem;" aria-label="Create options">
+                <button class="btn-secondary" id="custom-option">Create Exercise</button>
+                <button class="btn-secondary" id="custom-workout-btn">Create Workout</button>
+                <button class="btn-secondary" id="my-workouts-btn">My Workouts</button>
+              </div>
             </section>
 
-            <!-- STEP 3A -->
+            <!-- Generate Workout-->
             <section id="generate-workout" class="card" hidden>
-              <h2 class="section-heading">Generate Workout</h2>
-              <p class="section-subtitle">Select a muscle group and generate a random workout</p>
-
-              <section class="generate-controls" aria-label="Generator controls">
+              <h2 class="section-heading">Generate Workout Session</h2>
+              <p class="section-subtitle">Select a muscle group and generate a random workout.</p>
+              <div class="generate-controls" aria-label="Generator controls">
                 <label class="sr-only" for="workout-input">Muscle group</label>
-                <input type="text" id="workout-input" placeholder="Example: Hamstrings" />
+                <input type="text" id="workout-input" placeholder="e.g. Hamstrings" autocomplete="off" />
                 <button class="btn-accent" id="generate-btn">Generate</button>
-              </section>
-
-              <ul id="workout-list" aria-label="Generated random workout list"></ul>
-
-              <button class="btn-secondary" id="generate-back-btn">⬅ Back</button>
+              </div>
+              <ul id="workout-list" aria-label="Generated workout list" aria-live="polite"></ul>
+              <button class="btn-secondary" id="generate-back-btn">Return</button>
             </section>
 
-            <!-- STEP 3B -->
-            <section id="custom-workout-section" class="card" hidden>
-              <h2 class="section-heading">Create Your Own Workout</h2>
+            <!-- AI Workout Plan -->
+            <section id="ai-section" class="card" hidden>
+              <h2 class="section-heading">Generate Workout Plan</h2>
+              <p class="section-subtitle">Tell us about your goals and we'll generate a plan for you.</p>
 
-              <form id="custom-workout-form">
-                <label for="exercise-name">Exercise Name</label>
-                <input type="text" id="exercise-name" placeholder="Example: Squats" required />
+              <label for="ai-goal">Goal</label>
+              <input type="text" id="ai-goal" placeholder="Ex: Build muscle, lose weight, improve cardio" />
 
-                <label for="sets">Sets</label>
-                <input type="number" id="sets" min="1" required />
+              <label for="ai-level">Fitness Level</label>
+                <div class="select-wrapper">
+                <select id="ai-level">
+                  <option value="Beginner">Beginner</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true">▾</span>
+               </div>
 
-                <label for="reps">Reps</label>
-                <input type="number" id="reps" min="1" required />
+               <label for="ai-days">Days per week</label>
+               <div class="select-wrapper">
+              <!-- <input type="number" id="ai-days" min="1" max="7" value="3" /> -->
+                <select id="ai-days">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                </select>
+               <span class="select-chevron" aria-hidden="true">▾</span>
+               </div>
 
-                <button class="btn-accent" type="submit">Add Workout</button>
+              <label for="ai-equipment">Equipment (optional)</label>
+              <input type="text" id="ai-equipment" placeholder="Ex: Dumbbells, barbell, none" />
+
+              <div class="generate-controls">
+                <button class="btn-accent" id="generate-plan-btn">Generate Plan</button>
+                <button class="btn-secondary" id="ai-back-btn">Return</button>
+              </div>
+
+              <div id="ai-result" hidden>
+                <h3 class="subheading">Your Plan</h3>
+                <pre id="ai-plan-output"></pre>
+              </div>
+
+              <p id="ai-error" hidden style="color: red;"></p>
+            </section>
+
+            <!-- Create Exercise -->
+            <section id="create-exercise-section" class="card" hidden>
+              <h2 class="section-heading">Create Exercise</h2>
+              <p class="section-subtitle">Add a new exercise to the database.</p>
+              <form id="create-exercise-form" novalidate>
+                <label for="exercise-name">Exercise name</label>
+                <input type="text" id="exercise-name" placeholder="e.g. Squats" required autocomplete="off" />
+                <label for="primary-muscle">Primary muscle</label>
+                <input type="text" id="primary-muscle" placeholder="e.g. Quadriceps" required autocomplete="off" />
+                <button class="btn-accent" type="submit">Save Exercise</button>
               </form>
-
-              <h3 class="subheading">Saved Workouts</h3>
-              <ul id="custom-workout-list" class="features-list">
-                <li class="empty-state">No workouts yet</li>
-              </ul>
-
-              <button class="btn-secondary" id="clear-workouts-btn">Clear Workouts</button>
-              <button class="btn-secondary" id="custom-back-btn">⬅ Back</button>
+              <p id="exercise-feedback" role="status" aria-live="polite" hidden></p>
+              <button class="btn-secondary" id="custom-back-btn">Return</button>
             </section>
 
+            <!-- Create Workout -->
+            <section id="create-workout-section" class="card" hidden>
+              <h2 class="section-heading">Create Workout</h2>
+              <p class="section-subtitle">Name your workout and add exercises.</p>
+
+              <label for="workout-name">Workout name</label>
+              <input type="text" id="workout-name" placeholder="e.g. Push Day" autocomplete="off" />
+
+              <label for="workout-exercise-search" style="margin-top:1rem;">Search exercises</label>
+              <div class="generate-controls">
+                <input type="text" id="workout-exercise-search" placeholder="e.g. Chest or Bench Press" autocomplete="off" />
+                <button class="btn-accent" id="workout-exercise-search-btn">Search</button>
+              </div>
+
+              <div id="workout-exercise-results"></div>
+
+              <h3 class="subheading" style="margin-top:1rem;">Added exercises</h3>
+              <div id="selected-exercises"></div>
+
+              <p id="create-workout-feedback" hidden></p>
+
+              <div class="generate-controls" style="margin-top:1rem;">
+                <button class="btn-accent" id="save-workout-btn">Save Workout</button>
+                <button class="btn-secondary" id="create-workout-back-btn">Return</button>
+              </div>
+            </section>
+
+            <!-- My Workouts -->
+            <section id="my-workouts-section" class="card" hidden>
+              <h2 class="section-heading">My Workouts</h2>
+              <p class="section-subtitle">Your saved workout routines.</p>
+
+              <div id="my-workouts-list"></div>
+
+              <button class="btn-secondary" id="my-workouts-back-btn" style="margin-top:1rem;">Return</button>
+            </section>
           </article>
-        </section>
+        </div>
       </section>
 
-      <section class="container" id="about">
-        <h2 class="section-heading">About This App</h2>
-        <p class="section-subtitle">
-          This app helps you generate and manage workout routines. You can choose from a variety of exercises and create custom workouts.
-        </p>
-
-        <h3 class="subheading">Features:</h3>
-        <ul class="features-list">
-          <li>Generate random workouts based on muscle groups.</li>
-          <li>Create and save your own workout routines.</li>
-          <li>Access a comprehensive exercise bank.</li>
-        </ul>
-      </section>
+      <!-- Exercise info modal -->
+      <dialog id="exercise-modal">
+        <article>
+          <h2 id="modal-title"></h2>
+          <p id="modal-overview"></p>
+          <h3>Instructions</h3>
+          <ol id="modal-instructions"></ol>
+          <button id="modal-close" class="btn-accent">Close</button>
+        </article>
+      </dialog>
     </main>
 
-    <footer>
+    <!-- FOOTER -->
+    <footer role="contentinfo">
       <p>&copy; 2024 Workout App. All rights reserved.</p>
       <ul class="footer-links">
         <li>
-          <a id="nav-link" href="https://github.com/niklaserikssoon/SQ-workoutapp">Github</a>
+          <a href="https://github.com/niklaserikssoon/SQ-workoutapp" rel="noopener noreferrer">GitHub</a>
         </li>
-        <li><a id="nav-link" href="exerciseBank.html">LinkedIN</a></li>
+        <li>
+          <a href="https://linkedin.com" rel="noopener noreferrer">LinkedIn</a>
+        </li>
       </ul>
-
-        <!-- Offline installation -->
-       <button id="install-btn" class="btn-secondary" hidden aria-label="Install app">
+      <button id="install-btn" class="btn-accent" hidden aria-label="Install app as PWA">
         Install app
       </button>
     </footer>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
+    <script src="./scripts/config.js"></script>
     <script src="./scripts/side-panel.js"></script>
     <script src="./scripts/theme.js"></script>
     <script type="module" src="./scripts/main.js"></script>
 
     <script>
+      /* About dropdown */
+      const aboutToggle = document.getElementById('about-toggle');
+      const aboutDropdown = document.getElementById('about-dropdown');
+
+      aboutToggle?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = aboutDropdown.classList.toggle('open');
+        aboutToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      /* Close dropdown when clicking outside */
+      document.addEventListener('click', (e) => {
+        if (!aboutToggle?.contains(e.target) && !aboutDropdown?.contains(e.target)) {
+          aboutDropdown?.classList.remove('open');
+          aboutToggle?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      /* Close on Escape */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && aboutDropdown?.classList.contains('open')) {
+          aboutDropdown.classList.remove('open');
+          aboutToggle?.setAttribute('aria-expanded', 'false');
+          aboutToggle?.focus();
+        }
+      });
+
+      /* Service worker */
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker
             .register('/service-worker.js')
-            .then(() => console.log('Service worker registered'))
-            .catch((err) => console.error('Service worker failed: ', err));
+            .then(() => console.log('SW registered'))
+            .catch(err => console.error('SW failed:', err));
         });
       }
+
+      const exerciseModal = document.getElementById('exercise-modal')
+      document.getElementById('modal-close')?.addEventListener('click', () => exerciseModal?.close())
+      exerciseModal?.addEventListener('click', e => {
+        if (e.target === exerciseModal) exerciseModal.close()
+      })
     </script>
 
   </body>

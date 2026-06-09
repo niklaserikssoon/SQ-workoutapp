@@ -15,8 +15,8 @@
     <header>
         <h1>My Profile</h1>
         <div class="header-actions">
-            <button id="goBackButton" type="button">Go back</button>
-            <button id="logoutButton" type="button">Logout</button>
+            <a href="../index.html" id="go-back-btn" class="btn btn--primary btn--small">Go back</a>
+            <button id="logout-btn" type="button" class="btn btn--primary btn--small">Logout</button>
         </div>
     </header>
 
@@ -154,6 +154,72 @@
             <ul id="notesContainer"></ul>
         </section>
     </main>
+
     <script type="module" src="../scripts/ui/renderProfile.js"></script>
+    <script type="module">
+    const goBack = document.getElementById('go-back-btn');
+    if (goBack) {
+      goBack.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = '../index.html';
+      });
+    }
+
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+          const mod = await import('../scripts/storage/profileStorage.js').catch(() => null);
+          if (mod && typeof mod.logout === 'function') {
+            await mod.logout();
+          } else if (mod && typeof mod.clearSession === 'function') {
+            await mod.clearSession();
+          }
+        } catch (err) {
+          console.warn('Logout failed', err);
+        } finally {
+          try { localStorage.removeItem('currentUser'); } catch(e){}
+          try { localStorage.removeItem('token'); } catch(e){}
+          try { sessionStorage.removeItem('activeView'); } catch(e){}
+          window.location.href = '../index.html';
+        }
+      });
+    }
+    </script>
+    <script>
+    (function(){
+      function applyTheme(theme){
+        if(theme === 'dark'){
+          document.documentElement.setAttribute('data-theme','dark');
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          document.documentElement.classList.remove('dark');
+        }
+      }
+
+      var stored = null;
+      try { stored = localStorage.getItem('theme'); } catch(e) { stored = null; }
+
+      if(stored){
+        applyTheme(stored);
+      } else if(document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark')){
+        applyTheme('dark');
+      } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+        applyTheme('dark');
+      } else {
+        applyTheme('light');
+      }
+
+      window.addEventListener('storage', function(e){
+        if(e.key === 'theme') applyTheme(e.newValue);
+      });
+
+      window.addEventListener('themechange', function(e){
+        if(e && e.detail) applyTheme(e.detail);
+      });
+    })();
+    </script>
 </body>
 </html>

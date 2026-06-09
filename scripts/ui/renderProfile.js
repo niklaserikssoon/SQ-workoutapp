@@ -23,10 +23,23 @@ import {
 } from "../storage/profileStorage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    const isInSrc = location.pathname.includes("/src/");
+    const indexPath = isInSrc ? "../index.html" : "index.html";
+    const loginPath = isInSrc ? "login.html" : "./src/login.html";
+
+    document.getElementById("logoutButton")?.addEventListener("click", () => {
+        logout();
+        window.location.href = loginPath;
+    });
+
+    document.getElementById("goBackButton")?.addEventListener("click", () => {
+        window.location.href = indexPath;
+    });
 
     const currentUser = getCurrentUser();
+
     if (!currentUser) {
-        window.location.href = "login.html";
+        window.location.href = loginPath;
         return;
     }
 
@@ -69,19 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             profileMessage.textContent = "Profile Saved!";
         });
     }
-
-    const isInSrc = location.pathname.includes('/src/');
-    const indexPath = isInSrc ? '../index.html' : 'index.html';
-    const loginPath = isInSrc ? 'login.html' : './src/login.html';
-
-    document.getElementById("logoutButton")?.addEventListener("click", () => {
-        logout();
-        window.location.href = loginPath;
-    });
-
-    document.getElementById("goBackButton")?.addEventListener("click", () => {
-        window.location.href = indexPath;
-    });
 
     function renderGoals() {
         profile = refreshProfile();
@@ -293,6 +293,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("addWeightForm")?.addEventListener("submit", (e) => {
         e.preventDefault();
+
         const weight = Number(e.target.weight.value);
         if (!weight) return;
 
@@ -303,8 +304,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("addStrengthForm")?.addEventListener("submit", (e) => {
         e.preventDefault();
+
         const exercise = e.target.strengthExercise.value.trim();
         const value = Number(e.target.strengthValue.value);
+
         if (!exercise || !value) return;
 
         addStrengthProgress(exercise, value);
@@ -314,8 +317,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("addCardioForm")?.addEventListener("submit", (e) => {
         e.preventDefault();
+
         const distance = Number(e.target.cardioDistance.value);
         const time = Number(e.target.cardioTime.value);
+
         if (!distance || !time) return;
 
         addCardioProgress(distance, time);
