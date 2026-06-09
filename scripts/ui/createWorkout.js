@@ -2,17 +2,12 @@
 import workoutService from '../storage/workouts.js'
 import { getToken } from '../storage/profileStorage.js'
 
-const API_BASE = CONFIG.workoutApiUrl + 'api/v1/workouts'
+const EXERCISE_API = CONFIG.workoutApiUrl + 'api/v1/Exercise'
+const WORKOUT_API  = CONFIG.workoutApiUrl + 'api/v1/workouts'
 
-// ── State ──────────────────────────────────────────────────────
-let allExercises    = []
 let selectedExercises = []
 
-// ── Init (called from main.js, receives already-loaded exercises) ──
-export function initCreateWorkout(exercises) {
-  allExercises = exercises
-
-  // Navigation
+export function initCreateWorkout() {
   document.getElementById('custom-workout-btn')
     ?.addEventListener('click', showCreateWorkout)
   document.getElementById('create-workout-back-btn')
@@ -22,13 +17,11 @@ export function initCreateWorkout(exercises) {
   document.getElementById('my-workouts-back-btn')
     ?.addEventListener('click', hideMyWorkouts)
 
-  // Search
   document.getElementById('workout-exercise-search-btn')
     ?.addEventListener('click', searchExercises)
   document.getElementById('workout-exercise-search')
     ?.addEventListener('keydown', e => { if (e.key === 'Enter') searchExercises() })
 
-  // Save
   document.getElementById('save-workout-btn')
     ?.addEventListener('click', saveWorkout)
 }
@@ -65,20 +58,24 @@ function hideMyWorkouts() {
 }
 
 // ── Exercise Search ────────────────────────────────────────────
-function searchExercises() {
-  const query = document.getElementById('workout-exercise-search')
-    .value.trim().toLowerCase()
-
+async function searchExercises() {
+  const query = document.getElementById('workout-exercise-search').value.trim()
   if (!query) return
 
-  const results = allExercises
-    .filter(ex =>
-      ex.name.toLowerCase().includes(query) ||
-      ex.primaryMuscles?.some(m => m.toLowerCase().includes(query))
-    )
-    .slice(0, 15)
+  const container = document.getElementById('workout-exercise-results')
+  container.innerHTML = '<p class="empty-state">Searching…</p>'
 
-  renderSearchResults(results)
+  try {
+    const token = getToken()
+    const headers = token ? { Authorization: `Bearer ${token}` } : {}
+    const res = await fetch(`${EXERCISE_API}?search=${encodeURIComponent(query)}`, { headers })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const exercises = await res.json()
+    renderSearchResults(exercises)
+  } catch (err) {
+    container.innerHTML = '<p class="empty-state">Could not load exercises.</p>'
+    console.error('Exercise search failed:', err)
+  }
 }
 
 function renderSearchResults(exercises) {
@@ -90,11 +87,11 @@ function renderSearchResults(exercises) {
     return
   }
 
-  exercises.forEach(ex => {
+  exercises.slice(0, 15).forEach(ex => {
     const div = document.createElement('div')
     div.className = 'exercise-result-item'
 
-    const alreadyAdded = selectedExercises.some(e => e.exerciseName === ex.name)
+    const alreadyAdded = selectedExercises.some(e => e.exerciseId === ex.id)
 
     div.innerHTML = `
       <span>
@@ -108,7 +105,6 @@ function renderSearchResults(exercises) {
 
     div.querySelector('.add-exercise-btn').addEventListener('click', () => {
       addExercise(ex)
-      // Refresh results to update button state
       searchExercises()
     })
 
@@ -118,10 +114,10 @@ function renderSearchResults(exercises) {
 
 // ── Selected Exercises ─────────────────────────────────────────
 function addExercise(ex) {
-  if (selectedExercises.some(e => e.exerciseName === ex.name)) return
+  if (selectedExercises.some(e => e.exerciseId === ex.id)) return
 
   selectedExercises.push({
-    exerciseId:    ex.id ?? 0,
+    exerciseId:    ex.id,
     exerciseName:  ex.name,
     primaryMuscle: ex.primaryMuscles?.[0] ?? '',
     sets:          3,
@@ -131,10 +127,9 @@ function addExercise(ex) {
   renderSelectedExercises()
 }
 
-function removeExercise(name) {
-  selectedExercises = selectedExercises.filter(e => e.exerciseName !== name)
+function removeExercise(id) {
+  selectedExercises = selectedExercises.filter(e => e.exerciseId !== id)
   renderSelectedExercises()
-  // Refresh search results to re-enable the removed exercise
   const query = document.getElementById('workout-exercise-search').value.trim()
   if (query) searchExercises()
 }
@@ -150,51 +145,23 @@ function renderSelectedExercises() {
 
   selectedExercises.forEach(ex => {
     const div = document.createElement('div')
-          div.className = 'selected-exercise-item'
-          div.innerHTML = `
-            <div class="selected-exercise-main">
-              <span class="selected-exercise-name">${ex.exerciseName}</span>
-              <button class="btn-info-btn" aria-label="Show instructions">Instructions</button>
-            </div>
-            <div class="sets-reps-controls">
-              ${buildPicker('sets', ex.sets)}
-              ${buildPicker('reps', ex.reps)}
-            </div>
-            <button class="btn-remove-btn remove-exercise-btn" aria-label="Remove exercise">✕</button>
-          `
+    div.className = 'selected-exercise-item'
+    div.innerHTML = `
+      <div class="selected-exercise-main">
+        <span class="selected-exercise-name">${ex.exerciseName}</span>
+        <small>${ex.primaryMuscle}</small>
+      </div>
+      <div class="sets-reps-controls">
+        ${buildPicker('sets', ex.sets)}
+        ${buildPicker('reps', ex.reps)}
+      </div>
+      <button class="btn-remove-btn remove-exercise-btn" aria-label="Remove exercise">✕</button>
+    `
 
-      // Info button — look up full exercise data and open modal
-      div.querySelector('.btn-info-btn').addEventListener('click', () => {
-        const full = allExercises.find(e => e.name === ex.exerciseName)
-        if (!full) return
-        document.getElementById('modal-title').textContent = full.name
-        document.getElementById('modal-overview').innerHTML = `
-          <strong>Category:</strong> ${full.category} &nbsp;·&nbsp;
-          <strong>Level:</strong> ${full.level}<br>
-          <strong>Primary muscles:</strong> ${full.primaryMuscles?.join(', ')}
-        `
-        const ol = document.getElementById('modal-instructions')
-        ol.innerHTML = ''
-        const instructions = Array.isArray(full.instructions)
-          ? full.instructions.join(' ')
-          : (full.instructions ?? '')
-
-        const steps = instructions
-          .split(/(?<=\.)\s*,\s*|(?<=\.)\s+(?=[A-Z])/)
-          .filter(s => s.trim())
-
-        steps.forEach(step => {
-          const li = document.createElement('li')
-          li.textContent = step.trim()
-          ol.appendChild(li)
-        })
-        document.getElementById('exercise-modal')?.showModal()
-      })
-
-      wirePickerEvents(div, 'sets', ex)
-      wirePickerEvents(div, 'reps', ex)
-      div.querySelector('.remove-exercise-btn').addEventListener('click', () => removeExercise(ex.exerciseName))
-      container.appendChild(div)
+    wirePickerEvents(div, 'sets', ex)
+    wirePickerEvents(div, 'reps', ex)
+    div.querySelector('.remove-exercise-btn').addEventListener('click', () => removeExercise(ex.exerciseId))
+    container.appendChild(div)
   })
 }
 
@@ -218,26 +185,28 @@ async function saveWorkout() {
     exercises: selectedExercises
   }
 
-  // Always save locally
   workoutService.addWorkout(workout)
 
-  // Try API if logged in (uses internal exercise IDs — may be 0 for external exercises)
   const token = getToken()
   if (token) {
-    const validIds = selectedExercises.map(e => e.exerciseId).filter(id => id > 0)
-    if (validIds.length) {
-      try {
-        await fetch(API_BASE, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({ exerciseIds: validIds })
+    try {
+      await fetch(WORKOUT_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name,
+          exercises: selectedExercises.map(e => ({
+            exerciseId: e.exerciseId,
+            sets:       e.sets,
+            reps:       e.reps
+          }))
         })
-      } catch (err) {
-        console.warn('API save failed, saved locally:', err)
-      }
+      })
+    } catch (err) {
+      console.warn('API save failed, saved locally:', err)
     }
   }
 
@@ -252,28 +221,23 @@ async function renderMyWorkouts() {
 
   let workouts = workoutService.getWorkouts()
 
-  // Merge with API workouts if logged in
   const token = getToken()
   if (token) {
     try {
-      const res = await fetch(API_BASE, {
+      const res = await fetch(WORKOUT_API, {
         headers: { Authorization: `Bearer ${token}` }
       })
       if (res.ok) {
         const apiWorkouts = await res.json()
-        // Merge: prefer API versions, keep local-only ones
         const apiIds = new Set(apiWorkouts.map(w => String(w.workoutId)))
         const localOnly = workouts.filter(w => !apiIds.has(String(w.id)))
         workouts = [
           ...apiWorkouts.map(w => ({
             id:        w.workoutId,
-            name:      `Workout ${w.workoutId}`,
+            name:      w.name ?? `Workout ${w.workoutId}`,
             date:      w.createdAt?.split('T')[0] ?? '—',
-            exercises: w.exercises.map(e => ({
-              exerciseName:  e.exerciseName,
-              primaryMuscle: e.primaryMuscle
-            })),
-            fromApi: true
+            exercises: w.exercises ?? [],
+            fromApi:   true
           })),
           ...localOnly
         ]
@@ -305,8 +269,8 @@ async function renderMyWorkouts() {
         <table class="saved-workout-table">
           <thead>
             <tr>
-              <th></th>
               <th>Exercise</th>
+              <th>Muscle</th>
               <th>Sets</th>
               <th>Reps</th>
             </tr>
@@ -314,10 +278,8 @@ async function renderMyWorkouts() {
           <tbody>
             ${w.exercises.map(e => `
               <tr>
-                <td>
-                  <button class="btn-info-btn my-workout-info-btn" data-name="${e.exerciseName}" aria-label="Show instructions">ℹ</button>
-                </td>
-                <td>${e.exerciseName}</td>
+                <td>${e.exerciseName ?? e.name ?? '—'}</td>
+                <td>${e.primaryMuscle ?? '—'}</td>
                 <td>${e.sets ?? '—'}</td>
                 <td>${e.reps ?? '—'}</td>
               </tr>
@@ -325,17 +287,17 @@ async function renderMyWorkouts() {
           </tbody>
         </table>
       </div>
-      `
+    `
 
     div.querySelector('.delete-workout-btn').addEventListener('click', async (e) => {
-      const id     = e.target.dataset.id
+      const id      = e.target.dataset.id
       const fromApi = e.target.dataset.api === 'true'
 
       workoutService.deleteWorkout(id)
 
       if (fromApi && token) {
         try {
-          await fetch(`${API_BASE}/${id}`, {
+          await fetch(`${WORKOUT_API}/${id}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
           })
@@ -348,35 +310,6 @@ async function renderMyWorkouts() {
     })
 
     container.appendChild(div)
-
-    div.querySelectorAll('.my-workout-info-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.name
-        const full = allExercises.find(e => e.name === name)
-        if (!full) return
-
-        document.getElementById('modal-title').textContent = full.name
-        document.getElementById('modal-overview').innerHTML = `
-          <strong>Category:</strong> ${full.category} &nbsp;·&nbsp;
-          <strong>Level:</strong> ${full.level}<br>
-          <strong>Primary muscles:</strong> ${full.primaryMuscles?.join(', ')}
-        `
-        const ol = document.getElementById('modal-instructions')
-        ol.innerHTML = ''
-        const instructions = Array.isArray(full.instructions)
-          ? full.instructions.join(' ')
-          : (full.instructions ?? '')
-        instructions
-          .split(/(?<=\.)\s*,\s*|(?<=\.)\s+(?=[A-Z])/)
-          .filter(s => s.trim())
-          .forEach(step => {
-            const li = document.createElement('li')
-            li.textContent = step.trim()
-            ol.appendChild(li)
-          })
-        document.getElementById('exercise-modal')?.showModal()
-      })
-    })
   })
 }
 
