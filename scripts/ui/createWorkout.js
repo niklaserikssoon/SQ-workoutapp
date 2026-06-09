@@ -232,7 +232,10 @@ async function renderMyWorkouts() {
             id:        w.workoutId,
             name:      w.name ?? `Workout ${w.workoutId}`,
             date:      w.createdAt?.split('T')[0] ?? '—',
-            exercises: w.exercises ?? [],
+            exercises: (w.catalogExercises ?? w.exercises ?? []).map(e => ({
+              exerciseName:  e.name ?? e.exerciseName,
+              primaryMuscle: e.primaryMuscles?.[0] ?? e.primaryMuscle ?? '—'
+            })),
             fromApi:   true
           })),
           ...localOnly
