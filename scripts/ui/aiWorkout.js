@@ -74,14 +74,27 @@ async function loadAiPlans() {
     aiPlansList.innerHTML = ''
     plans.forEach(p => {
       const wrapper = document.createElement('div')
-      wrapper.innerHTML = `
-        <div class="saved-workout-header" style="margin-bottom: 0.5rem;">
-          <span class="saved-workout-name">${p.goal ?? 'AI Plan'}</span>
-          <span class="workout-date">${p.createdAt?.split('T')[0] ?? '—'}</span>
-        </div>
+      wrapper.className = 'saved-workout-item'
+
+      const header = document.createElement('div')
+      header.className = 'saved-workout-header'
+      header.style.cursor = 'pointer'
+      header.innerHTML = `
+        <span class="saved-workout-name">${p.goal ?? 'AI Plan'}</span>
+        <span class="workout-date">${p.createdAt?.split('T')[0] ?? '—'}</span>
+        <span class="select-chevron">▾</span>
       `
+
       const planContainer = document.createElement('div')
-      renderPlan(planContainer, p.plan ?? p.content ?? '{}')
+      planContainer.hidden = true
+      renderPlan(planContainer, p.plan ?? p.content ?? '[]')
+
+      header.addEventListener('click', () => {
+        planContainer.hidden = !planContainer.hidden
+        header.querySelector('.select-chevron').textContent = planContainer.hidden ? '▾' : '▴'
+      })
+
+      wrapper.appendChild(header)
       wrapper.appendChild(planContainer)
       aiPlansList.appendChild(wrapper)
     })
