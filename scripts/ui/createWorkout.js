@@ -8,7 +8,7 @@ const WORKOUT_API  = CONFIG.workoutApiUrl + 'api/v1/workouts'
 let allExercises      = []
 let selectedExercises = []
 
-export async function initCreateWorkout() {
+export async function initCreateWorkout(fallbackExercises = []) {
   try {
     const token = getToken()
     const headers = token ? { Authorization: `Bearer ${token}` } : {}
@@ -36,9 +36,12 @@ export async function initCreateWorkout() {
         }))
       : []
 
-    allExercises = [...localExercises, ...catalogExercises]
+    allExercises = localExercises.length || catalogExercises.length
+      ? [...localExercises, ...catalogExercises]
+      : fallbackExercises.map(ex => ({ ...ex, type: 'catalog' }))
   } catch (err) {
     console.error('Could not load exercises:', err)
+    allExercises = fallbackExercises.map(ex => ({ ...ex, type: 'catalog' }))
   }
   document.getElementById('custom-workout-btn')
     ?.addEventListener('click', showCreateWorkout)
@@ -225,7 +228,7 @@ async function saveWorkout() {
         },
         body: JSON.stringify({
           name,
-          catalogExerciseIds: selectedExercises.filter(e => e.type === 'catalog').map(e => e.exerciseId),
+          catalogExerciseIds: selectedExercises.filter(e => e.type !== 'custom').map(e => e.exerciseId),
           exerciseIds:        selectedExercises.filter(e => e.type === 'custom').map(e => e.exerciseId)
         })
       })
