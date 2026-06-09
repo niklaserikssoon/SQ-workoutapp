@@ -2,7 +2,7 @@
 import workoutService from '../storage/workouts.js'
 import { getToken } from '../storage/profileStorage.js'
 
-const EXERCISE_API = CONFIG.workoutApiUrl + 'api/v1/Exercise'
+const EXERCISE_API = CONFIG.workoutApiUrl + 'api/v1/exercises'
 const WORKOUT_API  = CONFIG.workoutApiUrl + 'api/v1/workouts'
 
 let selectedExercises = []
@@ -70,8 +70,8 @@ async function searchExercises() {
     const headers = token ? { Authorization: `Bearer ${token}` } : {}
     const res = await fetch(`${EXERCISE_API}?search=${encodeURIComponent(query)}`, { headers })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const exercises = await res.json()
-    renderSearchResults(exercises)
+    const data = await res.json()
+    renderSearchResults(data.items ?? data)
   } catch (err) {
     container.innerHTML = '<p class="empty-state">Could not load exercises.</p>'
     console.error('Exercise search failed:', err)
@@ -96,7 +96,7 @@ function renderSearchResults(exercises) {
     div.innerHTML = `
       <span>
         ${ex.name}
-        <small>${ex.primaryMuscles?.join(', ') ?? ''}</small>
+        <small>${ex.primaryMuscles?.join(', ') ?? ex.primaryMuscle ?? ''}</small>
       </span>
       <button class="btn-secondary add-exercise-btn" ${alreadyAdded ? 'disabled' : ''}>
         ${alreadyAdded ? 'Added' : 'Add'}
