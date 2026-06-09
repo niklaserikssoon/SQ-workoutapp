@@ -135,6 +135,10 @@ function displayExercises(exercises = []) {
     const article = document.createElement('article');
     article.classList.add('card');
     article.innerHTML = `
+      <button class="add-to-workout-btn" type="button" aria-label="Add exercise to workout">
+        +
+      </button>
+
       <h3>${exercise.name}</h3>
       <p><strong>Category:</strong> ${exercise.category}</p>
       <p><strong>Level:</strong> ${exercise.level}</p>
@@ -145,6 +149,10 @@ function displayExercises(exercises = []) {
     `;
 
     // Store data on the element to avoid re-fetching
+    article.dataset.catalogExerciseId = exercise.id ?? exercise.Id;
+
+    console.log("Exercise object:", exercise);
+    console.log("Catalog exercise id:", article.dataset.catalogExerciseId);
     article.dataset.name         = exercise.name;
     article.dataset.category     = exercise.category;
     article.dataset.level        = exercise.level;
@@ -157,6 +165,145 @@ function displayExercises(exercises = []) {
   });
 }
 
+/* ── Add catalog exercise to existing workout ───────────────────────────── */
+
+async function fetchUserWorkouts(token) {
+  const response = await fetch(`${CONFIG.workoutApiUrl}api/v1/workouts`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not fetch workouts.");
+  }
+
+  return await response.json();
+}
+
+async function addCatalogExerciseToWorkout(workoutId, catalogExerciseId, token) {
+  const encodedCatalogExerciseId = encodeURIComponent(catalogExerciseId);
+
+  const response = await fetch(
+    `${CONFIG.workoutApiUrl}api/v1/workouts/${workoutId}/catalog-exercises/${encodedCatalogExerciseId}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+
+    console.error("Add catalog exercise failed:", {
+      status: response.status,
+      statusText: response.statusText,
+      body: errorText,
+      workoutId,
+      catalogExerciseId
+    });
+
+    throw new Error("Could not add exercise to workout.");
+  }
+}
+
+async function handleAddToWorkoutClick(catalogExerciseId) {
+  const token = getToken();
+
+  if (!token) {
+    showAddExerciseMessage("You must be logged in to add exercises.", true);
+    return;
+  }
+
+  try {
+    const workouts = await fetchUserWorkouts(token);
+
+    if (!workouts || workouts.length === 0) {
+      showAddExerciseMessage("You have no saved workouts yet.", true);
+      return;
+    }
+
+    showWorkoutPicker(workouts, catalogExerciseId, token);
+  } catch (error) {
+    console.error(error);
+    showAddExerciseMessage("Could not load your workouts.", true);
+  }
+}
+
+function showWorkoutPicker(workouts, catalogExerciseId, token) {
+  let modal = document.getElementById("add-to-workout-modal");
+
+  if (!modal) {
+    modal = document.createElement("dialog");
+    modal.id = "add-to-workout-modal";
+    modal.className = "workout-picker-modal";
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div class="workout-picker-content">
+      <button class="modal-close-btn" type="button" aria-label="Close">×</button>
+      <h2>Choose workout</h2>
+      <div class="workout-picker-list"></div>
+    </div>
+  `;
+
+  const list = modal.querySelector(".workout-picker-list");
+
+  workouts.forEach((workout) => {
+    const workoutId = workout.workoutId ?? workout.WorkoutId;
+    const workoutName = workout.name ?? workout.Name ?? `Workout ${workoutId}`;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "workout-picker-item";
+    button.textContent = workoutName;
+
+    button.addEventListener("click", async () => {
+      try {
+        await addCatalogExerciseToWorkout(workoutId, catalogExerciseId, token);
+        modal.close();
+        showAddExerciseMessage("Exercise added to workout!", false);
+      } catch (error) {
+        console.error(error);
+        modal.close();
+        showAddExerciseMessage("Could not add exercise to workout.", true);
+      }
+    });
+
+    list.appendChild(button);
+  });
+
+  modal.querySelector(".modal-close-btn")?.addEventListener("click", () => {
+    modal.close();
+  });
+
+  modal.showModal();
+}
+
+function showAddExerciseMessage(message, isError = false) {
+  let messageBox = document.getElementById("add-exercise-message");
+
+  if (!messageBox) {
+    messageBox = document.createElement("div");
+    messageBox.id = "add-exercise-message";
+    document.body.appendChild(messageBox);
+  }
+
+  messageBox.textContent = message;
+  messageBox.className = isError
+    ? "add-exercise-message error"
+    : "add-exercise-message success";
+
+  messageBox.hidden = false;
+
+  setTimeout(() => {
+    messageBox.hidden = true;
+  }, 3000);
+}
+
 /* ── Exercise modal ───────────────────────────── */
 const exerciseModal    = document.getElementById('exercise-modal');
 const modalTitle       = document.getElementById('modal-title');
@@ -164,7 +311,22 @@ const modalOverview    = document.getElementById('modal-overview');
 const modalInstructions = document.getElementById('modal-instructions');
 const modalClose       = document.getElementById('modal-close');
 
-document.getElementById('workout-display')?.addEventListener('click', (e) => {
+document.getElementById('workout-display')?.addEventListener('click', async (e) => {
+  const addBtn = e.target.closest('.add-to-workout-btn');
+
+  if (addBtn) {
+    const card = addBtn.closest('article');
+    const catalogExerciseId = card?.dataset.catalogExerciseId;
+
+    if (!catalogExerciseId) {
+      showAddExerciseMessage("Could not find exercise id.", true);
+      return;
+    }
+
+    await handleAddToWorkoutClick(catalogExerciseId);
+    return;
+  }
+
   const btn = e.target.closest('.show-more-btn');
   if (!btn) return;
 
