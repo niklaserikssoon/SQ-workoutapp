@@ -108,6 +108,32 @@ A `config.js` file was added to the frontend (`scripts/config.js`) containing th
 
 ---
 
+## Decision 6: Frontend API URL Configuration
+
+### Options considered
+- **Azure Container App environment variables** — standard approach for server-side apps
+- **Static config.js file** — simple JavaScript constant file served as a static asset
+- **Hardcoded URLs** — simplest but inflexible and bad practice
+
+### Decision
+**Static `config.js` file** was chosen.
+
+### Reasoning
+The frontend is vanilla JavaScript running in the browser — it cannot read Azure Container App environment variables since those only exist server-side. A `config.js` file served as a static asset provides a single place to update API URLs without touching individual JS files. This satisfies the assignment requirement of not hardcoding URLs while remaining compatible with a static frontend architecture.
+
+---
+
+## Decision 7: Architectural Constraint — One Container App per Student Account
+
+### Context
+Azure student subscriptions enforce a limit of **one Container App Environment per subscription**. This constraint shaped the entire team architecture — each team member could only host one Container App, requiring careful coordination of who hosts which service.
+
+### Decision
+Jordan's subscription hosts the **frontend Container App** (`ca-frontend`). Backend APIs are hosted under a teammate's subscription. The shared ACR (`dynamos.azurecr.io`) is accessible to all team members via AcrPull role assignments on Managed Identities.
+
+### Consequence
+This is a school environment constraint. In a production scenario all services would ideally run within the same subscription and resource group for easier management and cost tracking.
+
 ## Risks and Mitigations
 
 | Risk | Mitigation |
