@@ -9,10 +9,15 @@ const resultDiv       = document.getElementById('ai-result')
 const planOutput      = document.getElementById('ai-plan-output')
 const errorEl         = document.getElementById('ai-error')
 
+const saveAiPlanBtn     = document.getElementById('save-ai-plan-btn')
+const aiSaveFeedback    = document.getElementById('ai-save-feedback')
+
 const myAiPlansBtn      = document.getElementById('my-ai-plans-btn')
 const aiPlansSection    = document.getElementById('ai-plans-section')
 const aiPlansBackBtn    = document.getElementById('ai-plans-back-btn')
 const aiPlansList       = document.getElementById('ai-plans-list')
+
+let currentPlanData = null
 
 function showAi() {
   optionsSection.hidden = true
@@ -25,8 +30,10 @@ function hideAi() {
   optionsSection.hidden = false
   resultDiv.hidden = true
   errorEl.hidden = true
-  planOutput.textContent = ''
+  aiSaveFeedback.hidden = true
+  planOutput.innerHTML = ''
   errorEl.textContent = ''
+  currentPlanData = null
   document.querySelector('.hero-header').hidden = false
 }
 
@@ -118,6 +125,50 @@ function renderPlan(container, plan) {
   }
 }
 
+saveAiPlanBtn?.addEventListener('click', async () => {
+  if (!currentPlanData) return
+
+  const token = localStorage.getItem('token')
+  if (!token) {
+    aiSaveFeedback.textContent = 'You must be logged in to save.'
+    aiSaveFeedback.className = 'feedback-error'
+    aiSaveFeedback.hidden = false
+    return
+  }
+
+  saveAiPlanBtn.disabled = true
+  saveAiPlanBtn.textContent = 'Saving...'
+
+  try {
+    const res = await fetch(`${API_BASE}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+          goal: currentPlanData.goal,
+          plan: typeof currentPlanData.plan === 'string'
+            ? JSON.parse(currentPlanData.plan).days
+            : (currentPlanData.plan.days ?? currentPlanData.plan)
+        })
+    })
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+    aiSaveFeedback.textContent = 'Plan saved! View it under My AI Plans.'
+    aiSaveFeedback.className = 'feedback-success'
+    aiSaveFeedback.hidden = false
+    saveAiPlanBtn.textContent = 'Saved'
+  } catch (err) {
+    aiSaveFeedback.textContent = 'Could not save plan, try again.'
+    aiSaveFeedback.className = 'feedback-error'
+    aiSaveFeedback.hidden = false
+    saveAiPlanBtn.disabled = false
+    saveAiPlanBtn.textContent = 'Save Workout'
+  }
+})
+
 aiBtn?.addEventListener('click', showAi)
 aiBackBtn?.addEventListener('click', hideAi)
 myAiPlansBtn?.addEventListener('click', showAiPlans)
@@ -157,7 +208,9 @@ generatePlanBtn?.addEventListener('click', async () => {
     if (!res.ok)            throw new Error('Something went wrong, try again later.')
 
     const data = await res.json()
+    currentPlanData = { goal, fitnessLevel, daysPerWeek, equipment, plan: data.plan }
     renderPlan(planOutput, data.plan)
+    aiSaveFeedback.hidden = true
     resultDiv.hidden = false
     resultDiv.scrollIntoView({ behavior: 'smooth' })
 

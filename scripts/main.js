@@ -97,7 +97,7 @@ async function loadExercises() {
     history.replaceState(null, '', location.pathname);
   }
 
-  initCreateWorkout()
+  await initCreateWorkout(allExercises)
   
   // Handle side-panel / deep links
   handleDeepLinks(searchInput, searchBtn);
