@@ -36,17 +36,9 @@
           </li>
 
           <li><button data-nav="profile" class="profile-btn" hidden>My Profile</button></li>
-
-          <li>
-            <label for="side-panel-search" class="sr-only">Search exercises</label>
-            <input type="search" id="side-panel-search" placeholder="Search exercises…"
-              aria-label="Search exercises" autocomplete="off" />
-          </li>
-
-          <li><button data-nav="search-exercises">Search Exercises</button></li>
-          <li><button data-nav="show-exercises">Show Exercises</button></li>
-          <li><button data-nav="log-in">Log In</button></li>
-          <li><button data-nav="register">Register</button></li>
+          <li class="side-divider" aria-hidden="true"></li>
+           <li><button data-nav="log-in">Log In</button></li>
+           <li><button data-nav="register">Register</button></li>
 
         </ul>
       </div>
@@ -164,6 +156,7 @@
                 <button class="btn-secondary" id="custom-option">Create Exercise</button>
                 <button class="btn-secondary" id="custom-workout-btn">Create Workout</button>
                 <button class="btn-secondary" id="my-workouts-btn">My Workouts</button>
+                <button class="btn-secondary" id="my-ai-plans-btn">My AI Plans</button>
               </div>
             </section>
 
@@ -223,10 +216,22 @@
 
               <div id="ai-result" hidden>
                 <h3 class="subheading">Your Plan</h3>
-                <pre id="ai-plan-output"></pre>
+                <div id="ai-plan-output"></div>
+                <div class="generate-controls" style="margin-top: 1rem;">
+                  <button class="btn-accent" id="save-ai-plan-btn">Save Workout</button>
+                </div>
+                <p id="ai-save-feedback" hidden></p>
               </div>
 
               <p id="ai-error" hidden style="color: red;"></p>
+            </section>
+
+            <!-- My AI Plans -->
+            <section id="ai-plans-section" class="card" hidden>
+              <h2 class="section-heading">My AI Plans</h2>
+              <p class="section-subtitle">Your previously generated workout plans.</p>
+              <div id="ai-plans-list"></div>
+              <button class="btn-secondary" id="ai-plans-back-btn">Return</button>
             </section>
 
             <!-- Create Exercise -->
@@ -298,7 +303,7 @@
 
     <!-- FOOTER -->
     <footer role="contentinfo">
-      <p>&copy; 2024 Workout App. All rights reserved.</p>
+      <p>&copy; 2026 Workout App. All rights reserved.</p>
       <ul class="footer-links">
         <li>
           <a href="https://github.com/niklaserikssoon/SQ-workoutapp" rel="noopener noreferrer">GitHub</a>

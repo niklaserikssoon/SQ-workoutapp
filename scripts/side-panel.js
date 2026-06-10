@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const backdrop = document.getElementById('side-panel-backdrop');
   const authStatusEl = document.getElementById('side-auth-status');
 
+  // Remove any leftover search controls in the side-panel (cleanup across pages)
+  try {
+    const searchBtn = sidePanel.querySelector('[data-nav="search-exercises"]');
+    if (searchBtn) searchBtn.closest('li')?.remove();
+    const searchInput = sidePanel.querySelector('#side-panel-search');
+    if (searchInput) searchInput.closest('li')?.remove();
+  } catch (e) {
+    // ignore
+  }
+
   // do not auto-insert menu-toggle-right; only reference if present in DOM
   const _menuToggleRight = document.getElementById('menu-toggle-right');
 
@@ -133,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // SIDEBAR NAVIGATION
+  // SIDEBAR NAVIGATION + testar deploy
   sidePanel.addEventListener('click', async (e) => {
      const btn = e.target.closest('[data-nav]');
      if (!btn) return;
@@ -144,7 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
      switch (nav) {
 
          case 'show-exercises':
-             window.location.href = `${exerciseBankPath}#show-all-exercises`;
+             // Open exercise bank in its default view (do not force show-all via hash)
+             window.location.href = `${exerciseBankPath}`;
              break;
 
          case 'profile': {
@@ -192,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
      closePanel();
  });
 
-  // Restore state
+  // Restore state 
   const savedView = sessionStorage.getItem('activeView');
   if (savedView === 'add' && typeof window.loadComponent === 'function') {
     window.loadComponent().then(() => {

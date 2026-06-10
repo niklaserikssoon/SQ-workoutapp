@@ -33,15 +33,7 @@
           </li>
 
           <li><button data-nav="profile" class="profile-btn" hidden>My Profile</button></li>
-
-          <li>
-            <label for="side-panel-search" class="sr-only">Search exercises</label>
-            <input type="search" id="side-panel-search" placeholder="Search exercises…"
-              aria-label="Search exercises" autocomplete="off" />
-          </li>
-
-          <li><button data-nav="search-exercises">Search Exercises</button></li>
-          <li><button data-nav="show-exercises">Show Exercises</button></li>
+          <li class="side-divider" aria-hidden="true"></li>
           <li><button data-nav="log-in">Log In</button></li>
           <li><button data-nav="register">Register</button></li>
 
@@ -133,6 +125,7 @@
             />
             <button class="btn-accent" id="search-button">Search</button>
           </div>
+          <div id="search-count" aria-live="polite" style="margin-top:0.6rem;color:var(--text-secondary);font-weight:600;"></div>
         </section>
 
         <button class="btn-accent" id="show-exercises">Show all exercises</button>
@@ -175,6 +168,73 @@
     <script src="../scripts/theme.js"></script>
     <script type="module" src="../scripts/main.js"></script>
 
+    <script>
+      (function(){
+        const showBtn = document.getElementById('show-exercises');
+        const results = document.getElementById('workout-display');
+        const searchInput = document.getElementById('exercise-search');
+        const searchBtn = document.getElementById('search-button');
+        const searchCount = document.getElementById('search-count');
+        if (!showBtn || !results) return;
+
+        const originalParent = showBtn.parentElement;
+        const originalNext = showBtn.nextSibling;
+
+        function moveBelowResults(){
+          if (results.parentNode) results.parentNode.insertBefore(showBtn, results.nextSibling);
+        }
+        function moveAboveResults(){
+          if (originalNext) originalParent.insertBefore(showBtn, originalNext);
+          else originalParent.appendChild(showBtn);
+        }
+
+        // Only move when user explicitly triggers a search or clicks Show all.
+        const observer = new MutationObserver(() => {
+          // Keep button below results once results are updated after a triggered search/show-all.
+          moveBelowResults();
+          updateCount();
+        });
+
+        function startObserving(){
+          try { observer.observe(results, { childList: true, subtree: true }); } catch(e){}
+        }
+
+        searchBtn?.addEventListener('click', (e) => {
+          // allow other handlers to populate results first
+          setTimeout(() => {
+            moveBelowResults();
+            startObserving();
+            updateCount();
+          }, 150);
+        });
+
+        showBtn?.addEventListener('click', (e) => {
+          // Clear any typed search when user requests show-all, then move the button below results
+          if (searchInput) searchInput.value = '';
+          setTimeout(() => {
+            moveBelowResults();
+            startObserving();
+            updateCount();
+          }, 150);
+        });
+
+        function updateCount(){
+          if (!searchCount || !results) return;
+          // Count top-level result cards/items
+          const count = results.querySelectorAll(':scope > *').length;
+          const q = searchInput?.value?.trim();
+          if (q) {
+            searchCount.textContent = `${count} result${count===1? '':'s'} for “${q}”`;
+          } else {
+            // when no search term, hide or show total count
+            if (count > 0) searchCount.textContent = `${count} exercise${count===1? '':'s'} displayed`;
+            else searchCount.textContent = '';
+          }
+        }
+
+        // If user clears search via UI, leave button in original position — no automatic move on typing.
+      })();
+    </script>
     <script>
       /* About dropdown */
       const aboutToggle = document.getElementById('about-toggle');

@@ -5,9 +5,44 @@ import { getToken } from '../storage/profileStorage.js'
 const EXERCISE_API = CONFIG.workoutApiUrl + 'api/v1/exercises'
 const WORKOUT_API  = CONFIG.workoutApiUrl + 'api/v1/workouts'
 
+let allExercises      = []
 let selectedExercises = []
 
-export function initCreateWorkout() {
+export async function initCreateWorkout(fallbackExercises = []) {
+  try {
+    const token = getToken()
+    const headers = token ? { Authorization: `Bearer ${token}` } : {}
+
+    const [catalogRes, localRes] = await Promise.all([
+      fetch(`${EXERCISE_API}?pageSize=1000`, { headers }),
+      fetch(`${EXERCISE_API}/local`, { headers })
+    ])
+
+    const catalogExercises = catalogRes.ok
+      ? (await catalogRes.json()).items?.map(ex => ({
+          id:           ex.id,
+          name:         ex.name,
+          primaryMuscle: ex.primaryMuscles?.[0] ?? '',
+          type:         'catalog'
+        })) ?? []
+      : []
+
+    const localExercises = localRes.ok
+      ? (await localRes.json()).map(ex => ({
+          id:           ex.exerciseId,
+          name:         ex.exerciseName,
+          primaryMuscle: ex.primaryMuscle ?? '',
+          type:         'custom'
+        }))
+      : []
+
+    allExercises = localExercises.length || catalogExercises.length
+      ? [...localExercises, ...catalogExercises]
+      : fallbackExercises.map(ex => ({ ...ex, type: 'catalog' }))
+  } catch (err) {
+    console.error('Could not load exercises:', err)
+    allExercises = fallbackExercises.map(ex => ({ ...ex, type: 'catalog' }))
+  }
   document.getElementById('custom-workout-btn')
     ?.addEventListener('click', showCreateWorkout)
   document.getElementById('create-workout-back-btn')
@@ -58,24 +93,18 @@ function hideMyWorkouts() {
 }
 
 // ── Exercise Search ────────────────────────────────────────────
-async function searchExercises() {
-  const query = document.getElementById('workout-exercise-search').value.trim()
+function searchExercises() {
+  const query = document.getElementById('workout-exercise-search').value.trim().toLowerCase()
   if (!query) return
 
-  const container = document.getElementById('workout-exercise-results')
-  container.innerHTML = '<p class="empty-state">Searching…</p>'
+  const results = allExercises
+    .filter(ex =>
+      ex.name.toLowerCase().includes(query) ||
+      ex.primaryMuscle?.toLowerCase().includes(query)
+    )
+    .slice(0, 15)
 
-  try {
-    const token = getToken()
-    const headers = token ? { Authorization: `Bearer ${token}` } : {}
-    const res = await fetch(`${EXERCISE_API}?search=${encodeURIComponent(query)}`, { headers })
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const data = await res.json()
-    renderSearchResults(data.items ?? data)
-  } catch (err) {
-    container.innerHTML = '<p class="empty-state">Could not load exercises.</p>'
-    console.error('Exercise search failed:', err)
-  }
+  renderSearchResults(results)
 }
 
 function renderSearchResults(exercises) {
@@ -119,7 +148,8 @@ function addExercise(ex) {
   selectedExercises.push({
     exerciseId:    ex.id,
     exerciseName:  ex.name,
-    primaryMuscle: ex.primaryMuscles?.[0] ?? '',
+    primaryMuscle: ex.primaryMuscle ?? '',
+    type:          ex.type,
     sets:          3,
     reps:          10
   })
@@ -198,7 +228,8 @@ async function saveWorkout() {
         },
         body: JSON.stringify({
           name,
-          catalogExerciseIds: selectedExercises.map(e => e.exerciseId)
+          catalogExerciseIds: selectedExercises.filter(e => e.type !== 'custom').map(e => e.exerciseId),
+          exerciseIds:        selectedExercises.filter(e => e.type === 'custom').map(e => e.exerciseId)
         })
       })
     } catch (err) {
