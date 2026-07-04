@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TinyTales – Hem</title>
+  <link rel="stylesheet" href="./styles/base.css" />
+  <link rel="stylesheet" href="./styles/layout.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar-root"></aside>
+    <div>
+      <header class="topbar" id="topbar-root"></header>
+      <main class="page-content">
+        <section class="hero">
+          <div>
+            <h1 class="hero-title">
+              Varje ögonblick är
+              <span class="script">en liten berättelse ♥</span>
+            </h1>
+            <p class="hero-subtitle" id="hero-subtitle"></p>
+          </div>
+          <div class="hero-art">👶</div>
+        </section>
+
+        <section class="quick-actions">
+          <button type="button" class="quick-action" data-open data-with-media="true">
+            <div class="quick-action-icon rose" id="qa-icon-photo"></div>
+            <div class="quick-action-title">Lägg till foto</div>
+            <div class="quick-action-subtitle">Från enhet</div>
+          </button>
+          <button type="button" class="quick-action" data-open>
+            <div class="quick-action-icon green" id="qa-icon-memory"></div>
+            <div class="quick-action-title">Skriv minne</div>
+            <div class="quick-action-subtitle">Ett ögonblick att minnas</div>
+          </button>
+          <button type="button" class="quick-action" data-open data-favorite="true">
+            <div class="quick-action-icon yellow" id="qa-icon-milestone"></div>
+            <div class="quick-action-title">Markera milstolpe</div>
+            <div class="quick-action-subtitle">Fira framsteg</div>
+          </button>
+          <a href="timeline.html" class="quick-action">
+            <div class="quick-action-icon blue" id="qa-icon-timeline"></div>
+            <div class="quick-action-title">Se tidslinje</div>
+            <div class="quick-action-subtitle" id="qa-timeline-subtitle"></div>
+          </a>
+        </section>
+
+        <section>
+          <div class="feed-header">
+            <h2 id="feed-title"></h2>
+            <div class="feed-controls">
+              <div class="tabs" id="filter-tabs">
+                <button type="button" class="tab active" data-filter="alla">Alla</button>
+                <button type="button" class="tab" data-filter="bilder">Bilder</button>
+                <button type="button" class="tab" data-filter="milstolpar">Milstolpar</button>
+                <button type="button" class="tab" data-filter="minnen">Minnen</button>
+              </div>
+              <div class="view-toggle" id="view-toggle">
+                <button type="button" class="active" data-view="grid" aria-label="Rutnätsvy"></button>
+                <button type="button" data-view="list" aria-label="Listvy"></button>
+              </div>
+            </div>
+          </div>
+
+          <div id="feed-container"></div>
+
+          <div class="show-more-wrap" id="show-more-wrap">
+            <button type="button" class="btn btn-secondary" id="show-more-btn">
+              Visa fler
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="./scripts/ui/home.js"></script>
+</body>
+</html>

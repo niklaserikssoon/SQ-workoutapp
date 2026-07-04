@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TinyTales – Milstolpar</title>
+  <link rel="stylesheet" href="./styles/base.css" />
+  <link rel="stylesheet" href="./styles/layout.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar-root"></aside>
+    <div>
+      <header class="topbar" id="topbar-root"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <h1 id="page-title"></h1>
+          <p id="page-subtitle"></p>
+        </div>
+        <div class="feed-header" style="justify-content: flex-end;">
+          <div class="view-toggle" id="view-toggle">
+            <button type="button" class="active" data-view="grid" aria-label="Rutnätsvy"></button>
+            <button type="button" data-view="list" aria-label="Listvy"></button>
+          </div>
+        </div>
+        <div id="feed-container"></div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="./scripts/ui/milestones.js"></script>
+</body>
+</html>

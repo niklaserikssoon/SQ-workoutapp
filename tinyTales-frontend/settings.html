@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TinyTales – Inställningar</title>
+  <link rel="stylesheet" href="./styles/base.css" />
+  <link rel="stylesheet" href="./styles/layout.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar-root"></aside>
+    <div>
+      <header class="topbar" id="topbar-root"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <h1>Inställningar</h1>
+          <p>Hantera barn, familj och utseende.</p>
+        </div>
+
+        <div class="settings-section">
+          <h3>Barn</h3>
+          <p class="settings-section-sub" id="child-info"></p>
+        </div>
+
+        <div class="settings-section">
+          <h3>Familj</h3>
+          <p class="settings-section-sub">Personer som kan se och lägga till minnen tillsammans med dig.</p>
+          <div id="family-list"></div>
+          <button type="button" id="invite-btn" class="btn btn-primary" style="margin-top: 16px;">
+            Bjud in familjemedlem
+          </button>
+        </div>
+
+        <div class="settings-section">
+          <h3>Väntande inbjudningar</h3>
+          <p class="settings-section-sub">Skickade men inte accepterade än.</p>
+          <div id="pending-invite-list"></div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Utseende</h3>
+          <p class="settings-section-sub">Växla mellan ljust och mörkt läge.</p>
+          <button
+            type="button"
+            id="settings-theme-toggle"
+            class="theme-toggle"
+            style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px 14px;"
+          ></button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="./scripts/ui/settings.js"></script>
+</body>
+</html>
